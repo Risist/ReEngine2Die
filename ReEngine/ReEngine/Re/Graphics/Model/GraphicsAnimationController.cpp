@@ -19,94 +19,11 @@ namespace Graphics
 			it.onUpdateModel();
 	}
 
-	bool AnimationController::updateInRange(float32 speed)
-	{
-		// adjust the speed so it wont exceed the interval
-		if (speed + step > stepMax)
-		{
-			step = stepMax;
-			return true;
-		}
-		else if (speed + step < stepMin)
-		{
-			step = stepMin;
-			return true;
-		}
-		else
-		{
-			step += speed;
-			return false;
-		}
-	}
-
-	bool AnimationController::updateReturn(float32 & speed)
-	{
-		if (speed + step > stepMax)
-		{
-			step = stepMax;
-			speed *= -1;
-			return true;
-		}
-		else if (speed + step < stepMin)
-		{
-			step = stepMin;
-			speed *= -1;
-			return true;
-		}
-		else
-		{
-			step += speed;
-			return false;
-		}
-	}
-
-	bool AnimationController::updateRestart(float32 speed, Step_t restartStep)
-	{
-		// adjust the speed so it wont exceed the interval
-		if (speed + step > stepMax || speed + step < stepMin)
-		{
-			step = restartStep;
-			return true;
-		}
-		else
-		{
-			step += speed;
-			return false;
-		}
-	}
-
-	bool AnimationController::updateTowards(float32 speed, Step_t towards)
-	{
-		towards = clamp(towards, stepMin, stepMax);
-
-		if (step > towards)
-		{
-			speed = -abs(speed);
-			if (step + speed < towards)
-			{
-				step = towards;
-				return true;
-			}
-		}
-		else
-		{
-			speed = abs(speed);
-			if (step + speed > towards)
-			{
-				step = towards;
-				return true;
-			}
-		}
-
-
-		step += speed;
-		return false;
-	}
-
+	
 	void AnimationController::addPart(const AnimationPart& newPart)
 	{
 		parts.push_back(newPart);
-		parts.back().setStepPtr(&step);
+		parts.back().step = &step;
 	}
 
 	
@@ -153,11 +70,6 @@ namespace Graphics
 		}
 	}
 
-	void AnimationController::reset(Step_t _new)
-	{
-		step = _new;
-	}
-
 	void AnimationController::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 #ifdef RE_ENGINE
@@ -168,10 +80,7 @@ namespace Graphics
 
 	void AnimationController::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
 	{
-		stepMin = loader.load("stepMin", 0.f);
-		stepMax = loader.load("stepMax", 100.f);
-		step = loader.load("step", stepMin);
-		speed = loader.load("speed", 1.f);
+		AnimationStep::deserialiseF(file, loader);
 
 		DATA_SCRIPT_MULTILINE(file, loader)
 		{

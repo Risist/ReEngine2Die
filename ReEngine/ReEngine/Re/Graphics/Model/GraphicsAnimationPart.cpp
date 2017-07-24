@@ -7,8 +7,10 @@ namespace Graphics
 	{
 	}
 	AnimationPart::AnimationPart(size_t _modelId, const ModelDef& modelDef, Step_t _stepMin, Step_t _stepMax)
-		: ModelDef(modelDef), stepMin(_stepMin), stepMax(_stepMax), modelId(_modelId)
+		: ModelDef(modelDef), modelId(_modelId)
 	{
+		stepMin = _stepMin;
+		stepMax = _stepMax;
 	}
 	AnimationPart::AnimationPart(char * path)
 	{
@@ -31,16 +33,6 @@ namespace Graphics
 		out.rotSprite += rotSprite * getActualStep();
 		out.origin += origin *getActualStep();
 	}
-	bool AnimationPart::isWithinRange() const
-	{
-		return getStep() >= stepMin && getStep() <= stepMax;
-	}
-
-	Step_t AnimationPart::getActualStep() const
-	{
-		return clamp(getStep(), stepMin, stepMax) + stepOffset;
-	}
-
 	ModelDef AnimationPart::getDefAtStep(Step_t step) const
 	{
 		return (ModelDef)(*this) *  ( clamp(step, stepMin, stepMax) + stepOffset);
@@ -53,9 +45,7 @@ namespace Graphics
 		ModelDef::serialiseF(file, saver);
 
 		saver.save("model", modelId);
-		saver.save("stepMin", stepMin);
-		saver.save("stepMax", stepMax);
-		saver.save("stepOffset", stepOffset);
+		AnimationStepHolder::serialiseF(file, saver);
 #	endif // RE_EDITOR
 	}
 	void AnimationPart::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
@@ -83,8 +73,6 @@ namespace Graphics
 		/////
 		modelId = loader.load("model", (size_t)0);
 
-		stepMin = loader.load("stepMin", -numeric_limits<Step_t>::max() );
-		stepMax = loader.load("stepMax", numeric_limits<Step_t>::max());
-		stepOffset = loader.load("stepOffset", 0);
+		AnimationStepHolder::deserialiseF(file, loader);
 	}
 }

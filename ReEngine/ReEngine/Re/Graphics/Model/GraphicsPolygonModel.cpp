@@ -37,9 +37,9 @@ namespace Graphics
 		/// update
 		ModelDef def = *this;
 
-		for (auto &it : parts)
-			if (it->isWithinRange())
-				it->countOffset(def);
+		//for (auto &it : parts)
+			//if (it->isWithinRange())
+				//it->countOffset(def);
 
 		/*if (parent)
 			lastDef = def.countOffset(parent->lastDef);

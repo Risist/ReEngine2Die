@@ -56,7 +56,7 @@ namespace Efect
 		}
 		float32 influenceFall{0};
 
-	private:
+	protected:
 		Vector2D storedInfluence;
 
 		/// whether or not still need to move

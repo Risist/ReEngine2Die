@@ -19,10 +19,14 @@ namespace Efect
 
 		void onUpdate(sf::Time dt) override;
 
+		void reset();
+		
+
 		/// code from "actionMap" which sets decides when the character will change its destination
 		string presscode;
 	private:
 		Vector2D destination;
+		//bool atMove{ false };
 	};
 
 }

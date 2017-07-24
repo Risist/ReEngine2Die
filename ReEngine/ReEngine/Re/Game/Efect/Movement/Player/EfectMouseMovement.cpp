@@ -22,9 +22,16 @@ namespace Efect
 		if (actionMap.isActive(presscode)&& wnd.hasFocus() )
 		{
 			destination = cam.mapPixelToCoords( sf::Mouse::getPosition(wnd) );
+			arrived = false;
 		}
-		setDestination(destination);
-
+		if(!getArrived())
+			setDestination(destination);
+		
 		MovementAim::onUpdate(dt);
+	}
+	void MouseMovement::reset()
+	{
+		MovementAim::reset();
+		destination = getOwner()->getPosition();
 	}
 }

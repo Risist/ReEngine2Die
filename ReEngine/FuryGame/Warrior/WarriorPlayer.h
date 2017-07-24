@@ -17,6 +17,13 @@ public:
 	Graphics::AnimationController* push{ nullptr };
 	Graphics::AnimationController* pull{ nullptr };
 
+	float slashLoadedStep { 0.f };
+	bool onSlash{ false };
+	bool onSlashBack{ false };
+	bool onPull{false};
+	bool onPush{ false };
+	bool onGreatSlash{ false };
+
 	/// 
 	Efect::MouseMovement *efMovement{nullptr};
 };

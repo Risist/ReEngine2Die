@@ -40,28 +40,26 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 
 	/**/
 	{
-		static bool onSlash = false, onSlashBack = false;
-		static float slashLoadedStep = 0;
+		//static bool onSlash = false, onSlashBack = false;
+		//static float slashLoadedStep = 0;
 		
 		if (onSlashBack )
 		{
-			if (slash->updateTowards(slash->speed*0.75*(0.25 + slashLoadedStep*0.75), 0.f))
+			if (slash->updateTowards(0, 0.75*(0.25 + slashLoadedStep*0.75) ) )
 				onSlashBack = onSlash = false;
 		}else
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{
 			onSlash = true;
-			slash->updateInRange(-abs(slash->speed)*0.85);
-			slashLoadedStep = slash->getStep()/ slash->stepMin;
+			slash->updateInRange(-slash->getSpeedSign()*0.85);
+			slashLoadedStep = slash->step/ slash->stepMin;
 		}
 		else if (!onSlashBack && onSlash && 
-			slash->updateTowards(abs(slash->speed)*2.25*
-				(0.25 + slashLoadedStep*slashLoadedStep*0.75),
-				(0.3+ slashLoadedStep*0.7)* slash->stepMax))
+			slash->updateTowards((0.3 + slashLoadedStep*0.7)* slash->stepMax,
+				slash->getSpeedSign()*2.25*
+				(0.25 + slashLoadedStep*slashLoadedStep*0.75)
+				) )
 			onSlashBack = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-			slash->updateTowards(0.f);
-
 		
 	}
 	
@@ -70,7 +68,6 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 		walk->updateReturn();
 
 	{
-		static bool onGreatSlash = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			onGreatSlash = true;
 		if (onGreatSlash && greatSlash->updateRestart())
@@ -78,18 +75,19 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 	}
 
 	{
-		static bool onPull = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			onPull = true;
 		if (onPull && pull->updateRestart())
 			onPull = false;
 	}
 	{
-		static bool onPush = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			onPush = true;
 		if (onPush && push->updateRestart())
 			onPush = false;
 	}
+
+	if (onSlash || onPull || onPull || onGreatSlash)
+		efMovement->reset();
 	/**/
 }
