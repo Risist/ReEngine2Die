@@ -55,5 +55,8 @@
     <Text Include="anim_reaperPush.txt">
       <Filter>warrior\reaper</Filter>
     </Text>
+    <Text Include="anim_reaperHelper.txt">
+      <Filter>warrior\reaper</Filter>
+    </Text>
   </ItemGroup>
 </Project>

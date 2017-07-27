@@ -82,8 +82,8 @@ public:
 	{
 		return x * other.y - other.x * y;
 	}
-	// returns prependicular vector
-	inline Vector2D prep() const
+	// returns perpendicular vector
+	inline Vector2D perp() const
 	{
 		return Vector2D(-y,x);
 	}

@@ -17,6 +17,8 @@ public:
 	Graphics::AnimationController* push{ nullptr };
 	Graphics::AnimationController* pull{ nullptr };
 
+	Graphics::AnimationController* helper{ nullptr };
+
 	float slashLoadedStep { 0.f };
 	bool onSlash{ false };
 	bool onSlashBack{ false };
@@ -24,6 +26,9 @@ public:
 	bool onPush{ false };
 	bool onGreatSlash{ false };
 
+	bool onHelper{ false };
+
 	/// 
 	Efect::MouseMovement *efMovement{nullptr};
+	Efect::AnimationManager *efAnimation;
 };

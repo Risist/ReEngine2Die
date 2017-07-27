@@ -21,13 +21,15 @@ namespace Graphics
 		/// updates actual definition of model the animationPart is attached to
 		/// should be called every frame before model update
 		/// do not call this when the model is removed
-		void onUpdateModel() const;
+		/// @arg:scale - allows you to scale influence of the animation
+		///			usefull for example in merging animations
+		void onUpdateModel(Step_t scale = 1.f) const;
 
 		/// count offset described by this animationPart after applying step 
 		/// @Warring firstly step should be assigned 
 		/// @param [out] Transformable& out 
 		///		where to save counted transformable 
-		void countOffset( ModelDef& out) const;
+		void countOffset( ModelDef& out, Step_t scale = 1.f) const;
 		ModelDef getDefAtStep(Step_t step) const;
 
 

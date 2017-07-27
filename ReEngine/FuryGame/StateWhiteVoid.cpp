@@ -10,7 +10,7 @@ void StateWhiteVoid::onStart()
 	/// initial map spawn
 	Game::Layers::init();
 
-	cam.setScale(2.25f);
+	cam.setScale(1.85f);
 	cam.setAlpha(1.f);
 
 	addBackground(Vector2D());

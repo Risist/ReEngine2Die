@@ -21,7 +21,7 @@ namespace Graphics
 		/// constructor initialising the AnimationStep from stream & loader
 		AnimationStep(std::istream& file, Res::DataScriptLoader& loader) { deserialiseF(file, loader); }
 
-		/// update animation to play forward/backward (depended on sign of speed )
+		/// update animation step to play forward/backward (depended on sign of speed )
 		/// if exceeds [stepMin, stepMax] range( inclusive) 
 		/// then animation is aligned to the edge step value
 		/// and stop played
@@ -29,14 +29,14 @@ namespace Graphics
 		/// @arg:speedMultiplier - multiplies holded speed by the value
 		bool updateInRange(Step_t speedMultiplier = 1.f);
 		
-		/// updates animation to play forward/backward (depended on sign of speed )
+		/// updates animation step to play forward/backward (depended on sign of speed )
 		/// if exceeds [stepMin, stepMax] range( inclusive) 
 		/// speed changes its sign and animation is played in other direction
 		/// @return - did the animation have exceed [stepMin,stepMax] range?
 		/// @arg:speedMultiplier - multiplies holded speed by the value
 		bool updateReturn(Step_t speedMultiplier = 1.f);
 
-		/// updates animation to play forward/backward (depended on sign of speed )
+		/// updates animation step to play forward/backward (depended on sign of speed )
 		/// if exceeds [stepMin, stepMax] range( inclusive) 
 		/// animation is looped and starts from @restartStep
 		/// @return did the animation have exceed [stepMin,stepMax] range?
@@ -44,12 +44,18 @@ namespace Graphics
 		/// @arg:restartStep - tells what step is the beggining of the animation
 		bool updateRestart(Step_t restartStep = 0, Step_t speedMultiplier = 1.f);
 
-		/// updates animation to play in direstion of @towards
+		/// updates animation step  to play in direstion of @towards
 		/// @towards is clamped in [stepMin, stepMax] range( inclusive)
 		/// @return - returns true when animation step is equal to @towards
 		/// @arg:towards - desired step animation should be at in future
 		/// @arg:speedMultiplier - increase/decrease speed of animation playback
 		bool updateTowards( Step_t towards, Step_t speedMultiplier =1.f);
+
+		/// update animation step to be in value of @newStep
+		/// new step is clamped in [stepMin, stepMax] range( inclusive) 
+		/// @return - did the animation have exceed [stepMin,stepMax] range?
+		/// @arg:newStep - clamped new value of step
+		bool setInRange(Step_t newStep);
 
 
 		/// returns lenght of the animation

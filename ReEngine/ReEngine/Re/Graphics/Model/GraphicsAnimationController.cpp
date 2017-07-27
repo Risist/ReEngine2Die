@@ -13,10 +13,10 @@ namespace Graphics
 		deserialise(path);
 	}
 
-	void AnimationController::onUpdateModel()
+	void AnimationController::onUpdateModel(Step_t scale)
 	{
 		for (auto it : parts)
-			it.onUpdateModel();
+			it.onUpdateModel( scale );
 	}
 
 	

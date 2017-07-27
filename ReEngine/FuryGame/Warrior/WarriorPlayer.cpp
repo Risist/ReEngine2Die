@@ -9,7 +9,7 @@ void WarriorPlayer::onInit()
 	
 	/// graphics
 	auto efModel = addEfect(new Efect::Model("model_reaper.txt"));
-	auto efAnimation = addEfect(new Efect::AnimationManager(efModel->modelsUpdate));
+	     efAnimation = addEfect(new Efect::AnimationManager(efModel->modelsUpdate));
 	
 				  &efAnimation->addAnimation("anim_reaperPose.txt")->getAnimation();
 	slash		= &efAnimation->addAnimation("anim_reaperSlash.txt")->getAnimation();
@@ -17,6 +17,7 @@ void WarriorPlayer::onInit()
 	push		= &efAnimation->addAnimation("anim_reaperPush.txt")->getAnimation();
 	walk		= &efAnimation->addAnimation("anim_reaperWalk.txt")->getAnimation();
 	greatSlash	= &efAnimation->addAnimation("anim_reaperGreatSlash.txt")->getAnimation();/**/
+	helper		= &efAnimation->addAnimation("anim_reaperHelper.txt")->getAnimation();/**/
 
 	/// physics
 	addEfect(new Efect::Rigidbody(25, 20));
@@ -29,6 +30,15 @@ void WarriorPlayer::onInit()
 
 void WarriorPlayer::onUpdate(sf::Time dt)
 {
+	/// set up scale for all animation
+	/*{
+		Graphics::Step_t scaleSum = (onPull + onPush + onSlash + onGreatSlash);
+		if (scaleSum) scaleSum = 1 / scaleSum;
+
+		size_t size = efAnimation->animationCount();
+		for (size_t i = 1; i < size; ++i)
+			efAnimation->activateAnimation(i,scaleSum);
+	}*/
 	Actor::onUpdate(dt);
 	
 	/**
@@ -40,8 +50,6 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 
 	/**/
 	{
-		//static bool onSlash = false, onSlashBack = false;
-		//static float slashLoadedStep = 0;
 		
 		if (onSlashBack )
 		{
@@ -85,6 +93,12 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 			onPush = true;
 		if (onPush && push->updateRestart())
 			onPush = false;
+	}
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+			onHelper = true;
+		if (onHelper && helper->updateRestart())
+			onHelper = false;
 	}
 
 	if (onSlash || onPull || onPull || onGreatSlash)

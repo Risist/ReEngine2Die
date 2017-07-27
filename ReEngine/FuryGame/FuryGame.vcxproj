@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="anim_reaperGreatSlash.txt" />
+    <Text Include="anim_reaperHelper.txt" />
     <Text Include="anim_reaperPose.txt" />
     <Text Include="anim_reaperPull.txt" />
     <Text Include="anim_reaperPush.txt" />

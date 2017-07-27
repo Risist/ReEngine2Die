@@ -91,6 +91,20 @@ namespace Graphics
 		return false;
 	}
 
+	bool AnimationStep::setInRange(Step_t newStep)
+	{
+		if (newStep >= stepMax)
+			step = stepMax;
+		else if (newStep <= stepMin)
+			step = stepMin;
+		else
+		{
+			step = newStep;
+			return false;
+		}
+		return true;
+	}
+
 	void AnimationStep::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.save("step", step);

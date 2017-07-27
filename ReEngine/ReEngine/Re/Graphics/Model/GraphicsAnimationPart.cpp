@@ -16,22 +16,22 @@ namespace Graphics
 	{
 		deserialise(path);
 	}
-	void AnimationPart::onUpdateModel() const
+	void AnimationPart::onUpdateModel(Step_t scale) const
 	{
 		assert(defToUpdate);
-		countOffset(*defToUpdate);
+		countOffset(*defToUpdate, scale);
 	}
-	void AnimationPart::countOffset(ModelDef & out) const
+	void AnimationPart::countOffset(ModelDef & out, Step_t _scale) const
 	{
 		assert(step != nullptr);
 
-		out.color += color *getActualStep();
-		out.pos += pos *getActualStep();
-		out.scale += scale*getActualStep();
-		out.rotAround += rotAround * getActualStep();
-		out.rot += rot * getActualStep();
-		out.rotSprite += rotSprite * getActualStep();
-		out.origin += origin *getActualStep();
+		out.color += color *getActualStep() *_scale;
+		out.pos += pos *getActualStep()*_scale;
+		out.scale += scale*getActualStep()*_scale;
+		out.rotAround += rotAround * getActualStep()*_scale;
+		out.rot += rot * getActualStep()*_scale;
+		out.rotSprite += rotSprite * getActualStep()*_scale;
+		out.origin += origin *getActualStep()*_scale;
 	}
 	ModelDef AnimationPart::getDefAtStep(Step_t step) const
 	{

@@ -15,10 +15,11 @@ namespace Graphics
 
 		/// call this on every frame before model update/ after drawing
 		/// updates model's actulDef to fullfil model state after appling animation
-		void onUpdateModel();
+		/// @arg:scale - allows you to scale influence of the animation
+		///			usefull for example in merging animations
+		void onUpdateModel(Step_t scale= 1.f);
 
 		/// add new animation part 
-		/// this should be created by new keyword because of future deletion
 		void addPart(const AnimationPart& newPart);
 
 		/// attach the animation to model
@@ -36,7 +37,6 @@ namespace Graphics
 		/// version for forward step playing
 		void insertBackSteps(Step_t min, Step_t max, Step_t initial = 0);
 		
-
 	private:
 		/// animation parts holded
 		vector<AnimationPart> parts;
