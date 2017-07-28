@@ -13,10 +13,14 @@ namespace Efect
 
 		Model() {};
 		Model(const char* path);
-		Model(ResId ts);
+		Model(ResId scriptId);
 
 		virtual void onInit() override;
 		virtual void onUpdate(sf::Time dt) override;
+
+		Model* deserialiseFromString(const string& script);
+		Model* deserialiseRes(ResId script);
+		Model* deserialise(const char* script);
 
 		Model* setPosition(const Vector2D& position)
 		{

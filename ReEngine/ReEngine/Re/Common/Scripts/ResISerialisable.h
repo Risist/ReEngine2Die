@@ -75,11 +75,13 @@ namespace Res
 		{
 			istringstream stream(definition);
 			DataScriptLoader loader;
+			loader.nextLine(stream);
 			deserialiseF(stream, loader);
 		}
 		inline void deserialiseFromString(const std::string& definition, DataScriptLoader& loader)
 		{
 			istringstream stream(definition);
+			loader.nextLine(stream);
 			deserialiseF(stream, loader);
 		}
 

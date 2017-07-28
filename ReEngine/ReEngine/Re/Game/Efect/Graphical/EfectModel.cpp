@@ -9,8 +9,8 @@ namespace Efect
 		model.rewriteToVectorUpdate(modelsUpdate);
 	}
 
-	Model::Model(ResId ts)
-		:model(ts)
+	Model::Model(ResId scriptId)
+		:model(scriptId)
 	{
 		model.rewriteToVectorRendering(modelsRendering);
 		model.rewriteToVectorUpdate(modelsUpdate);
@@ -28,6 +28,30 @@ namespace Efect
 			it->updateAsPArent();
 		for (auto&it : modelsRendering)
 			it->drawOnly(cam);
+	}
+
+	Model * Model::deserialiseFromString(const string & script)
+	{
+		model.deserialiseFromString(script);
+		model.rewriteToVectorRendering(modelsRendering);
+		model.rewriteToVectorUpdate(modelsUpdate);
+		return this;
+	}
+
+	Model * Model::deserialiseRes(ResId scriptId)
+	{
+		model.deserialiseFromString(scriptInst[scriptId]);
+		model.rewriteToVectorRendering(modelsRendering);
+		model.rewriteToVectorUpdate(modelsUpdate);
+		return this;
+	}
+
+	Model * Model::deserialise(const char* script)
+	{
+		model.deserialise(script);
+		model.rewriteToVectorRendering(modelsRendering);
+		model.rewriteToVectorUpdate(modelsUpdate);
+		return this;
 	}
 
 }

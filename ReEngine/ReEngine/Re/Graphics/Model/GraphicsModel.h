@@ -14,9 +14,10 @@ namespace Graphics
 	public:
 		Model();
 		/// manualy set model
-		Model(ResId tsId, const ModelDef& def = ModelDef::default);
+		Model(ResId tsId, const ModelDef& def);
 		/// load model from path
 		Model(const char* path);
+		Model(ResId scriptId);
 
 		/// display model onto target
 		/// does not draw childrens

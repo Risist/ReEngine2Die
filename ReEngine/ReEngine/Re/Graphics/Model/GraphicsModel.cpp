@@ -19,6 +19,11 @@ namespace Graphics
 	{
 		deserialise(path);
 	}
+	Model::Model(ResId scriptId)
+		: parent(nullptr)
+	{
+		deserialiseFromString(scriptInst[scriptId]);
+	}
 
 	void Model::drawSingle(sf::RenderTarget & target, sf::RenderStates states)
 	{

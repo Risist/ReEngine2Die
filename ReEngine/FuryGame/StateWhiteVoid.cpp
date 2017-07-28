@@ -87,7 +87,7 @@ Game::Actor * StateWhiteVoid::addBackground(const Vector2D & position)
 
 	background->setPosition(position);
 
-	auto efModel = background->addEfect(new Efect::Model((ResId)100u))
+	auto efModel = background->addEfect(new Efect::Model())->deserialiseFromString("<ts=100><\\>")
 		->setScale(Vector2D(5.f, 5.f));
 	return background;
 }

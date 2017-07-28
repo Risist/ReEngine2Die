@@ -39,6 +39,7 @@ namespace Gui
 		ProgressBar* setProgress(float32 s)
 		{
 			progress = clamp(s, 0.f, 1.f);
+			return this;
 		}
 		ProgressBar* setPos(const Vector2f& s)
 		{
