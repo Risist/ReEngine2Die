@@ -28,6 +28,7 @@ namespace Gui
 
 	void Text::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
+		/// TODO
 	}
 
 	void Text::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)

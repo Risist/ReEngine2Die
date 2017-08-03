@@ -45,3 +45,32 @@ inline Ty lerp(Ty x1, Ty x2, AlphaTy t)
 {
 	return x1 + (x2 - x1)*t;
 }
+
+
+template<typename Ty>
+inline Ty smoothstepHermite( Ty x, Ty edge0 = 0, Ty edge1 = 1)
+{
+	x = clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+
+	return x*X*(3 - 2 * x);
+}
+
+template<typename Ty>
+inline Ty smoothstepPerlin(Ty x, Ty edge0 = 0, Ty edge1 = 1)
+{
+	// Scale, and clamp x to 0..1 range
+	x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+	// Evaluate polynomial
+	return x*x*x*(x*(x * 6 - 15) + 10);
+}
+
+template<typename Ty>
+inline Ty smoothstepMcDonald(Ty x, Ty edge0 = 0, Ty edge1 = 1)
+{
+	// Scale, and clamp x to 0..1 range
+	x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+	// Evaluate polynomial
+	//return x*x*x*x*(x*(x * (*x  70) - 84) + 35);
+
+	return  x*x*x*x*(x*( x* (x* -20  + 70) - 84) + 35);
+}

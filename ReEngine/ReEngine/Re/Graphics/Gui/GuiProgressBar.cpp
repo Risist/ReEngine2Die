@@ -54,8 +54,8 @@ namespace Gui
 			}
 			else if (direction == Direction::up)
 			{
-				sh.setPoint(0, Vector2D(-halfWh.x, -halfWh.y + halfWh.y * 2 * progress));
-				sh.setPoint(1, Vector2D(halfWh.x, -halfWh.y + halfWh.y * 2 * progress));
+				sh.setPoint(0, Vector2D(-halfWh.x, -halfWh.y + halfWh.y * 2 * (1 - progress)));
+				sh.setPoint(1, Vector2D(halfWh.x, -halfWh.y + halfWh.y * 2 * (1-progress)));
 				sh.setPoint(2, Vector2D(halfWh.x, halfWh.y));//
 				sh.setPoint(3, Vector2D(-halfWh.x, halfWh.y));//
 			}

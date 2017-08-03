@@ -7,7 +7,7 @@ namespace Game
 		static list<Efect::Base*> toRemove;
 
 		for (auto it = efects.begin(); it != efects.end(); )
-			if ((*it)->readyToRemove && it->get()->onDeath(dt))
+			if ((*it)->activated && (*it)->readyToRemove && it->get()->onDeath(dt))
 			{
 				toRemove.push_back(it->release());
 				efects.erase(it++);
@@ -16,7 +16,7 @@ namespace Game
 				++it;
 
 		for (auto &it : efects)
-			if (it->activated)
+			if (it->activated && it->readyToRemove == false)
 				it->onUpdate(dt);
 
 		for (auto it : toRemove)

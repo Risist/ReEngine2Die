@@ -12,3 +12,4 @@
 
 /// camera
 #include <Re\Game\Efect\Graphical\EfectFollowCamera.h>
+#include <Re\Game\Efect\Graphical\EfectLightSource.h>

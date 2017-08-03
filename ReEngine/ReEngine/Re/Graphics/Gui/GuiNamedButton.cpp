@@ -42,6 +42,8 @@ namespace Gui
 		));
 		setTextOutlineThickness(loader.load("textThickness", 0u));
 		setTextSize(loader.load("textSize", 20u));
+
+		setTextOffset(Vector2f(loader.load("textOffsetX", 0.f), loader.load("textOffsetY", 0.f)));
 	}
 
 }

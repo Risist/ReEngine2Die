@@ -30,7 +30,7 @@ size_t RandomChance::randId() const
 		sum += chanceIt;
 
 	// rand noumber in proper range
-	float randedNoumber = randRange(0, sum);
+	float randedNoumber = sqrt(randRange(0, 1))*sum;
 
 	// find id of interval randedNoumber fits in
 	float lastNoumber = 0;
