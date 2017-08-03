@@ -42,4 +42,19 @@ namespace Ai
 
 	}
 
+	void Mind::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	{
+		/// TODO
+	}
+
+	void Mind::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
+	{
+		treshold = loader.load("treshold", 0.f);
+
+		DATA_SCRIPT_MULTILINE(file, loader)
+		{
+			loader.load<string>("name", "");
+		}
+	}
+
 }

@@ -11,6 +11,8 @@ namespace Ai
 	class BehaviourBase : public Res::ISerialisable
 	{
 	public:
+		/// static BehaviourBase* createBehaviour(const string& type);
+	public:
 		/// called when the behaviour is choosen to be executed
 		/// there should go all initialisation code
 		virtual void onStart() {};
@@ -46,20 +48,21 @@ namespace Ai
 
 	/// Main class that controlls data flow of behaviour system
 	/// 
-	class Mind
+	class Mind : public Res::ISerialisable
 	{
 		Mind();
 
 		void onUpdate(sf::Time dt);
 
 		/// adds a new possible behaviour to the mind
-		void addBehaviour(BehaviourBase* newBehaviour)
+		void addBehaviour(BehaviourBase* newBehaviour, const string& name)
 		{
 			if (!newBehaviour)
 				return;
 
 			behaviours.push_back(make_unique<BehaviourBase>(newBehaviour));
 			newBehaviour->owner = this;
+			newBehaviour->name += name;
 			chance.chances.push_back(0);
 		}
 		
@@ -97,5 +100,9 @@ namespace Ai
 		
 		static const size_t MEMORY_SIZE = 5;
 		BehaviourBase* behaviourMemory[MEMORY_SIZE];
+
+	protected:
+		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 }

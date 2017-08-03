@@ -220,6 +220,17 @@ void ResourceManager::deserialiseF(std::istream& file, Res::DataScriptLoader& lo
 
 			fonts[id].loadFromFile(path);
 		}
+		else if (type == "path")
+		{
+			std::string path = loader.loadRaw("path", "non_written_path_error");
+
+			ResId id = loader.load("id", 0u);
+			if (id == 0u)
+				std::cerr << "ResourceManager: in type = " << type << "; id = nonon_named\n"
+				"\tPath = " << path << "\n";
+
+			paths[id] = path;
+		}
 		/// load resources from another file similar to this
 		else if (type == "resource")
 		{

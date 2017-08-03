@@ -53,6 +53,8 @@ public:
 	/// to faster load scripts many times in a row
 	/// save script in memory, so disc operations is not needed
 	std::map< ResId, string> cashedScript;
+	/// for resources which can not be preloaded save paths to use in game
+	std::map< ResId, string> paths;
 
 	void createTexture(Texture& ts, const std::string& path);
 	string createTranscription(const std::string& path);
@@ -86,5 +88,6 @@ extern ResourceManager res;
 #define fontInst res.fonts
 #define soundInst res.sounds
 #define scriptInst res.cashedScript
+#define pathInst res.paths
 
 
