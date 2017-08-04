@@ -165,6 +165,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="ReEngine.cpp" />
     <ClCompile Include="Re\Ai\BehaviourTree\Composite\BtSelector.cpp" />
     <ClCompile Include="Re\Ai\BehaviourTree\Composite\BtSequencer.cpp" />
+    <ClCompile Include="Re\Ai\Mind\AiMind.cpp" />
     <ClCompile Include="Re\Ai\Sense\Filters\SenseFilterCircle.cpp" />
     <ClCompile Include="Re\Ai\Sense\Filters\SenseFilterCone.cpp" />
     <ClCompile Include="Re\Ai\Sense\Queries\SenseBestQuery.cpp" />
@@ -178,6 +179,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="Re\Common\RandomChance.cpp" />
     <ClCompile Include="Re\Common\Settings.cpp" />
     <ClCompile Include="Re\Game\Actor\GameLayer.cpp" />
+    <ClCompile Include="Re\Game\Efect\Audio\EfectAudioSource.cpp" />
     <ClCompile Include="Re\Game\Efect\Bullets\EfectRemoveAfterDelay.cpp" />
     <ClCompile Include="Re\Game\Efect\Bullets\EfectRemoveOnCollision.cpp" />
     <ClCompile Include="Re\Game\Efect\Bullets\EfectThrow.cpp" />
@@ -187,6 +189,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="Re\Game\Efect\Graphical\EfectFollowCamera.cpp" />
     <ClCompile Include="Re\Game\Efect\Graphical\EfectGraphicsCircle.cpp" />
     <ClCompile Include="Re\Game\Efect\Graphical\EfectGraphicsRect.cpp" />
+    <ClCompile Include="Re\Game\Efect\Graphical\EfectLightSource.cpp" />
     <ClCompile Include="Re\Game\Efect\Graphical\EfectParticle.cpp" />
     <ClCompile Include="Re\Game\Efect\Graphical\EfectPolygonModel.cpp" />
     <ClCompile Include="Re\Game\Efect\Health\EfectDamageOnCollision.cpp" />
@@ -216,6 +219,8 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="Re\Game\State\GameStateLambda.cpp" />
     <ClCompile Include="Re\Game\State\GameStateManager.cpp" />
     <ClCompile Include="Re\Graphics\Camera.cpp" />
+    <ClCompile Include="Re\Graphics\GraphicsBackground.cpp" />
+    <ClCompile Include="Re\Graphics\GraphicsLightController.cpp" />
     <ClCompile Include="Re\Graphics\Gui\Gui.cpp" />
     <ClCompile Include="Re\Graphics\Gui\GuiBase.cpp" />
     <ClCompile Include="Re\Graphics\Gui\GuiButton.cpp" />
@@ -253,6 +258,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Ai\BehaviourTree\Decorator\BtDecoratorResult.h" />
     <ClInclude Include="Re\Ai\BehaviourTree\Leaf\BtLeafLambda.h" />
     <ClInclude Include="Re\Ai\BehaviourTree\Leaf\BtLeafWait.h" />
+    <ClInclude Include="Re\Ai\Mind\AiMind.h" />
     <ClInclude Include="Re\Ai\Sense\Filters\SenseFilterCircle.h" />
     <ClInclude Include="Re\Ai\Sense\Filters\SenseFilterCone.h" />
     <ClInclude Include="Re\Ai\Sense\Queries\SenseBestQuery.h" />
@@ -276,8 +282,10 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Common\Struct\ConstantStack.h" />
     <ClInclude Include="Re\Common\utility.h" />
     <ClInclude Include="Re\Game\Actor\GameLayer.h" />
+    <ClInclude Include="Re\Game\Efect\Audio\EfectAudioSource.h" />
     <ClInclude Include="Re\Game\Efect\Bullets\EfectRemoveAfterDelay.h" />
     <ClInclude Include="Re\Game\Efect\Bullets\EfectRemoveOnCollision.h" />
+    <ClInclude Include="Re\Game\Efect\efectsAudio.h" />
     <ClInclude Include="Re\Game\Efect\efectsBullets.h" />
     <ClInclude Include="Re\Game\Efect\Bullets\EfectThrow.h" />
     <ClInclude Include="Re\Game\Efect\EfectBase.h" />
@@ -292,6 +300,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Game\Efect\Graphical\EfectFollowCamera.h" />
     <ClInclude Include="Re\Game\Efect\Graphical\EfectGraphicsCircle.h" />
     <ClInclude Include="Re\Game\Efect\Graphical\EfectGraphicsRect.h" />
+    <ClInclude Include="Re\Game\Efect\Graphical\EfectLightSource.h" />
     <ClInclude Include="Re\Game\Efect\Graphical\EfectParticle.h" />
     <ClInclude Include="Re\Game\Efect\Graphical\EfectPolygonModel.h" />
     <ClInclude Include="Re\Game\Efect\Health\EfectDamageOnCollision.h" />
@@ -323,6 +332,8 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Game\State\GameStateManager.h" />
     <ClInclude Include="Re\Graphics\Camera.h" />
     <ClInclude Include="Re\Graphics\Graphics.h" />
+    <ClInclude Include="Re\Graphics\GraphicsBackground.h" />
+    <ClInclude Include="Re\Graphics\GraphicsLightController.h" />
     <ClInclude Include="Re\Graphics\Gui\Gui.h" />
     <ClInclude Include="Re\Graphics\Gui\GuiBase.h" />
     <ClInclude Include="Re\Graphics\Gui\GuiButton.h" />

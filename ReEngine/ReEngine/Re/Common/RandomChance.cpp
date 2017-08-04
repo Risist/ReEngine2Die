@@ -41,7 +41,7 @@ size_t RandomChance::randId() const
 		}
 		else
 		{
-			randedNoumber += chances[i];
+			lastNoumber += chances[i];
 		}
 
 	// something goes wrong

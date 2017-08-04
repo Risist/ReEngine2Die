@@ -4,7 +4,9 @@
 #include <Re\Graphics\Camera.h>
 #include <Re\Graphics\ResourceManager.h>
 
-/// models and parts
+#include <Re\Graphics\GraphicsBackground.h>
+
+/// models, animations and parts
 #include <Re\Graphics\Model\GraphicsModel.h>
 #include <Re\Graphics\Model\GraphicsAnimationController.h>
 #include <Re\Graphics\Model\GraphicsAnimationPart.h>
@@ -21,7 +23,7 @@ extern RenderWindow wnd;
 /// otherwise include file below
 #include <Re\Graphics\Gui\Gui.h>
 
-#include <Re\Graphics\Gui\GuiMenu.h>
+//#include <Re\Graphics\Gui\GuiMenu.h>
 namespace Gui
 {
 	extern Menu gui;

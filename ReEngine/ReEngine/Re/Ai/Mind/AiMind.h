@@ -45,27 +45,42 @@ namespace Ai
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
-
 	/// Main class that controlls data flow of behaviour system
 	/// 
 	class Mind : public Res::ISerialisable
 	{
+	public:
 		Mind();
+		~Mind();
 
 		void onUpdate(sf::Time dt);
 
 		/// adds a new possible behaviour to the mind
-		void addBehaviour(BehaviourBase* newBehaviour, const string& name)
+		template<typename Behaviour>
+		Behaviour* addBehaviour(Behaviour* newBehaviour, const string& name = "")
 		{
 			if (!newBehaviour)
-				return;
+				return newBehaviour;
 
-			behaviours.push_back(make_unique<BehaviourBase>(newBehaviour));
+			behaviours.push_back(newBehaviour);
 			newBehaviour->owner = this;
 			newBehaviour->name += name;
 			chance.chances.push_back(0);
+
+			return newBehaviour;
 		}
+
+		void setBehaviour(BehaviourBase* s);
+		void setBehaviour(size_t id);
 		
+		template<typename Behaviour>
+		Behaviour* setNewBehaviour(Behaviour* s, const string& name = "")
+		{
+			setBehaviour(addBehaviour(s, name));
+			return s;
+		}
+
+
 		/// allows to sign how big utility has to be to consider 
 		/// a behaviour to choose as actual executed;
 		/// each behaviour with utility less than treshold has 0 probability of being choosen
@@ -92,7 +107,7 @@ namespace Ai
 		}
 
 	private:
-		vector<unique_ptr<BehaviourBase>> behaviours;
+		vector<BehaviourBase*> behaviours;
 		RandomChance chance;
 
 		/// actually executed behaviour, if equal to nullptr no behaviour is being execued
@@ -104,5 +119,74 @@ namespace Ai
 	protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+	};
+
+	class BehaviourLambda : public BehaviourBase
+	{
+	public:
+
+		typedef function<void()> onStart_t;
+		typedef function<bool(sf::Time)> onExecute_t;
+		typedef function<void()> onExit_t;
+		typedef function<Utility_t()> getUtility_t;
+
+		BehaviourLambda* setOnStart(onStart_t __onStart)
+		{
+			_onStart = __onStart;
+			return this;
+		}
+		BehaviourLambda* setOnExit(onExit_t __onExit)
+		{
+			_onExit = __onExit;
+			return this;
+		}
+		BehaviourLambda* setOnExecute(onExecute_t __onExecute)
+		{
+			_onExecute = __onExecute;
+			return this;
+		}
+		BehaviourLambda* setGetUtility(getUtility_t __getUtility)
+		{
+			_getUtility = __getUtility;
+			return this;
+		}
+		BehaviourLambda* setGetUtility(Utility_t s)
+		{
+			_getUtility = [=]() {return s; };
+			return this;
+		}
+
+		virtual void onStart() override { if (_onStart) _onStart(); }
+		virtual bool onExecute(sf::Time dt)override { if (_onExecute) return _onExecute(dt); else return false; }
+		virtual void onExit() override { if (_onExit) _onExit(); }
+		virtual Utility_t getUtility() const override { if (_getUtility) return _getUtility(); }
+
+		onStart_t _onStart{ []() {} };
+		onExecute_t _onExecute{ [](sf::Time dt) { return true; } };
+		onExit_t _onExit{ []() {} };
+		getUtility_t _getUtility{ []() {return 1.f; } };
+	};
+
+
+	/// behaviour which does nothing for certain amount of time
+	class BehaviourWait : public BehaviourBase
+	{
+	public:
+		BehaviourWait(sf::Time _waitTime, Utility_t _utility)
+			:waitTime(_waitTime), utility(_utility)
+		{
+
+		}
+
+		virtual void onStart() { clock.restart();  }
+		virtual bool onExecute() { return clock.getElapsedTime() < waitTime; }
+		virtual Utility_t getUtility() const override { return utility; }
+		
+		Utility_t utility;
+		sf::Time waitTime;
+	private:
+		Clock clock;
+
+		///TODO serialisation
 	};
 }

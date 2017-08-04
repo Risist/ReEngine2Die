@@ -13,8 +13,10 @@ void StateWhiteVoid::onStart()
 	cam.setScale(1.85f);
 	cam.setAlpha(1.f);
 
-	addBackground(Vector2D());
-	Game::world.addActor(new WarriorPlayer(), Game::Layers::character);
+	
+	
+	//addBackground(Vector2D());
+	//Game::world.addActor(new WarriorPlayer(), Game::Layers::character);
 
 	//for (int i = 0; i < 5; ++i)
 		//addZenon(Vector2D(0, randRange(100.f, 1500.f)).getRotated());

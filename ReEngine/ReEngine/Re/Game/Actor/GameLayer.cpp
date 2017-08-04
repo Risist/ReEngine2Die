@@ -6,7 +6,26 @@ namespace Game
 	{
 		static list<Efect::Base*> toRemove;
 
-		for (auto it = efects.begin(); it != efects.end(); )
+		for (auto it = efects.begin(); it != efects.end();)
+		{
+			auto actorIt = (Actor*)it->get();
+			if (!actorIt->isActive())
+				continue;
+
+			{
+				if (actorIt->isAlive())
+				{
+					actorIt->onUpdate(dt);
+					++it;
+				}
+				else if (actorIt->onDeath(dt))
+				{
+					toRemove.push_back(actorIt);
+					efects.erase(it++);
+				}
+			}
+		}
+		/*for (auto it = efects.begin(); it != efects.end(); )
 			if ((*it)->activated && (*it)->readyToRemove && it->get()->onDeath(dt))
 			{
 				toRemove.push_back(it->release());
@@ -18,7 +37,7 @@ namespace Game
 		for (auto &it : efects)
 			if (it->activated && it->readyToRemove == false)
 				it->onUpdate(dt);
-
+				*/
 		for (auto it : toRemove)
 		{
 			delete it;
