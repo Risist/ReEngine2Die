@@ -42,7 +42,7 @@ namespace Res
 			serialiseF(file, saver);
 			saver.nextLine(file);
 		}
-		inline void serialise(std::ostream& file, DataScriptSaver& saver) { serialiseF(file, saver); }
+		inline void serialise(std::ostream& file, DataScriptSaver& saver) const { serialiseF(file, saver); }
 
 		// opens a file from path. returns true at succes
 		bool deserialise(const std::string& path)

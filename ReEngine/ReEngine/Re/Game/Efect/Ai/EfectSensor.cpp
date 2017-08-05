@@ -1,4 +1,4 @@
-#include <Re\Game\Efect\Sensor\EfectSensor.h>
+#include <Re\Game\Efect\Ai\EfectSensor.h>
 
 
 namespace Efect

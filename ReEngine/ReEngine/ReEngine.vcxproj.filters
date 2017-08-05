@@ -21,13 +21,13 @@
     </ClInclude>
     <ClInclude Include="Re\ReEngine.h" />
     <ClInclude Include="Re\Graphics\ResourceManager.h">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Camera.h">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Graphics.h">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Re\Game\GameWorld.h">
       <Filter>Game</Filter>
@@ -54,10 +54,10 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiBase.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiButton.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Game\Efect\Graphical\EfectModel.h">
       <Filter>Game\Efect\Graphical</Filter>
@@ -91,25 +91,25 @@
       <Filter>Common\struct</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiMenu.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\Gui.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiText.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiCheckBox.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiProgressBar.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiScrollBar.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiSetBar.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Common\Control\ControlTimer.h">
       <Filter>Common\Control</Filter>
@@ -118,13 +118,13 @@
       <Filter>Common\Control</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiColorBar.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiSpecial.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiInspector.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Game\Efect\efects.h">
       <Filter>Game\Efect</Filter>
@@ -252,9 +252,6 @@
     <ClInclude Include="Re\Ai\BehaviourTree\Decorator\BtDecoratorLoop.h">
       <Filter>Ai\Behaviour Tree\Decorator</Filter>
     </ClInclude>
-    <ClInclude Include="Re\Game\Efect\Sensor\EfectSensor.h">
-      <Filter>Game\Efect\Sensor</Filter>
-    </ClInclude>
     <ClInclude Include="Re\Ai\Sense\SenseHolder.h">
       <Filter>Ai\sensor</Filter>
     </ClInclude>
@@ -270,9 +267,6 @@
     <ClInclude Include="Re\Ai\Sense\sense.h">
       <Filter>Ai\sensor</Filter>
     </ClInclude>
-    <ClInclude Include="Re\Game\Efect\efectsSense.h">
-      <Filter>Game\Efect</Filter>
-    </ClInclude>
     <ClInclude Include="Re\Game\Actor\GameLayer.h">
       <Filter>Game\Standard Actors</Filter>
     </ClInclude>
@@ -286,46 +280,46 @@
       <Filter>Game\Network</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiNamedButton.h">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Game\Efect\Graphical\EfectPolygonModel.h">
       <Filter>Game\Efect\Graphical</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationController.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationPart.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsModel.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsModelDef.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsPolygonModel.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsPolygonShape.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Game\Efect\Graphical\EfectAnimationManager.h">
       <Filter>Game\Efect\Graphical</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationStep.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsMetaAnimationPart.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Model\GraphicsMetaAnimationController.h">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Re\Ai\Mind\AiMind.h">
       <Filter>Ai\Mind</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\GraphicsLightController.h">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Re\Game\Efect\Graphical\EfectLightSource.h">
       <Filter>Game\Efect\Graphical</Filter>
@@ -337,7 +331,28 @@
       <Filter>Game\Efect\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\GraphicsBackground.h">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Ai\Dialogue\AiDialogue.h">
+      <Filter>Ai\Dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Ai\AiEmotionDef.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Ai\Mind\AiBehaviours.h">
+      <Filter>Ai\Mind</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Ai\ai.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Efect\Ai\EfectMind.h">
+      <Filter>Game\Efect\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Efect\Ai\EfectSensor.h">
+      <Filter>Game\Efect\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Efect\efectsAi.h">
+      <Filter>Game\Efect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +419,6 @@
     <Filter Include="Ai\sensor">
       <UniqueIdentifier>{91258dc2-3430-4ad3-9109-629be4ec0aa2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Efect\Sensor">
-      <UniqueIdentifier>{f6f7511a-717c-4a68-bfb0-7762e33b07e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Ai\sensor\Filters">
       <UniqueIdentifier>{86b4ffa4-6ce8-4b5d-a80b-418e8ee865dd}</UniqueIdentifier>
     </Filter>
@@ -428,14 +440,20 @@
     <Filter Include="Game\Efect\Audio">
       <UniqueIdentifier>{46e7e0ea-df3c-434f-8c6f-3f62fdac7ad7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Documentation\Graphics">
+    <Filter Include="Ai\Dialogue">
+      <UniqueIdentifier>{349c7126-ad85-4365-90fb-be524bc1ae87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
       <UniqueIdentifier>{c060e587-5185-416e-bd11-bde683b6c9b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Documentation\Graphics\Gui">
+    <Filter Include="Graphics\Gui">
       <UniqueIdentifier>{aa629a24-6b04-425d-b63b-a65e95b9cdac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Documentation\Graphics\Model">
+    <Filter Include="Graphics\Model">
       <UniqueIdentifier>{da308030-ed92-4a18-98b7-5d7942cfde22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Efect\Ai">
+      <UniqueIdentifier>{7eb46b0a-24fa-4e43-a963-b39368a838d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -455,10 +473,10 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\ResourceManager.cpp">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Camera.cpp">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\GameWorld.cpp">
       <Filter>Game</Filter>
@@ -479,10 +497,10 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiBase.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiButton.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\Efect\Graphical\EfectModel.cpp">
       <Filter>Game\Efect\Graphical</Filter>
@@ -500,31 +518,31 @@
       <Filter>Common\Control</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiMenu.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\Gui.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiText.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiCheckBox.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiProgressBar.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiScrollBar.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiSetBar.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiColorBar.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiInspector.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\Efect\Graphical\EfectGraphicsCircle.cpp">
       <Filter>Game\Efect\Graphical</Filter>
@@ -605,9 +623,6 @@
     <ClCompile Include="Re\Ai\Sense\SenseHolder.cpp">
       <Filter>Ai\sensor</Filter>
     </ClCompile>
-    <ClCompile Include="Re\Game\Efect\Sensor\EfectSensor.cpp">
-      <Filter>Game\Efect\Sensor</Filter>
-    </ClCompile>
     <ClCompile Include="Re\Ai\Sense\Filters\SenseFilterCircle.cpp">
       <Filter>Ai\sensor\Filters</Filter>
     </ClCompile>
@@ -627,7 +642,7 @@
       <Filter>Game\Network</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiNamedButton.cpp">
-      <Filter>Documentation\Graphics\Gui</Filter>
+      <Filter>Graphics\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\Efect\Graphical\EfectPolygonModel.cpp">
       <Filter>Game\Efect\Graphical</Filter>
@@ -636,40 +651,40 @@
       <Filter>Common\Control</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationController.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationPart.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsModel.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsModelDef.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsPolygonModel.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsPolygonShape.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\Efect\Graphical\EfectAnimationManager.cpp">
       <Filter>Game\Efect\Graphical</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationStep.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsMetaAnimationPart.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsMetaAnimationController.cpp">
-      <Filter>Documentation\Graphics\Model</Filter>
+      <Filter>Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="Re\Ai\Mind\AiMind.cpp">
       <Filter>Ai\Mind</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\GraphicsLightController.cpp">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\Efect\Graphical\EfectLightSource.cpp">
       <Filter>Game\Efect\Graphical</Filter>
@@ -678,7 +693,22 @@
       <Filter>Game\Efect\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\GraphicsBackground.cpp">
-      <Filter>Documentation\Graphics</Filter>
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Ai\Dialogue\AiDialogue.cpp">
+      <Filter>Ai\Dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Ai\Mind\AiBehaviours.cpp">
+      <Filter>Ai\Mind</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Ai\AiEmotionDef.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Efect\Ai\EfectMind.cpp">
+      <Filter>Game\Efect\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Efect\Ai\EfectSensor.cpp">
+      <Filter>Game\Efect\Ai</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

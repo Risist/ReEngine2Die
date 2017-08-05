@@ -6,5 +6,5 @@
 #include <Re\Game\Efect\efectsBullets.h>
 #include <Re\Game\Efect\efectsPhysics.h>
 #include <Re\Game\Efect\efectsHealth.h>
-#include <Re\Game\Efect\efectsSense.h>
+#include <Re\Game\Efect\efectsAi.h>
 #include <Re\Game\Efect\efectsAudio.h>
