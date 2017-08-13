@@ -1,6 +1,7 @@
 #pragma once
 #include <Re\Common\utility.h>
 #include <string>
+#include <unordered_map>
 
 using namespace sf;
 using namespace std;
@@ -15,7 +16,7 @@ public:
 	ResourceManager();
 
 	/// list of loaded textures
-	std::map< ResId, Texture> atlases;
+	std::unordered_map< ResId, Texture> atlases;
 	
 	/// struct to hold data about texture instance placed in atlas
 	struct TextureInstance
@@ -45,16 +46,16 @@ public:
 
  		sf::IntRect bounds;
 	};
-	std::map<ResId, TextureInstance> textures;
+	std::unordered_map<ResId, TextureInstance> textures;
 
 
-	std::map< ResId, Font> fonts;
-	std::map< ResId, SoundBuffer> sounds;
+	std::unordered_map< ResId, Font> fonts;
+	std::unordered_map< ResId, SoundBuffer> sounds;
 	/// to faster load scripts many times in a row
 	/// save script in memory, so disc operations is not needed
-	std::map< ResId, string> cashedScript;
+	std::unordered_map< ResId, string> cashedScript;
 	/// for resources which can not be preloaded save paths to use in game
-	std::map< ResId, string> paths;
+	std::unordered_map< ResId, string> paths;
 
 	void createTexture(Texture& ts, const std::string& path);
 	string createTranscription(const std::string& path);

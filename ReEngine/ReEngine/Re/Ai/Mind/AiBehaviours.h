@@ -1,26 +1,9 @@
 #pragma once
-#include <Re\Ai\AiEmotionDef.h>
 #include <Re\Ai\Mind\AiMind.h>
 
 namespace Ai
 {
-	////////////////////////////////////////////////////////////////////////////////
-	/// simplified behaviour to fullfil emotional behaviours purpose 
-	class BehaviourEmotion : public BehaviourBase
-	{
-	public:
-		virtual Utility_t getUtility() const override;
-
-		EmotionDef *ownersMood;
-		EmotionDef behaviourEmotion;
-		Utility_t baseUtility{ 0 }, scaleUtility{ 1 };
-
-
-	protected:
-		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
-	};
-
+	
 	//////////////////////////////////////////////////
 	/// behaviour with lambda functions on events
 	class BehaviourLambda : public BehaviourBase
@@ -32,31 +15,12 @@ namespace Ai
 		typedef function<void()> onExit_t;
 		typedef function<Utility_t()> getUtility_t;
 
-		BehaviourLambda* setOnStart(onStart_t __onStart)
-		{
-			_onStart = __onStart;
-			return this;
-		}
-		BehaviourLambda* setOnExit(onExit_t __onExit)
-		{
-			_onExit = __onExit;
-			return this;
-		}
-		BehaviourLambda* setOnExecute(onExecute_t __onExecute)
-		{
-			_onExecute = __onExecute;
-			return this;
-		}
-		BehaviourLambda* setGetUtility(getUtility_t __getUtility)
-		{
-			_getUtility = __getUtility;
-			return this;
-		}
-		BehaviourLambda* setGetUtility(Utility_t s)
-		{
-			_getUtility = [=]() {return s; };
-			return this;
-		}
+		BehaviourLambda* setOnStart(onStart_t __onStart);
+		BehaviourLambda* setOnExit(onExit_t __onExit);
+		BehaviourLambda* setOnExecute(onExecute_t __onExecute);
+		BehaviourLambda* setGetUtility(getUtility_t __getUtility);
+		BehaviourLambda* setGetUtility(Utility_t s);
+
 
 		virtual void onStart() override { if (_onStart) _onStart(); }
 		virtual bool onExecute(sf::Time dt)override { if (_onExecute) return _onExecute(dt); else return false; }
@@ -74,17 +38,15 @@ namespace Ai
 	class BehaviourWait : public BehaviourBase
 	{
 	public:
-		BehaviourWait(sf::Time _waitTime, Utility_t _utility)
-			:waitTime(_waitTime), utility(_utility)
+		BehaviourWait(sf::Time _waitTime = sf::seconds(1.f), Utility_t _utility = 1.f)
+			:waitTime(_waitTime)
 		{
 
 		}
 
-		virtual void onStart() { clock.restart(); }
-		virtual bool onExecute() { return clock.getElapsedTime() < waitTime; }
-		virtual Utility_t getUtility() const override { return utility; }
+		virtual void onStart() override { clock.restart(); }
+		virtual bool onExecute(sf::Time dt ) override{ return clock.getElapsedTime() > waitTime; }
 
-		Utility_t utility;
 		sf::Time waitTime;
 	private:
 		Clock clock;
@@ -93,5 +55,11 @@ namespace Ai
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
+
+	///////////////////////////////////////////////////////////////////
+	/// behaviour to divide Evaluation, execution and finish up condition to separated behaviours
+
+	///////////////////////////////////////////////////////////////////////
+	/// behaviour which allows to execute many other behaviours at once
 
 }

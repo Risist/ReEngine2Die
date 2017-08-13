@@ -31,6 +31,9 @@ protected: /// spawn functions
 	/// creates and adds simple obstacle - for testing
 	Game::Actor* addObstacle(const Vector2D& position, Angle rotation = Angle::zero);
 
+	/// creates and adds simple obstacle - for testing
+	Game::Actor* addBarrel(const Vector2D& position, Angle rotation = Angle::zero);
+
 private:
 	void controlBackgroundColor();
 };

@@ -1,6 +1,10 @@
 #pragma once
 #include <Re\Common\utility.h>
 
+///////////////////
+/// WIP
+//////////////////
+
 namespace Game
 {
 	class Actor;

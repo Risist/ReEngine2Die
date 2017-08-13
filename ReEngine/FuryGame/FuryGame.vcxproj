@@ -142,12 +142,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActorHumanoidNpc.cpp" />
+    <ClCompile Include="ActorWeapon.cpp" />
     <ClCompile Include="FuryMain.cpp" />
     <ClCompile Include="Layers.cpp" />
     <ClCompile Include="StateWhiteVoid.cpp" />
     <ClCompile Include="Warrior\WarriorPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActorHumanoidNpc.h" />
+    <ClInclude Include="ActorWeapon.h" />
     <ClInclude Include="Layers.h" />
     <ClInclude Include="Warrior\WarriorPlayer.h" />
     <ClInclude Include="StateWhiteVoid.h" />
@@ -160,6 +164,7 @@
     <Text Include="anim_reaperPush.txt" />
     <Text Include="anim_reaperSlash.txt" />
     <Text Include="anim_reaperWalk.txt" />
+    <Text Include="model_barrel.txt" />
     <Text Include="model_reaper.txt" />
     <Text Include="Resources.txt" />
     <Text Include="Warrior\model_Full.txt" />

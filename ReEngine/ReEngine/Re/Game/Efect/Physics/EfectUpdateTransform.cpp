@@ -14,31 +14,48 @@ namespace Efect
 	{
 	}
 
+	void UpdateTransform::onInit()
+	{
+		Base::onInit();
+		transformOwner = getOwner();
+		rigidbody = &getOwner()->getRigidbody();
+	}
+
 	void UpdateTransform::onUpdate(sf::Time dt)
 	{
-		assert(getOwner()->isRigidbodyCreated());
+		switch (positionMode)
+		{
+		case Efect::UpdateTransform::RigidbodyToTransform:
+			{	
+				assert(rigidbody && transformOwner);
 
-		if (positionMode == toRigidbody)
-		{
-			getOwner()->setPosition((Vector2D)getOwner()->getRigidbody().GetPosition() * toSfPosition);
-		}
-		else if (positionMode == toTransform)
-		{
-			getOwner()->getRigidbody().SetTransform(
-				getOwner()->getPosition()* toB2Position,
-				getOwner()->getRigidbody().GetAngle()
-			);
+				Vector2D desiredPosition = transformOwner->getPosition()* toB2Position;
+				Vector2D toDesiredPosition = desiredPosition - (Vector2D)rigidbody->GetPosition();
+				rigidbody->SetLinearVelocity(toDesiredPosition *updateRate);
+			}
+			break;
+		case Efect::UpdateTransform::TransformToRigidbody:
+			assert(rigidbody && transformOwner); 
+			transformOwner->setPosition((Vector2D)getOwner()->getRigidbody().GetPosition() * toSfPosition);
+			break;
 		}
 
-		if (rotationMode == toRigidbody)
+
+		switch (rotationMode)
 		{
+		case Efect::UpdateTransform::RigidbodyToTransform:
+			assert(rigidbody && transformOwner);
+			{
+
+				Angle desiredRotation = Degree(transformOwner->getRotation());
+				Angle toDesiredRotation = desiredRotation.minimalDiffirence(Radian(rigidbody->GetAngle()));
+				rigidbody->SetAngularVelocity(toDesiredRotation.asRadian() * updateRate);
+			}
+			break;
+		case Efect::UpdateTransform::TransformToRigidbody:
+			assert(rigidbody && transformOwner);
 			getOwner()->setRotation(Radian(getOwner()->getRigidbody().GetAngle()).asDegree());
-		}
-		else if (rotationMode == toTransform)
-		{
-			getOwner()->getRigidbody().SetTransform(
-				getOwner()->getRigidbody().GetPosition(),
-				getOwner()->getRotation().asRadian());
+			break;
 		}
 	}
 }

@@ -123,7 +123,11 @@ namespace Graphics
 		/// transformable model is updated to
 		Transformable* parent;
 		ModelDef actualDef;
-	protected:
+	
+		sf::Sprite& getTransformSprite() { return sp; }
+		const sf::Sprite& getTransformSprite() const { return sp; }
+
+ 	protected:
 		/// actual graphical representation of the model
 		sf::Sprite sp;
 		/// holded rotation of sprite computed by update function

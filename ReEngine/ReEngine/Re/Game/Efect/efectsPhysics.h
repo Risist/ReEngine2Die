@@ -6,6 +6,7 @@
 
 /// runtime
 #include <Re\Game\Efect\Physics\EfectUpdateTransform.h>
+#include <Re\Game\Efect\Physics\EfectPushOnCollision.h>
 
 /// Joints
 #include <Re\Game\Efect\Physics\EfectJoint.h>

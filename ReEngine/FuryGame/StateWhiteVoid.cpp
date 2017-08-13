@@ -2,6 +2,7 @@
 #include "Layers.h"
 
 #include "Warrior\WarriorPlayer.h"
+#include "ActorHumanoidNpc.h"
 //#include "Characters\Zenon.h"
 
 void StateWhiteVoid::onStart()
@@ -15,14 +16,19 @@ void StateWhiteVoid::onStart()
 
 	
 	
-	//addBackground(Vector2D());
-	//Game::world.addActor(new WarriorPlayer(), Game::Layers::character);
+	addBackground(Vector2D());
+	Game::world.addActor(new WarriorPlayer(), Game::Layers::character);
+	Game::world.addActor(new ActorHumanoidNpc(), Game::Layers::character)->setPosition( 100, 500);
 
 	//for (int i = 0; i < 5; ++i)
 		//addZenon(Vector2D(0, randRange(100.f, 1500.f)).getRotated());
 	
 	//for (int i = 0; i < 250; ++i)
 		//addObstacle(Vector2D(0, randRange(100.f, 5500.f)).getRotated(), randRange(Angle::zero, Angle::full) );
+
+
+	for (int i = 0; i < 20; ++i)
+		addBarrel(Vector2D(0, randRange(100.f, 5500.f)).getRotated(), randRange(Angle::zero, Angle::full) );
 }
 
 Game::State * StateWhiteVoid::onUpdate(sf::Time dt)
@@ -104,6 +110,23 @@ Game::Actor * StateWhiteVoid::addObstacle(const Vector2D & position, Angle rotat
 
 	actor->addEfect(new Efect::UpdateTransform());
 	actor->addEfect(new Efect::GraphicsRect(Vector2D(150, 150), Color(100, 100, 100, 150)));
+
+	return actor;
+}
+
+Game::Actor * StateWhiteVoid::addBarrel(const Vector2D & position, Angle rotation)
+{
+	Game::Actor *actor = Game::world.addActor(new Game::Actor, Game::Layers::obstacle);
+	actor->addEfect(new Efect::Rigidbody(10,10));
+	//actor->addEfect(new Efect::ColliderBox(Vector2D(75, 75), 10));
+	actor->addEfect(new Efect::ColliderCircle(70,50.f));
+	actor->getRigidbody().SetTransform(position*toB2Position, rotation.asRadian());
+
+
+	actor->addEfect(new Efect::UpdateTransform());
+	//actor->addEfect(new Efect::GraphicsRect(Vector2D(150, 150), Color(100, 100, 100, 150)));
+	//actor->addEfect(new Efect::GraphicsCircle(Color(150, 120, 120, 200), 75))->shape.setTexture(&atlasInst[501]);
+	actor->addEfect(new Efect::Model(1));
 
 	return actor;
 }

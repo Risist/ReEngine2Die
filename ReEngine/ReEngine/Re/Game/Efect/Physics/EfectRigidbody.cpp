@@ -22,9 +22,9 @@ namespace Efect
 
 	void Rigidbody::onInit()
 	{
-		def.position.x = getOwner()->getPosition().x * toB2Position;
-		def.position.y = getOwner()->getPosition().y * toB2Position;
-		def.angle = getOwner()->getRotation().asRadian();
+		def.position.x = getOwner()->getPosition().x * toB2Position + def.position.x;
+		def.position.y = getOwner()->getPosition().y * toB2Position + def.position.y;
+		def.angle = getOwner()->getRotation().asRadian() + def.angle;
 
 		getOwner()->createRigidbody(def);
 		readyToRemove = true;

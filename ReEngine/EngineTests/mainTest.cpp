@@ -27,9 +27,17 @@ void initKeys()
 
 }
 
-
+/**
 Ai::Mind mind;
 sf::Clock clockMind;
+
+class BehaviourText : public Ai::BehaviourEvTime
+{
+public:
+
+	string text;
+
+};*/
 
 void init()
 {

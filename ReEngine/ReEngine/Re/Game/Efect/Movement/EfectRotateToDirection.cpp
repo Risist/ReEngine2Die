@@ -33,7 +33,7 @@ namespace Efect
 		{
 			Angle actual = getOwner()->getRotation();
 			getOwner()->getRigidbody().SetTransform(getOwner()->getRigidbody().GetPosition(),
-				(actual + dir.minimalDiffirence(actual) * smoothAlpha*dt.asSeconds() * 1000).asRadian()
+				(actual + clamp(dir.minimalDiffirence(actual) * smoothAlpha*dt.asSeconds(), -maxRotationSpeed, maxRotationSpeed) * 1000).asRadian()
 			);
 		}
 			break;

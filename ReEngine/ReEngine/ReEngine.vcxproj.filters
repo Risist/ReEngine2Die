@@ -354,6 +354,12 @@
     <ClInclude Include="Re\Game\Efect\efectsAi.h">
       <Filter>Game\Efect</Filter>
     </ClInclude>
+    <ClInclude Include="Re\Ai\Mind\AiBehavioursEvaluate.h">
+      <Filter>Ai\Mind</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Efect\Physics\EfectPushOnCollision.h">
+      <Filter>Game\Efect\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
@@ -709,6 +715,12 @@
     </ClCompile>
     <ClCompile Include="Re\Game\Efect\Ai\EfectSensor.cpp">
       <Filter>Game\Efect\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Ai\Mind\AiBehavioursEvaluate.cpp">
+      <Filter>Ai\Mind</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Efect\Physics\EfectPushOnCollision.cpp">
+      <Filter>Game\Efect\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

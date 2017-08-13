@@ -24,7 +24,7 @@ namespace Ai
 		/// there should go all clean up code
 		virtual void onExit() {};
 		/// tells the system how good is the behaviour in the current context
-		virtual Utility_t getUtility() const = 0;
+		virtual Utility_t getUtility() const { return 1.f; };
 
 
 	public:

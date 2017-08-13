@@ -14,8 +14,14 @@
 	< type =atlas; path =shiveil\\axe_stick.png;	atlasId =205>
 	< type =atlas; path =shiveil\\axe_blade.png;	atlasId =206>
 
+
+	< type =atlas; path =barrels\\barrel1.png;		atlasId =501>
+	< type =atlas; path =barrels\\barrel2.png;		atlasId =502>
+
 	
 	< type =atlas; path =Blood\\blood2.png;			atlasId =300>
 
 	< type =font;	 path =Akv.ttf;					id =1>
+
+	<type =script; path =model_barrel.txt;			id =1>
 <\>

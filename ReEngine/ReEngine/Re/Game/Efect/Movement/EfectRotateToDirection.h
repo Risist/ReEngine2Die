@@ -1,5 +1,6 @@
 #pragma once
 #include <Re\Game\Efect\EfectBase.h>
+#include <limits>
 
 namespace Efect
 {
@@ -22,8 +23,30 @@ namespace Efect
 
 		void onUpdate(sf::Time dt) override;
 
+		RotateToDirection* setMode(Mode s)
+		{
+			mode = s;
+			return this;
+		}
+		RotateToDirection* setAngleOffset(Angle s)
+		{
+			angleOffset = s;
+			return this;
+		}
+		RotateToDirection* setSmoothAlpha(float32 s)
+		{
+			smoothAlpha = s;
+			return this;
+		}
+		RotateToDirection* setMaxRotationSpeed(Angle s)
+		{
+			maxRotationSpeed = s;
+			return this;
+		}
+
 		Angle direction, angleOffset;
 		float32 smoothAlpha;
+		Angle maxRotationSpeed{Degree(numeric_limits<float32>::max())};
 	};
 
 }

@@ -97,7 +97,8 @@ namespace Game
 				{
 					auto shape = (b2CircleShape*)_shape;
 					sf::CircleShape sh;
-					sh.setPosition((Vector2D)bodyIt->GetPosition() *toSfPosition);
+					sh.setPosition((Vector2D)bodyIt->GetPosition() *toSfPosition 
+						+ Vector2D(shape->m_p.x*toSfPosition, shape->m_p.y*toSfPosition).getRotated(Radian(bodyIt->GetAngle()) ));
 					
 					sh.setRadius(shape->m_radius *toSfPosition);
 
@@ -117,7 +118,8 @@ namespace Game
 				{
 					auto shape = (b2PolygonShape*)_shape;
 					sf::ConvexShape sh;
-					sh.setPosition((Vector2D)bodyIt->GetPosition() *toSfPosition);
+					sh.setPosition((Vector2D)bodyIt->GetPosition() *toSfPosition 
+						+ Vector2D(shape->m_centroid.x*toSfPosition, shape->m_centroid.y*toSfPosition).getRotated(Radian(bodyIt->GetAngle())));
 					sh.setRotation(Radian(bodyIt->GetAngle()).asDegree());
 
 

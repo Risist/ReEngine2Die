@@ -19,6 +19,8 @@
       <Filter>warrior</Filter>
     </ClCompile>
     <ClCompile Include="StateWhiteVoid.cpp" />
+    <ClCompile Include="ActorHumanoidNpc.cpp" />
+    <ClCompile Include="ActorWeapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Layers.h" />
@@ -26,6 +28,8 @@
       <Filter>warrior</Filter>
     </ClInclude>
     <ClInclude Include="StateWhiteVoid.h" />
+    <ClInclude Include="ActorHumanoidNpc.h" />
+    <ClInclude Include="ActorWeapon.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources.txt">
@@ -57,6 +61,9 @@
     </Text>
     <Text Include="anim_reaperHelper.txt">
       <Filter>warrior\reaper</Filter>
+    </Text>
+    <Text Include="model_barrel.txt">
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
 </Project>

@@ -30,5 +30,6 @@ public:
 
 	/// 
 	Efect::MouseMovement *efMovement{nullptr};
+	//Efect::StaticMovement *efMovement{ nullptr };
 	Efect::AnimationManager *efAnimation;
 };

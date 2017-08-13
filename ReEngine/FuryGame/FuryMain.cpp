@@ -1,6 +1,7 @@
 #include <Re\ReEngine.h>
 #include "StateWhiteVoid.h"
 
+#define TEST_FPS
 
 void init()
 {

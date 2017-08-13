@@ -1,7 +1,7 @@
 #include "WarriorPlayer.h"
 #include "../Layers.h"
 
-
+#include "../ActorWeapon.h"
 
 void WarriorPlayer::onInit()
 {
@@ -24,7 +24,16 @@ void WarriorPlayer::onInit()
 	addEfect(new Efect::ColliderCircle(50.f));
 	addEfect(new Efect::UpdateTransform());
 
-	efMovement = addEfect(new Efect::MouseMovement(25, new Efect::RotateToDirection(Efect::RotateToDirection::smoothPhysics, 0.005) ));
+	{
+		auto weaponActor = Game::world.addActor(new ActorWeapon(this, &efModel->modelsUpdate[2]->getTransformSprite()));
+		weaponActor->addEfect(new Efect::ColliderBox)->setAsBox(Vector2D(150, 30), Vector2D(), Degree(45))->setRestitution(0.005);
+		weaponActor->addEfect(new Efect::ColliderBox)->setAsBox(Vector2D(30, 150), Vector2D(-15,75), Degree(0))->setRestitution(0.0025);
+	}
+	
+	efMovement = addEfect(new Efect::MouseMovement(75, 
+		(new Efect::RotateToDirection(Efect::RotateToDirection::smoothPhysics, 0.005))->setMaxRotationSpeed(Degree(0.5f)) ));
+	
+	//efMovement = addEfect(new Efect::StaticMovement(50, new Efect::RotateToDirection(Efect::RotateToDirection::smoothPhysics, 0.005)));
 	addEfect(new Efect::FollowCamera(Efect::FollowCamera::positionOnlySmooth))->setLerpPosition(0.125);
 }
 
@@ -72,8 +81,8 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 	}
 	
 
-	if(efMovement->getArrived() == false)
-		walk->updateReturn();
+	/*if(efMovement->getArrived() == false && efMovement->activated)
+		walk->updateReturn();*/
 
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
@@ -83,7 +92,7 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 	}
 
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 			onPull = true;
 		if (onPull && pull->updateRestart())
 			onPull = false;
@@ -93,15 +102,12 @@ void WarriorPlayer::onUpdate(sf::Time dt)
 			onPush = true;
 		if (onPush && push->updateRestart())
 			onPush = false;
-	}
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-			onHelper = true;
-		if (onHelper && helper->updateRestart())
-			onHelper = false;
-	}
+	} 
 
-	if (onSlash || onPull || onPull || onGreatSlash)
-		efMovement->reset();
-	/**/
+	if (onSlash || onPull || onPush || onGreatSlash)
+	{
+		//efMovement->reset();
+		efMovement->efRotDir->direction = Vector2D((Vector2D)cam.mapPixelToCoords((Vector2D)Mouse::getPosition(wnd)) - getPosition()).angle();
+	}
+	//efMovement->activated = !(onSlash && !sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || onPull || onPush || onGreatSlash);
 }

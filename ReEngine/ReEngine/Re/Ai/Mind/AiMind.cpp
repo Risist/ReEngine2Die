@@ -23,6 +23,9 @@ namespace Ai
 			actualBehaviour->onExecute(dt) )
 			/// set up new behaviour 
 		{
+			if (actualBehaviour)
+				actualBehaviour->onExit();
+
 			/// fill chances vector
 			assert(behaviours.size() == chance.chances.size());
 			size_t size = behaviours.size();
@@ -35,8 +38,6 @@ namespace Ai
 
 			/// choose new behaviour
 			size_t id = chance.randId();
-			if(actualBehaviour)
-				actualBehaviour->onExit();
 			actualBehaviour = behaviours[id];
 			actualBehaviour->onStart();
 

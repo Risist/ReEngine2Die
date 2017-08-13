@@ -168,6 +168,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="Re\Ai\BehaviourTree\Composite\BtSequencer.cpp" />
     <ClCompile Include="Re\Ai\Dialogue\AiDialogue.cpp" />
     <ClCompile Include="Re\Ai\Mind\AiBehaviours.cpp" />
+    <ClCompile Include="Re\Ai\Mind\AiBehavioursEvaluate.cpp" />
     <ClCompile Include="Re\Ai\Mind\AiMind.cpp" />
     <ClCompile Include="Re\Ai\Sense\Filters\SenseFilterCircle.cpp" />
     <ClCompile Include="Re\Ai\Sense\Filters\SenseFilterCone.cpp" />
@@ -214,6 +215,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="Re\Game\Efect\Graphical\EfectModel.cpp" />
     <ClCompile Include="Re\Game\Efect\Physics\EfectCollider.cpp" />
     <ClCompile Include="Re\Game\Efect\Physics\EfectJoint.cpp" />
+    <ClCompile Include="Re\Game\Efect\Physics\EfectPushOnCollision.cpp" />
     <ClCompile Include="Re\Game\Efect\Physics\EfectRigidbody.cpp" />
     <ClCompile Include="Re\Game\Efect\Physics\EfectUpdateTransform.cpp" />
     <ClCompile Include="Re\Game\GameActor.cpp" />
@@ -265,6 +267,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Ai\BehaviourTree\Leaf\BtLeafLambda.h" />
     <ClInclude Include="Re\Ai\BehaviourTree\Leaf\BtLeafWait.h" />
     <ClInclude Include="Re\Ai\Dialogue\AiDialogue.h" />
+    <ClInclude Include="Re\Ai\Mind\AiBehavioursEvaluate.h" />
     <ClInclude Include="Re\Ai\Mind\AiBehaviours.h" />
     <ClInclude Include="Re\Ai\Mind\AiMind.h" />
     <ClInclude Include="Re\Ai\Sense\Filters\SenseFilterCircle.h" />
@@ -330,6 +333,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Game\Efect\Graphical\EfectModel.h" />
     <ClInclude Include="Re\Game\Efect\Physics\EfectCollider.h" />
     <ClInclude Include="Re\Game\Efect\Physics\EfectJoint.h" />
+    <ClInclude Include="Re\Game\Efect\Physics\EfectPushOnCollision.h" />
     <ClInclude Include="Re\Game\Efect\Physics\EfectRigidbody.h" />
     <ClInclude Include="Re\Game\Efect\Physics\EfectUpdateTransform.h" />
     <ClInclude Include="Re\Game\Game.h" />
