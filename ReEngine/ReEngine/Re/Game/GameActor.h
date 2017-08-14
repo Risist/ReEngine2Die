@@ -1,5 +1,5 @@
 #pragma once
-#include <Re\Game\Efect\MultiEfect.h>
+#include <Re\Game\Efect\EffectBase.h>
 namespace Graphics
 {
 	class ModelDef;
@@ -7,6 +7,24 @@ namespace Graphics
 
 namespace Game
 {
+
+	class Actor : public Effect::Base
+	{
+	public:
+
+
+
+		bool isRigidbodyCreated() const;
+
+
+
+
+	private:
+		b2Body *rigidbody;
+	};
+
+
+	/**
 	/// Base class for all objects within the scene
 	/// Has many events what can be overrided;
 	/// Create actors only by createActor function of Game::World
@@ -103,6 +121,6 @@ namespace Game
 
 		/// use set/is Active instead;
 		using Efect::Base::activated;
-	};
+	};*/
 
 }

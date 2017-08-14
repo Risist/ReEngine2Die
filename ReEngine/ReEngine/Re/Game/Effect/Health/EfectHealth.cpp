@@ -3,6 +3,8 @@
 
 namespace Efect
 {
+	/// TODO health mode impl
+
 	Health::Health(float32 maxHealth, float32 percentInitialHealth)
 		: max(maxHealth), actual(maxHealth*percentInitialHealth),inverseDefence(1)
 	{

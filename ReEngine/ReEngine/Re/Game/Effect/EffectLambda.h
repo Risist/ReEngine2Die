@@ -1,15 +1,15 @@
 #pragma once
-#include <Re\Game\Efect\EfectBase.h>
+#include <Re\Game\Efect\EffectBase.h>
 #include <functional>
 
-namespace Efect 
+namespace Effect 
 {
 	class Lambda : public Base
 	{
 	public:
 		/// typedefs for event functions
 		typedef function<void()> onInit_t;
-		typedef function<void()> onRestart_t;
+		typedef function<void()> onSpawn_t;
 		typedef function<void(sf::Time dt)> onUpdate_t;
 		typedef function<bool(sf::Time dt)> onDeath_t;
 		typedef function<void(Game::Actor&, b2Contact&)> onCollisionEnter_t;
@@ -19,7 +19,7 @@ namespace Efect
 	public:
 		Lambda(
 			const onInit_t& __onStart = defaultOnInit,
-			const onRestart_t& __onRestart = defaultOnRestart,
+			const onSpawn_t& __onSpawn = defaultOnSpawn,
 			const onUpdate_t& __onUpdate = defaultOnUpdate,
 			const onDeath_t& __onDeath = defaultOnDeath,
 			const onCollisionEnter_t& __onCollisionEnter = defaultOnCollisionEnter,
@@ -32,6 +32,7 @@ namespace Efect
 		/// So for more info look into GameActor.h file
 		
 		virtual void onInit() override;
+		virtual void onSpawn() override;
 		virtual void onUpdate(sf::Time dt) override;
 		virtual bool onDeath(sf::Time dt) override;
 
@@ -42,7 +43,7 @@ namespace Efect
 	public: /// defaults
 
 		static void defaultOnInit();
-		static void defaultOnRestart();
+		static void defaultOnSpawn();
 		static void defaultOnUpdate(sf::Time dt);
 		static bool defaultOnDeath(sf::Time dt);
 		static void defaultOnCollisionEnter(Game::Actor& otherActor, b2Contact& contact);
@@ -52,7 +53,7 @@ namespace Efect
 	public:
 		/// there are many functions to set so i allow to do so manually
 		onInit_t _onInit;
-		onRestart_t _onRestart;
+		onSpawn_t _onSpawn;
 		onUpdate_t _onUpdate;
 		onDeath_t _onDeath;
 

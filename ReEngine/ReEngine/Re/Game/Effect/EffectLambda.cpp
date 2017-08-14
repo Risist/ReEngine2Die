@@ -1,21 +1,21 @@
-#include <Re\Game\Efect\EfectLambda.h>
+#include <Re\Game\Efect\EffectLambda.h>
 
 
-namespace Efect
+namespace Effect
 {
 
 
 
 	Lambda::Lambda(
 		const onInit_t & __onInit,
-		const onRestart_t & __onRestart,
+		const onSpawn_t & __onSpawn,
 		const onUpdate_t & __onUpdate,
 		const onDeath_t & __onDeath,
 		const onCollisionEnter_t & __onCollisionEnter,
 		const onCollisionExit_t & __onCollisionExit,
 		const shouldCollide_t & __shouldCollide) :
 			_onInit(__onInit),
-			_onRestart(__onRestart),
+			_onSpawn(__onSpawn),
 			_onUpdate(__onUpdate),
 			_onDeath(__onDeath),
 			_onCollisionEnter(__onCollisionEnter),
@@ -26,32 +26,44 @@ namespace Efect
 
 	void Lambda::onInit()
 	{
+		Base::onInit();
 		_onInit();
+	}
+
+	void Lambda::onSpawn()
+	{
+		Base::onSpawn();
+		_onSpawn();
 	}
 
 	void Lambda::onUpdate(sf::Time dt)
 	{
+		Base::onUpdate(dt);
 		_onUpdate(dt);
 	}
 
 	bool Lambda::onDeath(sf::Time dt)
 	{
-		return _onDeath(dt);
+		bool b = Base::onDeath(dt);
+		return _onDeath(dt) && b;
 	}
 
 	void Lambda::onCollisionEnter(Game::Actor & otherActor, b2Contact & contact)
 	{
+		Base::onCollisionEnter(otherActor,contact);
 		_onCollisionEnter(otherActor, contact);
 	}
 
 	void Lambda::onCollisionExit(Game::Actor & otherActor, b2Contact & contact)
 	{
+		Base::onCollisionExit(otherActor, contact);
 		_onCollisionExit(otherActor, contact);
 	}
 
 	bool Lambda::shouldCollide(b2Fixture * myFixture, b2Fixture * otherFixture)
 	{
-		return _shouldCollide(myFixture, otherFixture);
+		return _shouldCollide(myFixture, otherFixture) &&
+			Base::shouldCollide(myFixture, otherFixture);
 	}
 
 
@@ -61,7 +73,7 @@ namespace Efect
 	{
 	}
 
-	void Lambda::defaultOnRestart()
+	void Lambda::defaultOnSpawn()
 	{
 	}
 

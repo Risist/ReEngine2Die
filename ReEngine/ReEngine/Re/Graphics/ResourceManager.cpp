@@ -47,6 +47,7 @@ void ResourceManager::deserialiseF(std::istream& file, Res::DataScriptLoader& lo
 	std::string prepathSound = loader.loadRaw("prepathSound", "");
 	std::string prepathScript = loader.loadRaw("prepathScript", "");
 	std::string prepathResource = loader.loadRaw("prepathResource", "");
+	std::string prepathPath = loader.loadRaw("prepathPath", "");
 
 	/// 0 index always means empty resource
 	res.atlases[0] = Texture();
@@ -222,7 +223,7 @@ void ResourceManager::deserialiseF(std::istream& file, Res::DataScriptLoader& lo
 		}
 		else if (type == "path")
 		{
-			std::string path = loader.loadRaw("path", "non_written_path_error");
+			std::string path = prepathPath + loader.loadRaw("path", "non_written_path_error");
 
 			ResId id = loader.load("id", 0u);
 			if (id == 0u)

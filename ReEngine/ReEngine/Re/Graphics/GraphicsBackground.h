@@ -7,6 +7,7 @@ namespace Graphics
 	/// indended to use in Game::State
 	class Background : public sf::Drawable
 	{
+	public:
 		void addSprite(sf::Sprite sp)
 		{
 			sprites.push_back(sp);
