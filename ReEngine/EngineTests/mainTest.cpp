@@ -1,26 +1,36 @@
 #include <Re\ReEngine.h>
 
+Control::Key restartKey;
 
-void initKeys()
+class State : public Game::State
 {
-	actionMap["up"] = thor::Action(sf::Keyboard::W);
-	actionMap["down"] = thor::Action(sf::Keyboard::S);
-	actionMap["left"] = thor::Action(sf::Keyboard::A);
-	actionMap["right"] = thor::Action(sf::Keyboard::D);
+public:
+	virtual void onStart()
+	{
+		Super::onStart();
+		Game::world.deserialise("world_test.txt");
 
-	actionMap["up2"] = thor::Action(sf::Keyboard::Up);
-	actionMap["down2"] = thor::Action(sf::Keyboard::Down);
-	actionMap["left2"] = thor::Action(sf::Keyboard::Left);
-	actionMap["right2"] = thor::Action(sf::Keyboard::Right);
+		restartKey.setKeyCode(sf::Keyboard::P);
+		restartKey.desiredState = Control::Key::EPressState::pressedOnce;
+	}
 
+	virtual State* onUpdate(sf::Time dt = sf::seconds(1))
+	{
+		Game::world.onFrame(dt);
+		cam.display(wnd);
 
-	actionMap["fire1"] = thor::Action(sf::Mouse::Left) || thor::Action(sf::Mouse::Right);
-	actionMap["fire2"] = thor::Action(sf::Keyboard::Q, thor::Action::PressOnce);
-	actionMap["fire3"] = thor::Action(sf::Keyboard::E, thor::Action::PressOnce);
+		if(restartKey.isReady())
+			return new ::State;
+		return nullptr;
+	}
+	void onExit()
+	{
+		Game::world.clear();
+		Gui::gui.clear();
+	}
 
-	actionMap["debugPhysics"] = thor::Action(sf::Keyboard::Z, thor::Action::Hold);
-
-}
+	
+};
 
 
 void init()
@@ -35,9 +45,7 @@ void init()
 	cam.setBackgroundColor(Color(200, 200, 200));
 
 	//res.deserialise("Resources.txt");
-	//initKeys();
-
-	Game::world.deserialise("world_test.txt");
+	Game::stateManager.setState(new State);
 }
 
 
@@ -45,8 +53,7 @@ void update()
 {	
 	static Clock performanceClock;
 	performanceClock.restart();
-	Game::world.onFrame(sf::seconds(1));
-	cam.display(wnd);
+	Game::stateManager.onUpdate();
 
 	
 	sf::Text txt;
@@ -83,7 +90,7 @@ int main()
 		while (wnd.pollEvent(ev))
 		{
 			if (ev.type == Event::Closed
-				|| (ev.type == Event::KeyPressed && ev.key.code == sf::Keyboard::F1))
+				|| (ev.type == Event::KeyPressed && ev.key.code == sf::Keyboard::Escape))
 				wnd.close();
 			actionMap.pushEvent(ev);
 		}

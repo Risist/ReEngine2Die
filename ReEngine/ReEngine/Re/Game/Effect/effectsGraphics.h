@@ -1,6 +1,10 @@
 #pragma once
 
+#include <Re\Game\Effect\Graphical\EffectDebugShapes.h>
+
+
 /// render
+/**
 #include <Re\Game\Efect\Graphical\EfectModel.h>
 #include <Re\Game\Efect\Graphical\EfectGraphicsCircle.h>
 #include <Re\Game\Efect\Graphical\EfectGraphicsRect.h>
@@ -13,3 +17,4 @@
 /// camera
 #include <Re\Game\Efect\Graphical\EfectFollowCamera.h>
 #include <Re\Game\Efect\Graphical\EfectLightSource.h>
+*/

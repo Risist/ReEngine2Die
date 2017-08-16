@@ -188,6 +188,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClCompile Include="Re\Game\Effect\EffectBase.cpp" />
     <ClCompile Include="Re\Game\Effect\EffectLambda.cpp" />
     <ClCompile Include="Re\Game\Effect\EffectTransformable.cpp" />
+    <ClCompile Include="Re\Game\Effect\Graphical\EffectDebugShapes.cpp" />
     <ClCompile Include="Re\Game\GameActor.cpp" />
     <ClCompile Include="Re\Game\GameWorld.cpp" />
     <ClCompile Include="Re\Game\State\GameState.cpp" />
@@ -275,6 +276,7 @@ $(SolutionDir)\External\Box2D-master\Box2D\Lib;%(AdditionalLibraryDirectories)
     <ClInclude Include="Re\Game\Effect\effectsMovement.h" />
     <ClInclude Include="Re\Game\Effect\effectsPhysics.h" />
     <ClInclude Include="Re\Game\Effect\EffectTransformable.h" />
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectDebugShapes.h" />
     <ClInclude Include="Re\Game\Game.h" />
     <ClInclude Include="Re\Game\GameActor.h" />
     <ClInclude Include="Re\Game\GameWorld.h" />

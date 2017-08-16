@@ -101,13 +101,13 @@ namespace Effect
 		vector<unique_ptr<Base>> childs;
 	
 	public:
-		Game::Actor*		getOwner()		{ assert(owner); return owner; }
-		const Game::Actor*	getOwner() const{ assert(owner); return owner; }
-		void setOwner(Game::Actor* s)
+		Game::Actor*		getActor()		{ assert(actor); return actor; }
+		const Game::Actor*	getActor() const{ assert(actor); return actor; }
+		void setActor(Game::Actor* s)
 		{ 
-			owner = s;  
+			actor = s;  
 			for (auto it = childs.begin(); it != childs.end(); ++it)
-				it->get()->setOwner(s);
+				it->get()->setActor(s);
 		}
 	
 		Base*		getParent()			{ return parent; }
@@ -123,7 +123,7 @@ namespace Effect
 
 	private:
 		/// owner is the actor which holds effect and is affected by it
-		Game::Actor* owner;
+		Game::Actor* actor;
 		/// effect this one is connected to
 		/// nullptr means this is root component (if owner is set up)
 		Base* parent;
@@ -146,7 +146,7 @@ namespace Effect
 		assert(_new);
 		childs.push_back(unique_ptr<Base>(_new));
 		
-		_new->setOwner(getOwner());
+		_new->setActor(getActor());
 		_new->setParent(this);
 
 		_new->onInit();

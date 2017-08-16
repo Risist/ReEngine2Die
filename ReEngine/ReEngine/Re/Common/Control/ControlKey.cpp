@@ -1,4 +1,5 @@
 #include <Re\Common\Control\ControlKey.h>
+extern RenderWindow wnd;
 
 namespace Control
 {
@@ -26,6 +27,9 @@ namespace Control
 	///////////////////////////////
 	bool Key::isReady() const
 	{
+		if (!wnd.hasFocus())
+			return false;
+
 		uint8 lastStatePressed = isPressed;
 
 		switch (device)

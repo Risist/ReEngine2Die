@@ -225,7 +225,7 @@ namespace Game
 		auto it = actors.begin();
 		do
 		{
-			saver.save<string>("type", it->get()->getName());
+			saver.save<string>("actorType", it->get()->getName());
 			it->get()->serialise(file, saver);
 		}
 		DATA_SCRIPT_MULTILINE_SAVE(file, saver, it != actors.end())
@@ -235,7 +235,7 @@ namespace Game
 	{
 		DATA_SCRIPT_MULTILINE(file, loader)
 		{
-			string type = loader.load<string>("type", "Actor");
+			string type = loader.load<string>("actorType", "Actor");
 			Actor* ac = Actor::creationFunction(type.c_str());
 			if (!ac)
 				cerr << "wrong type of actor which is \"" << type << "\"" << endl;

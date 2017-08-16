@@ -11,7 +11,7 @@ namespace Effect
 
 	void Base::serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const
 	{
-		saver.save("type", getName() );
+		saver.save("effectType", getName() );
 		saver.save<bool>("activated", bActivated, true);
 		saver.nextLine(file);
 		
@@ -28,7 +28,12 @@ namespace Effect
 		setActivated(loader.load<bool>("activated", true));
 		DATA_SCRIPT_MULTILINE(file, loader)
 		{
-			addEffect<Base>(file, loader);
+			const string type = loader.load<string>("effectType", "Base");
+			Base* _new = creationFunction(type);
+			if (_new)
+				addEffect(_new)->deserialise(file, loader);
+			else
+				cerr << "AddEffect failed due to invalid effect type: " << type << endl;
 		}
 	}
 

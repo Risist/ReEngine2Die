@@ -1,6 +1,9 @@
 <>	
-	<posX = -200; rot = 30>
-		<type = Transformable; posX = 10; posY 100; rot = -40>
+	<posX = 0; rot = 30>
+		<effectType = DebugCircle; clR = 155; clG = 255; clB = 155; clA = 155; posX = 150; radius = 200>
+			<effectType = DebugCircle; clR = 255; clG = 255; clB = 155; clA = 155; posX = 150; radius = 10>
+		
+			<\>
 		<\>
 	<\>
 <\>

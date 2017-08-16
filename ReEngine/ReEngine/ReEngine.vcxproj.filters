@@ -267,6 +267,9 @@
     <ClInclude Include="Re\Common\Control\ControlKey.h">
       <Filter>Common\Control</Filter>
     </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectDebugShapes.h">
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Common">
@@ -337,6 +340,9 @@
     </Filter>
     <Filter Include="Game\Effect">
       <UniqueIdentifier>{9d0465df-1f84-4c1d-8ab2-5eb235ff9001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Graphics">
+      <UniqueIdentifier>{e5c9340d-02f3-4fb2-a6c3-094df7fbd82d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +511,9 @@
     </ClCompile>
     <ClCompile Include="Re\Common\Control\ControlKey.cpp">
       <Filter>Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Graphical\EffectDebugShapes.cpp">
+      <Filter>Game\Effect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

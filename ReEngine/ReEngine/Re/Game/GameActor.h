@@ -158,8 +158,8 @@ namespace Game
 
 	private:
 		/// actor has no owner ( in terms of efect)
-		using Efect::Multi::setOwner;
-		using Efect::Multi::getOwner;
+		using Efect::Multi::setActor;
+		using Efect::Multi::getActor;
 
 		/// use set/is Active instead;
 		using Efect::Base::activated;

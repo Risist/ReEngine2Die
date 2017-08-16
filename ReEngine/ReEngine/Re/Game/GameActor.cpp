@@ -16,7 +16,7 @@ namespace Game
 	Actor::Actor()
 		: bAlive(true)
 	{
-		setOwner(this);
+		setActor(this);
 	}
 
 	Actor::~Actor()
