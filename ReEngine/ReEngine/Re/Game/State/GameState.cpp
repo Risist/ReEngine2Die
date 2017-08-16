@@ -14,7 +14,7 @@ namespace Game
 	void State::onExit()
 	{
 		//gui.clear();
-		Game::world.clear();
+		//Game::world.clear();
 	}
 
 }

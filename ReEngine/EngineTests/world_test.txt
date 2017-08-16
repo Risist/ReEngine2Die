@@ -1,0 +1,6 @@
+<>	
+	<posX = -200; rot = 30>
+		<type = Transformable; posX = 10; posY 100; rot = -40>
+		<\>
+	<\>
+<\>

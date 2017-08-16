@@ -1,4 +1,4 @@
-#include <Re\Game\Efect\EffectLambda.h>
+#include <Re\Game\Effect\EffectLambda.h>
 
 
 namespace Effect

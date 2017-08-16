@@ -1,88 +1,81 @@
 #pragma once
-#include <Re\Common\utility.h>
+//#include <Re\Common\utility.h>
 #include <Re\Game\GameActor.h>
-#include <Re\Game\Actor\GameLayer.h>
 
 namespace Game
 {
-	/// calback class to invoke shoud collide event 
-	class ContactFilter : public b2ContactFilter
-	{ public:
-		virtual bool ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) override;
+
+	struct RaycastResult
+	{
+		Actor* actor;			/// actor responsible for hitted fixture
+		b2Fixture* fixture;		/// fixture on the path of the ray
+		Vector2D point;			/// point on which collision with ray occured
+		Vector2D normal;		/// normal vector to the surface of hitted fixture
+		float32 fraction;		/// fraction part - how far from the beggining of the ray, in range [0,1]
 	};
 
-	/// Callback class to invoke collision events
-	class ContactListener : public b2ContactListener
-	{ public:
-		virtual void BeginContact(b2Contact* contact) override;
-		virtual void EndContact(b2Contact* contact) override;
-	};
-
-	class World
+	class World : 
+		public Res::ISerialisable,
+		private b2ContactFilter, 
+		private b2ContactListener
 	{
 	public:
 		World();
-		~World();
-
-		/// removes every actor and physics entity from the world
-		void clear();
 		
-
-		/// call the event every frame
-		/// for now lets say the time is almost constant - but it may change in future versions so be careful
-		void onUpdate(sf::Time dt);
+		/// @summary updates physics and all actors
+		/// should be called every frame
+		/// @param:dt		time elapsed between frames
+		void onFrame(sf::Time dt);
 
 		/// acquire a new actor into actors list
 		/// layer specify order of running functions. if equal nullptr adds to actorList
-		template<class Act >
-		Act* addActor(Act *_new, Layer* layer = nullptr);
-		
+		//template<class Act >
+		//Act* addActor(Act *_new);
+		Actor* addActor(Actor* _new);
 
-		/// box2d dpisplayDebugData didn't work so it is a work around
-		/// displays all physical objects onto screan
+	public:
 		void debugDisplayPhysics(Color clNotColliding, Color clColliding);
+		
+		/// removes all actors from the world
+		void clear();
 
-		/// 
-		b2World physicalWorld;
+		///
+		void queryAABB(const Vector2D& loverBound, const Vector2D& upperBound, function<bool(b2Fixture*)> callback);
+		void raycast(const Vector2D& p1, const Vector2D& p2, function<float32(const RaycastResult&)> callback);
+		
 
-		list<Actor*>& getActorList()
-		{
-			return actorList;
-		}
-
+		vector<unique_ptr<Actor>> actors;
+		b2World physicsWorld;
 	private:
-		//friend ContactListener;
-		ContactListener contactListener;
-		ContactFilter contactFilter;
-		
-		/// list of actors placed in world
-		list<Actor*> actorList;
-		
-		/// separate lists to not break iterators in main loop
-		list<Actor*> actorToAdd;
-		list<Actor*> actorToRemove;
+		vector<unique_ptr<Actor>> actorsToAdd;
+	
+	private: // box2d callbacks
+		/// @Note serialisation works only with actors 
+		///			physics is not saved (even only by settings of efects)
+		virtual void BeginContact(b2Contact* contact) override;
+		virtual void EndContact(b2Contact* contact) override;
+		virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
+	
+		virtual bool ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) override;
 
-		friend Actor;
+		
+
+		
+	protected:
+		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)const override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 	extern World world;
 
-	template<class Act>
-	Act * World::addActor(Act * _new, Layer * layer)
+	//template<class Act>
+	//Act * World::addActor(Act * _new)
+	inline Actor* World::addActor(Actor* _new)
 	{
-		if (_new == nullptr)
-		{
-			cerr << "World::addActor _new = nullptr" << endl;
-			return nullptr;
-		}
-		if (layer)
-			layer->addActor(_new);
-		else
-		{
-			actorToAdd.push_back(_new);
+		assert(_new);
 
-			_new->onInit();
-		}
+		actorsToAdd.push_back(unique_ptr<Actor>(_new) );
+		_new->onInit();
 
-		return _new;
+		return (Actor*)_new;
 	}
 }

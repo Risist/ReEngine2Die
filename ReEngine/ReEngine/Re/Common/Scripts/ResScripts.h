@@ -78,8 +78,8 @@ where ClassA, ClassB ect. are classes which inherits from base
 		virtual const char* getName() const {return #ClassName; }
 
 #define MULTI_SERIALISATION_INTERFACE(BaseClassName) \
-	static std::function<BaseClassName*(const char*)> creationFunction; \
-	static BaseClassName* creationFunction_default(const char* name);	\
+	static std::function<BaseClassName*(const std::string& )> creationFunction; \
+	static BaseClassName* creationFunction_default(const std::string& name);	\
 	SERIALISATION_NAME(BaseClassName)
 
 
@@ -89,5 +89,5 @@ where ClassA, ClassB ect. are classes which inherits from base
 if ( name == #ClassToCheck) return new ClassToCheck
 
 #define MULTI_SERIALISATION_INTERFACE_IMPL(BaseClassName) \
-	std::function<BaseClassName*(const char*)> BaseClassName :: creationFunction = BaseClassName :: creationFunction_default; \
-	BaseClassName* BaseClassName :: creationFunction_default(const char* name )
+	std::function<BaseClassName*(const std::string& name)> BaseClassName :: creationFunction = BaseClassName :: creationFunction_default; \
+	BaseClassName* BaseClassName :: creationFunction_default(const std::string& name )

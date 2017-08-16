@@ -147,6 +147,7 @@
     <ClCompile Include="mainTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="world_test.txt" />
     <Text Include="animation.txt" />
     <Text Include="GuiTest.txt" />
     <Text Include="model.txt" />

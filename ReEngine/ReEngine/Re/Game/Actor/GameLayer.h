@@ -9,7 +9,7 @@ namespace Game
 	holds many subActors and runs every request on all of them
 
 	can be used to ensure order of actor displaying
-	*/
+	*
 	class Layer : public Actor
 	{
 	public:
@@ -47,5 +47,5 @@ namespace Game
 		using Efect::Multi::addEfect;
 		using Efect::Multi::getEfect;
 		using Efect::Multi::getEfects;
-	};
+	};*/
 }

@@ -29,6 +29,9 @@
     <Text Include="modelBullet.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="world_test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Layers.h" />

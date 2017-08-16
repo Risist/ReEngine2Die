@@ -4,107 +4,77 @@
 
 namespace Game
 {
-	Actor::Actor()
-	{
-		setAlive(true);
-		rigidbody = nullptr;
 
-		/// Actor has no owner
+	// define function which will be used for serialisation of all standard actors
+	MULTI_SERIALISATION_INTERFACE_IMPL(Actor)
+	{
+		MULTI_SERIALISATION_INTERFACE_CHECK(Actor);
+		
+		return nullptr;
+	}
+
+	Actor::Actor()
+		: bAlive(true)
+	{
 		setOwner(this);
 	}
 
 	Actor::~Actor()
 	{
-		if (rigidbody)
-		{
+		if (isRigidbodyCreated())
 			destroyRigidbody();
-		}
 	}
 
-	void Actor::onInit()
+	bool Actor::onFrame(sf::Time dt)
 	{
-		Efect::Multi::onInit();
-	}
-	void Actor::onUpdate(sf::Time dt)
-	{
-		Efect::Multi::onUpdate(dt);
+		/// dummy code, there is no pause code yet
+		bool isGamePaused = false;
+
+		if (isGamePaused)
+			onPause(dt);
+		else if (isAlive())
+			onUpdate(dt);
+		else
+			return onDeath(dt);
+
+		return false;
 	}
 
-	bool Actor::onDeath(sf::Time dt)
+	void Actor::onSetActivated()
 	{
-		return Efect::Multi::onDeath(dt);
+		if (isRigidbodyCreated())
+			body->SetActive(isActivated());
+		Transformable::onSetActivated();
 	}
 
-	void Actor::onCollisionEnter(Actor & otherActor, b2Contact & contact)
+	void Actor::createRigidbody(const b2BodyDef & def)
 	{
-		Efect::Multi::onCollisionEnter(otherActor, contact);
-	}
-
-	void Actor::onCollisionExit(Actor & otherActor, b2Contact & contact)
-	{
-		Efect::Multi::onCollisionExit(otherActor, contact);
-	}
-
-	bool Actor::shouldCollide(b2Fixture * myFixture, b2Fixture * otherFixture)
-	{
-		return Efect::Multi::shouldCollide(myFixture, otherFixture);
-	}
-
-	void Actor::createRigidbody(const b2BodyDef &def)
-	{
-		rigidbody = world.physicalWorld.CreateBody(&def);
-		rigidbody->SetUserData(this);
+		/// TODO
+		body = world.physicsWorld.CreateBody(&def);
+		body->SetUserData(this);
 	}
 
 	void Actor::destroyRigidbody()
 	{
-		rigidbody->GetWorld()->DestroyBody(rigidbody);
-		rigidbody->SetUserData(nullptr);
-		rigidbody = nullptr;
+		body->GetWorld()->DestroyBody(body);
+		body->SetUserData(nullptr);
+		body = nullptr;
 	}
 
-
-
-	void Actor::updateRigidbody(const Vector2D & originOffset)
+	void Actor::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
-		assert(isRigidbodyCreated());
+		saver.save<string>	("name", name, "");
+		saver.save<bool>	("alive", bAlive, true);
 
-		//// update without interpolation
-		//// TODO make define which will be able to turn off/on interpolation
-		/// update rigidbody transform
-		rigidbody->SetTransform(getPosition()* toB2Position,
-			getRotation().asRadian());
+		Super::serialiseF(file, saver);
 	}
 
-	void Actor::updateTransform(const Vector2D & originOffset)
+	void Actor::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
 	{
-		assert(isRigidbodyCreated());
+		name	= loader.load<string>	("name", "");
+		bAlive	= loader.load<bool>		("alive", true);
 
-		Transformable::setPosition((Vector2D)rigidbody->GetPosition() * toSfPosition);
-		Transformable::setRotation(Radian(rigidbody->GetAngle()).asDegree());
-
+		Super::deserialiseF(file, loader);
 	}
-
-	void Actor::updateGraphics(Transformable & transformable)
-	{
-		//transformable.setOrigin(transformable.getOrigin() + Transformable::getOrigin() );
-		transformable.setPosition(Transformable::getPosition());
-		transformable.setRotation(Transformable::getRotation());
-		//transformable.setScale(Transformable::getScale() *(Vector2D)transformable.getScale());
-	}
-
-	void Actor::updateGraphics(Graphics::ModelDef & modelDef)
-	{
-		//modelDef.posNoRot = getPosition();
-		//modelDef.rot = getRotation();
-	}
-
-	void Actor::setActive(bool s)
-	{
-		Efect::Base::activated = s;
-		if (isRigidbodyCreated())
-			getRigidbody().SetActive(s);
-	}
-
 
 }

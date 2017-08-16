@@ -13,6 +13,7 @@ namespace Effect
 	{
 	public:
 		Base();
+		Base(const Base&) = delete;
 		virtual ~Base() = default;
 
 	public: /// events
@@ -29,7 +30,11 @@ namespace Effect
 		/// called every frame while actor is alive
 		/// @param:dt			- delta of time elapsed between frames
 		virtual void onUpdate(sf::Time dt);
-		
+
+		/// called every frame while game is paused
+		/// @param:dt			- delta of time elapsed between frames
+		virtual void onPause(sf::Time dt);
+
 		
 		/// @summary: event called every frame while actor is assigned as dead
 		/// @param:dt			- delta of time elapsed between frames
@@ -59,7 +64,13 @@ namespace Effect
 		/// @return is collision allowed to happen? 
 		virtual bool shouldCollide(b2Fixture* myFixture, b2Fixture* otherFixture);
 
+		/// @summary: event called after collision were resolved
+		///		for more informations go to b2WorldCallbacks.h file
+		/// @param:contact		- box2d provided data about collision
+		/// @param:impulse		- data about applied impulse
+		virtual void onPostSolve(Game::Actor& otherActor, b2Contact& contact, const b2ContactImpulse& impulse);
 
+		bool canBeUpdated() { return !bIsReadyToRemove && bActivated; }
 
 	public:/// childs
 		/// function creating effect depended on its name 
@@ -70,32 +81,38 @@ namespace Effect
 		MULTI_SERIALISATION_INTERFACE(Base);
 
 		/// adds child effect and performs all initialisation
-		/// returns shared
 		template<typename Ty>
-		shared_ptr<Ty> addEffect(Ty* _new);
+		Ty* addEffect(Ty* _new, bool activated = true);
+
+		/// adds child from definition placed in file
+		template<typename Ty>
+		Ty* addEffect(const char* path);
+		template<typename Ty>
+		Ty* addEffect(std::istream& file, Res::DataScriptLoader& loader);
+
 		
 
 		/// returns first found efect of type T
 		/// if there is no such the one returns nullptr
-		/// @Warring make sure T derrives from Base otherwise something might goes wrong
+		/// @Warring make sure T derrives from Base otherwise something might go wrong
 		template<typename T> shared_ptr<T> getEffect();
 
 	private:
-		vector<shared_ptr<Base>> childs;
+		vector<unique_ptr<Base>> childs;
 	
 	public:
-		weak_ptr<Game::Actor> getOwner()			{ assert(owner._Get() != nullptr); return owner; }
-		const weak_ptr<Game::Actor> getOwner() const{ assert(owner._Get() != nullptr); return owner; }
-		void setOwner(weak_ptr<Game::Actor> s)
+		Game::Actor*		getOwner()		{ assert(owner); return owner; }
+		const Game::Actor*	getOwner() const{ assert(owner); return owner; }
+		void setOwner(Game::Actor* s)
 		{ 
 			owner = s;  
 			for (auto it = childs.begin(); it != childs.end(); ++it)
 				it->get()->setOwner(s);
 		}
 	
-		weak_ptr<Base>			getParent()			{ return parent; }
-		const weak_ptr<Base>	getParent() const	{ return parent; }
-		void	setParent(weak_ptr<Base> s)			{ parent = s; onInit(); }
+		Base*		getParent()			{ return parent; }
+		const Base*	getParent() const	{ return parent; }
+		void setParent(Base* s)			{ parent = s; }
 
 
 		/// changes effects activate state
@@ -106,13 +123,10 @@ namespace Effect
 
 	private:
 		/// owner is the actor which holds effect and is affected by it
-		weak_ptr<Game::Actor> owner;
+		Game::Actor* owner;
 		/// effect this one is connected to
 		/// nullptr means this is root component (if owner is set up)
-		weak_ptr<Base> parent;
-		/// to allow setting up parent ptr, we need to hold reference to myPtr 
-		/// (shared should be probably located in Actor)
-		weak_ptr<Base> myPtr;
+		Base* parent;
 
 		/// whether or not the efect is activated
 		/// if not effect does not get updated nor take collision events
@@ -124,23 +138,51 @@ namespace Effect
 		/// serialisation functions - to allow effects to be sierialised from/into .res files
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
-
-
-		friend class Actor;
 	};
 	
 	template<typename Ty>
-	shared_ptr<Ty> Base::addEffect(Ty * _new)
+	Ty* Base::addEffect(Ty * _new, bool activated)
 	{
-		childs.push_back(std::make_shared<Base>(_new));
-		_new->setParent(myPtr);
-		_new->setParent(getParent());
+		assert(_new);
+		childs.push_back(unique_ptr<Base>(_new));
+		
+		_new->setOwner(getOwner());
+		_new->setParent(this);
 
-		_new->myPtr = childs.back();
 		_new->onInit();
+		_new->setActivated(activated);
 
-		return _new->myPtr;
+		return _new;
 	}
+
+	template<typename Ty>
+	Ty * Base::addEffect(const char * path)
+	{
+		std::ifstream file;
+		file.open(path);
+
+		if (file)
+		{
+			DataScriptLoader loader;
+			loader.nextLine(file);
+			Ty* _new = addEffect<Ty>(file, loader);
+			file.close();
+			return _new;
+		}
+
+		// log error
+		std::cout << "Falied to open the file: \"" << path << "\" to load\n";
+		std::cout << "badbit " << file.badbit << ", failbit" << file.failbit << ", eof" << file.eofbit;
+		return nullptr;
+	}
+	template<typename Ty>
+	Ty * Base::addEffect(std::istream& file, Res::DataScriptLoader& loader)
+	{
+		Base* _new = new Ty();
+		addEffect(_new)->deserialise(file, loader);
+		return _new;
+	}
+
 	template<typename T>
 	shared_ptr<T> Base::getEffect()
 	{

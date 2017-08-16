@@ -1,7 +1,7 @@
 #pragma once
 #include <Re\Common\Scripts\ResScripts.h>
 #include <Re\Common\Settings.h>
-
+#include <chrono>
 
 namespace Control
 {
@@ -42,6 +42,10 @@ namespace Control
 		sf::Time cd;
 	private:
 		sf::Clock _clock;
+
+		/// time is alowed to tick on pause?
+		int8 bTimeElapsesWhilePause : 1;
+	
 	protected:
 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

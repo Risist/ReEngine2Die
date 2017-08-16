@@ -1,26 +1,70 @@
 #pragma once
-#include <Re\Game\Efect\EffectBase.h>
-namespace Graphics
-{
-	class ModelDef;
-}
+#include <Re\Game\Effect\EffectBase.h>
+#include <Re\Game\Effect\EffectTransformable.h>
 
 namespace Game
 {
 
-	class Actor : public Effect::Base
+	/// well... it seems that actor is no longer needed
+
+	/// responsibilities of an actor:
+	///		Physics : DONE(rigidbody), raycasting
+	///		DONE(Transformable)
+	///		Input handling - InputController class 
+	///		Instigator - actor responsible for actions of the actor
+	///		DONE(alive/death managing)
+	///		frame updating to alive state
+
+
+	class Actor : public Effect::Transformable
 	{
 	public:
+		MULTI_SERIALISATION_INTERFACE(Actor);
 
 
+		Actor();
+		virtual ~Actor();
 
-		bool isRigidbodyCreated() const;
+		/// name of the actor, a way to identify it in runtime
+		std::string name;
+
+		bool isAlive() const { return bAlive; }
+		void setAlive(bool s = true) { bAlive = s; }
+
+		/// function should be called every frame
+		/// chooses right form of updating object state
+		///	@param:dt		delta of time elapsed between frames
+		bool onFrame(sf::Time dt);
+
+		/// an override to turn off/on rigidbody
+		void onSetActivated() override;
 
 
-
+		/// an actor mentally responsible on this one, 
+		Actor* instigator{ nullptr };
 
 	private:
-		b2Body *rigidbody;
+		
+		/// whether or not to update normally.
+		/// if equal to true onUpdate event is called every frame
+		/// otherwise onDeath, which gives possiblility of destroing actor
+		bool bAlive : 1;
+
+	public:
+
+		b2Body& getRigidbody() const { assert(body);  return *body; };
+		bool isRigidbodyCreated() const { return body; }
+		/// creates rigidbody of the actor ( for more info look into box2d documentation)
+		void createRigidbody(const b2BodyDef& def);
+		void destroyRigidbody();
+
+	private: // phisics
+		/// physics rigidbody controlled by the actor
+		b2Body* body{nullptr};
+
+	protected:
+		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
 
@@ -28,8 +72,6 @@ namespace Game
 	/// Base class for all objects within the scene
 	/// Has many events what can be overrided;
 	/// Create actors only by createActor function of Game::World
-	/// Constructor is not called; use onInit or/and onRestart instead
-	/// deconstructor as well; use onDeath instead
 	class Actor : public sf::Transformable, public Efect::Multi
 	{
 	public:

@@ -2,6 +2,7 @@
 
 namespace Game
 {
+	/**
 	void Layer::onUpdate(sf::Time dt)
 	{
 		static list<Efect::Base*> toRemove;
@@ -24,7 +25,7 @@ namespace Game
 					efects.erase(it++);
 				}
 			}
-		}*/
+		}*
 		for (auto it = efects.begin(); it != efects.end(); )
 			if ((*it)->activated && (*it)->readyToRemove && it->get()->onDeath(dt))
 			{
@@ -52,5 +53,5 @@ namespace Game
 		/// initialize
 		_new->onInit();
 		return _new;
-	}
+	}*/
 }

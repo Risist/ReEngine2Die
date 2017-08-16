@@ -1,13 +1,7 @@
-#include <Re\Game\Efect\EffectBase.h>
+#include <Re\Game\Effect\EffectBase.h>
+#include "EffectBase.h"
 namespace Effect
 {
-	/// define function which will be used for serialisation of all standard efects
-	MULTI_SERIALISATION_INTERFACE_IMPL(Base)
-	{
-		
-		return nullptr;
-	}
-
 	Base::Base()
 		:
 		bActivated(true),
@@ -34,12 +28,7 @@ namespace Effect
 		setActivated(loader.load<bool>("activated", true));
 		DATA_SCRIPT_MULTILINE(file, loader)
 		{
-			std::string type = loader.load<string>("type", "undefined");
-			Base* _new = creationFunction(type.c_str());
-			if (_new == nullptr)
-				std::cerr << "In Effect::Base: type = " << type << " is undefined" << endl;
-
-			addEffect(_new)->deserialise(file,loader);
+			addEffect<Base>(file, loader);
 		}
 	}
 
@@ -78,7 +67,21 @@ namespace Effect
 				++it;
 
 		for (auto it = childs.begin(); it != childs.end(); ++it)
-			if (bActivated)
+			if (it->get()->bActivated)
+				it->get()->onUpdate(dt);
+	}
+
+	void Base::onPause(sf::Time dt)
+	{
+		/// remove childs 
+		for (auto it = childs.begin(); it != childs.end();)
+			if (it->get()->bIsReadyToRemove)
+				childs.erase(it++);
+			else
+				++it;
+
+		for (auto it = childs.begin(); it != childs.end(); ++it)
+			if (it->get()->bActivated)
 				it->get()->onUpdate(dt);
 	}
 
@@ -88,9 +91,17 @@ namespace Effect
 	/// @return:			- whether owner can be safetly removed from memory
 	bool Base::onDeath(sf::Time dt)
 	{
+		/// remove childs 
+		for (auto it = childs.begin(); it != childs.end();)
+			if (it->get()->bIsReadyToRemove)
+				childs.erase(it++);
+			else
+				++it;
+
+
 		bool b = true;
 		for (auto it = childs.begin(); it != childs.end(); ++it)
-			if (bActivated)
+			if (it->get()->bActivated)
 				b = b && it->get()->onDeath(dt);
 		return b;
 	}
@@ -102,7 +113,7 @@ namespace Effect
 	void Base::onCollisionEnter(Game::Actor& otherActor, b2Contact& contact)
 	{
 		for (auto it = childs.begin(); it != childs.end(); ++it)
-			if (bActivated)
+			if (it->get()->canBeUpdated())
 				it->get()->onCollisionEnter(otherActor, contact);
 	}
 
@@ -118,7 +129,7 @@ namespace Effect
 	void Base::onCollisionExit(Game::Actor& otherActor, b2Contact& contact)
 	{
 		for (auto it = childs.begin(); it != childs.end(); ++it)
-			if (bActivated)
+			if (it->get()->canBeUpdated())
 				it->get()->onCollisionExit(otherActor, contact);
 	}
 
@@ -130,9 +141,16 @@ namespace Effect
 	{
 		bool b = true;
 		for (auto it = childs.begin(); it != childs.end(); ++it)
-			if (bActivated)
+			if (it->get()->canBeUpdated())
 				b = b && it->get()->shouldCollide(myFixture, otherFixture);
 		return b;
+	}
+
+	void Base::onPostSolve(Game::Actor& otherActor, b2Contact & contact, const b2ContactImpulse & impulse)
+	{
+		for (auto it = childs.begin(); it != childs.end(); ++it)
+			if (it->get()->canBeUpdated())
+				it->get()->onPostSolve(otherActor, contact, impulse);
 	}
 
 

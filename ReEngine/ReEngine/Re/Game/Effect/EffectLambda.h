@@ -1,5 +1,5 @@
 #pragma once
-#include <Re\Game\Efect\EffectBase.h>
+#include <Re\Game\Effect\EffectBase.h>
 #include <functional>
 
 namespace Effect 

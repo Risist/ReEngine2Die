@@ -42,6 +42,7 @@ typedef float float32;
 typedef double float64;
 
 
+#define Super __super
 
 
 extern int32 velocityIterations;

@@ -3,7 +3,7 @@
 
 namespace Game
 {
-	namespace Layers
+	/*namespace Layers
 	{
 		void init()
 		{
@@ -19,5 +19,5 @@ namespace Game
 		Layer* bullet = nullptr;
 		Layer* obstacle = nullptr;
 		Layer* character = nullptr;
-	}
+	}*/
 }

@@ -1,9 +1,4 @@
 #include <Re\ReEngine.h>
-#include <Re\Lambdas.h>
-#include <Re\Game\Efect\efects.h>
-#include "Layers.h"
-#include <Re\Graphics\Graphics.h>
-
 
 
 void initKeys()
@@ -27,17 +22,6 @@ void initKeys()
 
 }
 
-/**
-Ai::Mind mind;
-sf::Clock clockMind;
-
-class BehaviourText : public Ai::BehaviourEvTime
-{
-public:
-
-	string text;
-
-};*/
 
 void init()
 {
@@ -51,34 +35,9 @@ void init()
 	cam.setBackgroundColor(Color(200, 200, 200));
 
 	//res.deserialise("Resources.txt");
-	initKeys();
-	
+	//initKeys();
 
-	auto updateTimmer = [](sf::Time)
-	{
-		if (clockMind.getElapsedTime() > sf::seconds(0.3f))
-		{
-			clockMind.restart();
-			return true;
-		}
-		return false;
-	};
-	mind.setNewBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "dick" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "hello" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "die" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "in" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "hell" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "your\'e" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "dead" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "deaf" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "fuck" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "you" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "suck" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	mind.addBehaviour(new Ai::BehaviourLambda)->setOnStart([]() {cout << "my" << endl; })->setGetUtility(5.f)->setOnExecute(updateTimmer);
-	
-
-
-
+	Game::world.deserialise("world_test.txt");
 }
 
 
@@ -86,6 +45,7 @@ void update()
 {	
 	static Clock performanceClock;
 	performanceClock.restart();
+	Game::world.onFrame(sf::seconds(1));
 	cam.display(wnd);
 
 	
@@ -103,8 +63,6 @@ void update()
 		ss << "ms: " << average;
 		txt.setString(ss.str());
 	}
-
-	mind.onUpdate(sf::seconds(1));
 
 	wnd.draw(txt);
 }

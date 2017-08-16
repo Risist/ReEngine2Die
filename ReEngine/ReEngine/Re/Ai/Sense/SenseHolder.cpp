@@ -5,7 +5,7 @@ namespace Sense
 {
 	void Holder::update()
 	{
-		auto &actorList = Game::world.getActorList();
+		/*auto &actorList = Game::world.getActorList();
 
 		for (auto queryIt = queries.begin(); queryIt != queries.end();)
 			if ((*queryIt)(nullptr))
@@ -23,7 +23,7 @@ namespace Sense
 
 					/// the actor was proceed - move to next, do not check other actors
 					break;
-				}
+				}*/
 
 	}
 }
