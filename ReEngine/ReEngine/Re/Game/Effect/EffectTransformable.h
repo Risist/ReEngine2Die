@@ -4,34 +4,43 @@
 namespace Effect
 {
 
-
-	/// efect with 
-	class Transformable : public Base
+	/// non-relative transformation component
+	/// allows to hold data about position and rotation and gives some utility functions to manipulate them
+	/// 
+	class Transformable : public Composite, public sf::Transformable
 	{
+		SERIALISATION_NAME(Transformable)
 	public:
 
 		Transformable(const Vector2D& _position = Vector2D(), Angle _rotation = Angle::zero)
-			:position(_position), rotation(_rotation)	{}
+		{
+			setPosition(_position);
+			setRotation(_rotation);
+		}
 
-		const Vector2D& getPosition() const { return position; }
-		Angle getRotation() const { return rotation;  }
+		/// override
+		virtual bool canBeParent(Base* potentialParent) const override;
 
-		void setPosition(const Vector2D& s) { position = s; }
-		void setRotation(Angle s) { rotation = s; }
+		/// position
+		Vector2D getPosition() const { return Vector2D(sf::Transformable::getPosition()); }
+		Angle getRotation() const { return Degree(sf::Transformable::getRotation());  }
 
-		///
+		void setPosition(const Vector2D& s) { sf::Transformable::setPosition(s.x, s.y); }
+		void setRotation(Angle s) { sf::Transformable::setRotation(s.asDegree()); }
+
+		/// utility functions: translate
 
 		void translateTowards(const Vector2D& destination, float32 speed)
 		{
-			Vector2D toDestination = destination - position;
-			position += toDestination.getNormalised()*speed;
+			Vector2D toDestination = destination - getPosition();
+			setPosition(getPosition()+ toDestination.getNormalised()*speed);
 		}
 		bool translateTowards(const Vector2D& destination, float32 speed, float32 arriveRadius)
 		{
-			Vector2D toDestination = destination - position;
+			Vector2D toDestination = destination - getPosition();
 			if (toDestination.getLenghtSq() > arriveRadius*arriveRadius)
 			{
-				position += toDestination.getNormalised()*speed;
+				setPosition( getPosition() + toDestination.getNormalised()*speed);
 				return false;
 			}
 			else
@@ -39,30 +48,30 @@ namespace Effect
 		}
 		bool translateTowardsIdeal(const Vector2D& destination, float32 speed, float32 arriveRadius)
 		{
-			Vector2D toDestination = destination - position;
+			Vector2D toDestination = destination - getPosition();
 			if (toDestination.getLenghtSq() > arriveRadius*arriveRadius)
 			{
-				position += toDestination.getNormalised()*speed;
+				setPosition( getPosition() + toDestination.getNormalised()*speed);
 				return false;
 			}
 			else
 			{
-				position = destination;
+				setPosition(destination);
 				return true;
 			}
 		}
 
 		void translateTowards(const Transformable& destination, float32 speed)
 		{
-			Vector2D toDestination = destination.position - position;
-			position += toDestination.getNormalised()*speed;
+			Vector2D toDestination = destination.getPosition() - getPosition();
+			setPosition(getPosition() + toDestination.getNormalised()*speed);
 		}
 		bool translateTowards(const Transformable& destination, float32 speed, float32 arriveRadius)
 		{
-			Vector2D toDestination = destination.position - position;
+			Vector2D toDestination = destination.getPosition() - getPosition();
 			if (toDestination.getLenghtSq() > arriveRadius*arriveRadius)
 			{
-				position += toDestination.getNormalised()*speed;
+				setPosition( getPosition() + toDestination.getNormalised()*speed);
 				return false;
 			}
 			else
@@ -70,29 +79,29 @@ namespace Effect
 		}
 		bool translateTowardsIdeal(const Transformable& destination, float32 speed, float32 arriveRadius)
 		{
-			Vector2D toDestination = destination.position - position;
+			Vector2D toDestination = destination.getPosition() - getPosition();
 			if (toDestination.getLenghtSq() > arriveRadius*arriveRadius)
 			{
-				position += toDestination.getNormalised()*speed;
+				setPosition( getPosition() + toDestination.getNormalised()*speed);
 				return false;
 			}
 			else
 			{
-				position = destination.position;
+				setPosition(destination.getPosition());
 				return true;
 			}
 		}
 
-		///
+		/// utility functions: rotate
 
 		bool rotateTowards(Angle desired, Angle speed, Angle minDifference)
 		{
-			Angle toDesired = desired - rotation;
+			Angle toDesired = desired - getRotation();
 			if (toDesired > Angle::zero )
 			{
 				if (toDesired < minDifference)
 				{
-					rotation -= speed;
+					setRotation(getRotation() - speed);
 					return false;
 				}
 			}
@@ -100,7 +109,7 @@ namespace Effect
 			{
 				if (-toDesired < minDifference)
 				{
-					rotation += speed;
+					setRotation(getRotation() + speed);
 					return false;
 				}
 			}
@@ -108,12 +117,12 @@ namespace Effect
 		}
 		bool rotateTowardsIdeal(Angle desired, Angle speed, Angle minDifference)
 		{
-			Angle toDesired = desired - rotation;
+			Angle toDesired = desired - getRotation();
 			if (toDesired > Angle::zero)
 			{
 				if (toDesired < minDifference)
 				{
-					rotation -= speed;
+					setRotation( getRotation() - speed);
 					return false;
 				}
 			}
@@ -121,43 +130,37 @@ namespace Effect
 			{
 				if (-toDesired < minDifference)
 				{
-					rotation += speed;
+					setRotation(getRotation() + speed);
 					return false;
 				}
 			}
 
-			rotation = desired;
+			setRotation(desired);
 			return true;
 		}
 
 		bool rotateTowards(const Vector2D& destination, Angle speed, Angle minDifference)
 		{
-			Vector2D toDestination = destination - position;
+			Vector2D toDestination = destination - getPosition();
 			return rotateTowards(toDestination.angle(), speed, minDifference);
 		}
 		bool rotateTowardsIdeal(const Vector2D& destination, Angle speed, Angle minDifference)
 		{
-			Vector2D toDestination = destination - position;
+			Vector2D toDestination = destination - getPosition();
 			return rotateTowardsIdeal(toDestination.angle(), speed, minDifference);
 		}
 
 		bool rotateTowards(const Transformable& destination, Angle speed, Angle minDifference)
 		{
-			Vector2D toDestination = destination.position - position;
+			Vector2D toDestination = destination.getPosition() - getPosition();
 			return rotateTowards(toDestination.angle(), speed, minDifference);
 		}
 		bool rotateTowardsIdeal(const Transformable& destination, Angle speed, Angle minDifference)
 		{
-			Vector2D toDestination = destination.position - position;
+			Vector2D toDestination = destination.getPosition() - getPosition();
 			return rotateTowardsIdeal(toDestination.angle(), speed, minDifference);
 		}
 
-
-	private:
-		/// where the component is actually placed
-		Vector2D position;
-		/// facing direction of actor
-		Angle rotation;
 	protected:
 		/// serialisation functions - to allow effects to be sierialised from/into .res files
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;

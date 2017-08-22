@@ -4,8 +4,9 @@
 
 namespace Effect 
 {
-	class Lambda : public Base
+	/*class Lambda : public Base
 	{
+		SERIALISATION_NAME(Lambda)
 	public:
 		/// typedefs for event functions
 		typedef function<void()> onInit_t;
@@ -34,7 +35,7 @@ namespace Effect
 		virtual void onInit() override;
 		virtual void onSpawn() override;
 		virtual void onUpdate(sf::Time dt) override;
-		virtual bool onDeath(sf::Time dt) override;
+		virtual bool onAgony(sf::Time dt) override;
 
 		virtual void onCollisionEnter(Game::Actor& otherActor, b2Contact& contact) override;
 		virtual void onCollisionExit(Game::Actor& otherActor, b2Contact& contact) override;
@@ -61,5 +62,5 @@ namespace Effect
 		onCollisionExit_t _onCollisionExit;
 		
 		shouldCollide_t _shouldCollide;
-	};
+	};*/
 }

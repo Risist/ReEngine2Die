@@ -1,5 +1,6 @@
 #include <Re\Game\GameWorld.h>
 #include <Re\Graphics\Camera.h>
+#include <Re\Game\Effect\Physics\EffectFixture.h>
 extern RenderWindow wnd;
 
 extern thor::ActionMap<string> actionMap;
@@ -14,6 +15,11 @@ namespace Game
 		// listeners
 		physicsWorld.SetContactListener(this);
 		physicsWorld.SetContactFilter(this);
+		physicsWorld.SetDestructionListener(this);
+	}
+	World::~World()
+	{
+		clear();
 	}
 
 	void World::clear()
@@ -60,7 +66,7 @@ namespace Game
 
 	
 
-	static struct RaycastCallback : public b2RayCastCallback
+	struct RaycastCallback : public b2RayCastCallback
 	{
 		virtual float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction) override
 		{
@@ -75,7 +81,7 @@ namespace Game
 		}
 		function<float32(const RaycastResult&)> raycastCallback_function;
 	};
-	static struct QueryCallback : public b2QueryCallback
+	struct QueryCallback : public b2QueryCallback
 	{
 		virtual bool ReportFixture(b2Fixture* fixture) override { return queryCallback_function(fixture); }
 		function<bool(b2Fixture*)> queryCallback_function;
@@ -144,7 +150,7 @@ namespace Game
 
 
 					sh.setPointCount(((b2PolygonShape*)_shape)->m_count);
-					for (int i = 0; i < sh.getPointCount(); ++i)
+					for (unsigned int i = 0; i < sh.getPointCount(); ++i)
 						sh.setPoint(i, (Vector2D)((b2PolygonShape*)_shape)->m_vertices[i]*toSfPosition);
 
 					sh.setFillColor(clNotColliding);
@@ -171,6 +177,9 @@ namespace Game
 	{
 		if (contact->IsTouching())
 		{
+			Effect::Fixture* fixtureA = (Effect::Fixture*)contact->GetFixtureA()->GetUserData();
+			Effect::Fixture* fixtureB = (Effect::Fixture*)contact->GetFixtureB()->GetUserData();
+
 			Game::Actor * actorA = (Game::Actor*)contact->GetFixtureA()->GetBody()->GetUserData();
 			Game::Actor * actorB = (Game::Actor*)contact->GetFixtureB()->GetBody()->GetUserData();
 
@@ -178,44 +187,97 @@ namespace Game
 			assert(actorA != nullptr);
 			assert(actorB != nullptr);
 
+			assert(fixtureA != nullptr);
+			assert(fixtureB != nullptr);
+
 			actorA->onCollisionEnter(*actorB, *contact);
 			actorB->onCollisionEnter(*actorA, *contact);
+
+			fixtureA->onCollisionEnter(*actorB, *contact);
+			fixtureB->onCollisionEnter(*actorA, *contact);
 		}
 	}
 	void World::EndContact(b2Contact * contact)
 	{
 		if (contact->IsTouching())
 		{
+			Effect::Fixture* fixtureA = (Effect::Fixture*)contact->GetFixtureA()->GetUserData();
+			Effect::Fixture* fixtureB = (Effect::Fixture*)contact->GetFixtureB()->GetUserData();
+
 			Game::Actor * actorA = (Game::Actor*)contact->GetFixtureA()->GetBody()->GetUserData();
 			Game::Actor * actorB = (Game::Actor*)contact->GetFixtureB()->GetBody()->GetUserData();
 
+			/// make sure can cast to reference
 			assert(actorA != nullptr);
 			assert(actorB != nullptr);
-			
+
+			assert(fixtureA != nullptr);
+			assert(fixtureB != nullptr);
+
 			actorA->onCollisionExit(*actorB, *contact);
 			actorB->onCollisionExit(*actorA, *contact);
+
+			fixtureA->onCollisionExit(*actorB, *contact);
+			fixtureB->onCollisionExit(*actorA, *contact);
 		}
 	}
 
 	void World::PostSolve(b2Contact * contact, const b2ContactImpulse * impulse)
 	{
+		Effect::Fixture* fixtureA = (Effect::Fixture*)contact->GetFixtureA()->GetUserData();
+		Effect::Fixture* fixtureB = (Effect::Fixture*)contact->GetFixtureB()->GetUserData();
+
 		Game::Actor * actorA = (Game::Actor*)contact->GetFixtureA()->GetBody()->GetUserData();
 		Game::Actor * actorB = (Game::Actor*)contact->GetFixtureB()->GetBody()->GetUserData();
 
+		/// make sure can cast to reference
 		assert(actorA != nullptr);
 		assert(actorB != nullptr);
 
+		assert(fixtureA != nullptr);
+		assert(fixtureB != nullptr);
+
 		actorA->onPostSolve(*actorB, *contact, *impulse);
 		actorB->onPostSolve(*actorA, *contact, *impulse);
+
+		fixtureA->onPostSolve(*actorB, *contact, *impulse);
+		fixtureB->onPostSolve(*actorA, *contact, *impulse);
 	}
 
 	bool World::ShouldCollide(b2Fixture * fixtureA, b2Fixture * fixtureB)
 	{
-		assert(fixtureA->GetBody()->GetUserData() != nullptr);
-		assert(fixtureB->GetBody()->GetUserData() != nullptr);
+		Effect::Fixture* _fixtureA = (Effect::Fixture*)fixtureA->GetUserData();
+		Effect::Fixture* _fixtureB = (Effect::Fixture*)fixtureB->GetUserData();
 
-		return ((Actor*)fixtureA->GetBody()->GetUserData())->shouldCollide(fixtureA, fixtureB) 
-			&& ((Actor*)fixtureB->GetBody()->GetUserData())->shouldCollide(fixtureB, fixtureA);
+		Game::Actor * actorA = (Game::Actor*)fixtureA->GetBody()->GetUserData();
+		Game::Actor * actorB = (Game::Actor*)fixtureB->GetBody()->GetUserData();
+
+		/// make sure can cast to reference
+		assert(actorA != nullptr);
+		assert(actorB != nullptr);
+
+		assert(_fixtureA != nullptr);
+		assert(_fixtureB != nullptr);
+
+		return actorA->shouldCollide(fixtureA, fixtureB) 
+			&& actorB->shouldCollide(fixtureB, fixtureA)
+			
+			&& _fixtureA->shouldCollide(fixtureA, fixtureB)
+			&& _fixtureB->shouldCollide(fixtureB, fixtureA);
+	}
+
+	void World::SayGoodbye(b2Joint * joint)
+	{
+		Effect::Base* efJoint = (Effect::Base*)joint->GetUserData();
+		assert(efJoint);
+		efJoint->onDeconstructionJoint(joint);
+	}
+
+	void World::SayGoodbye(b2Fixture * fixture)
+	{
+		Effect::Base* efFixture = (Effect::Base*)fixture->GetUserData();
+		assert(efFixture);
+		efFixture->onDeconstructionFixture(fixture);
 	}
 
 	void World::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const

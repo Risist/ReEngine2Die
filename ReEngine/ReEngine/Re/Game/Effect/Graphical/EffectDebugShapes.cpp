@@ -12,24 +12,20 @@ namespace Debug
 		shape.setOrigin(radius, radius);
 		shape.setFillColor(fillColor);
 	}
+	bool GraphicsCircle::canBeParent(Base * potentialParent) const
+	{
+		return dynamic_cast<Game::Actor*>(potentialParent);
+	}
 	void GraphicsCircle::onInit()
 	{ 
-		if (getParent())
-		{
-			updateTarget = dynamic_cast<Transformable*>(getParent());
-			if (!updateTarget)
-				updateTarget = getActor();
-		}
-		else
-		{
-			updateTarget = getActor();
-		}
+		updateTarget = getActor();
 	}
 	void GraphicsCircle::onUpdate(sf::Time dt)
 	{
 		Super::onUpdate(dt);
 		assert(updateTarget);
-		shape.setPosition(updateTarget->getPosition() + getPosition().getRotated(getRotation()) );
+		
+		shape.setPosition(updateTarget->getPosition() + getPosition().getRotated(updateTarget->getRotation()) );
 		shape.setRotation(updateTarget->getRotation().asDegree() + getRotation().asDegree());
 
 		cam.draw(shape); 
@@ -37,16 +33,17 @@ namespace Debug
 
 	void GraphicsCircle::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
+		/// TODO serialisation
 		Super::serialiseF(file, saver);
 	}
 
 	void GraphicsCircle::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
 	{
 		shape.setFillColor(Color(
-			loader.load<float32>("clR", 255.f),
-			loader.load<float32>("clG", 255.f),
-			loader.load<float32>("clB", 255.f),
-			loader.load<float32>("clA", 255.f)
+			(sf::Uint8)loader.load<float32>("clR", 255.f),
+			(sf::Uint8)loader.load<float32>("clG", 255.f),
+			(sf::Uint8)loader.load<float32>("clB", 255.f),
+			(sf::Uint8)loader.load<float32>("clA", 255.f)
 		));
 		setRadius(loader.load<float32>("radius", 100.f));
 		ResId tsId = loader.load<ResId>("tsId", 0);

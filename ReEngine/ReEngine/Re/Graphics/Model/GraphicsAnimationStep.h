@@ -75,7 +75,7 @@ namespace Graphics
 		/// returns 1 or -1 dependingly on sign of speed
 		Step_t getSpeedSign() const
 		{
-			return speed > 0 ? 1 : -1;
+			return speed > 0 ? 1.f : -1.f;
 		}
 
 	public:

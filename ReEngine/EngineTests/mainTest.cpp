@@ -2,13 +2,18 @@
 
 Control::Key restartKey;
 
+Effect::Rigidbody *rb;
+
 class State : public Game::State
 {
 public:
 	virtual void onStart()
 	{
 		Super::onStart();
+
+		res.deserialise("Resources.txt");
 		Game::world.deserialise("world_test.txt");
+		Game::world.physicsWorld.SetGravity({ 0,-5 });
 
 		restartKey.setKeyCode(sf::Keyboard::P);
 		restartKey.desiredState = Control::Key::EPressState::pressedOnce;
@@ -39,7 +44,7 @@ void init()
 	wnd.create(VideoMode(800, 600), "ReEngine");
 	wnd.setVerticalSyncEnabled(true);
 
-	cam.create(Vector2D(wnd.getSize().x, wnd.getSize().y));
+	cam.create(Vector2D((float32)wnd.getSize().x, (float32)wnd.getSize().y));
 	cam.setBackgroundColor(Color(0, 0, 0));
 	cam.setDarkness(1);
 	cam.setBackgroundColor(Color(200, 200, 200));

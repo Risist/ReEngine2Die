@@ -2,7 +2,7 @@
 
 namespace Graphics
 {
-	LightController lightController(nullptr, 0.075, 1);
+	LightController lightController(nullptr, 0.075f, 1.f);
 
 	LightController::LightController(Game::Actor *_observer, float _minimalLight, float _maximalLight)
 		: observer(_observer), minimalLight(_minimalLight), maximalLight(_maximalLight)

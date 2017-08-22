@@ -18,34 +18,58 @@ namespace Effect
 
 	public: /// events
 
+		//////// creation
+
+		/// @summary	checks requirements on potential parent. Used to ensure right creation
+		/// @note		should be called only in debug mode
+		/// @return		whether the potential parent meets requirements
+		virtual bool canBeParent(Base* potentialParent) const { return false; }
+
 		/// @summary: called after owner ptr is set up
-		virtual void onInit();
+		virtual void onInit() {}
 
 		/// called once when owner is added to world list
-		virtual void onSpawn();
+		virtual void onSpawn() {}
 
 		/// called when setActivated changes activation state of the effect
-		virtual void onSetActivated();
+		virtual void onSetActivated() {}
 		
+		/// called once when the actor returns to live
+		/// here should go all code backing settings to initial state
+		virtual void onRespawn() {}
+
+
+		///////// deconstruction
+
+		/// events allowing to do a clean up code on joints and fixtures
+		virtual void onDeconstructionJoint(b2Joint* joint) {}
+		virtual void onDeconstructionFixture(b2Fixture* fixture) {}
+
+		/// called once when the actor was killed
+		virtual void onDeath() {}
+
+		//////////////////// Frame
+
 		/// called every frame while actor is alive
 		/// @param:dt			- delta of time elapsed between frames
-		virtual void onUpdate(sf::Time dt);
+		virtual void onUpdate(sf::Time dt) {}
 
 		/// called every frame while game is paused
 		/// @param:dt			- delta of time elapsed between frames
-		virtual void onPause(sf::Time dt);
+		virtual void onPause(sf::Time dt) {}
 
-		
 		/// @summary: event called every frame while actor is assigned as dead
 		/// @param:dt			- delta of time elapsed between frames
 		/// @return:			- whether owner can be safetly removed from memory
-		virtual bool onDeath(sf::Time dt);
+		virtual bool onAgony(sf::Time dt) { return true; }
+		
 
+		/////////////////////// Physicss
 
 		/// @summary: event called when collision just started
 		/// @param:otherActor	- actor owner is colliding with
 		/// @param:contact		- box2d provided data about collision
-		virtual void onCollisionEnter(Game::Actor& otherActor, b2Contact& contact);
+		virtual void onCollisionEnter(Game::Actor& otherActor, b2Contact& contact) {}
 		
 		/// @summary: event called every frame 
 		/// @param:dt			- delta of time elapsed between frames of collision update
@@ -56,21 +80,19 @@ namespace Effect
 		/// @summary: event called when collision just ended
 		/// @param:otherActor	- actor owner is colliding with
 		/// @param:contact		- box2d provided data about collision
-		virtual void onCollisionExit(Game::Actor& otherActor, b2Contact& contact);
+		virtual void onCollisionExit(Game::Actor& otherActor, b2Contact& contact) {}
 		
 		/// allows to filter collision detection
 		/// @param:myFixture/otherFixture 
 		///						- fixtures(box2d colliders) to check
 		/// @return is collision allowed to happen? 
-		virtual bool shouldCollide(b2Fixture* myFixture, b2Fixture* otherFixture);
+		virtual bool shouldCollide(b2Fixture* myFixture, b2Fixture* otherFixture) { return true; }
 
 		/// @summary: event called after collision were resolved
 		///		for more informations go to b2WorldCallbacks.h file
 		/// @param:contact		- box2d provided data about collision
 		/// @param:impulse		- data about applied impulse
-		virtual void onPostSolve(Game::Actor& otherActor, b2Contact& contact, const b2ContactImpulse& impulse);
-
-		bool canBeUpdated() { return !bIsReadyToRemove && bActivated; }
+		virtual void onPostSolve(Game::Actor& otherActor, b2Contact& contact, const b2ContactImpulse& impulse) {}
 
 	public:/// childs
 		/// function creating effect depended on its name 
@@ -80,34 +102,13 @@ namespace Effect
 		/// you will check whether you chave class appropriate for the name
 		MULTI_SERIALISATION_INTERFACE(Base);
 
-		/// adds child effect and performs all initialisation
-		template<typename Ty>
-		Ty* addEffect(Ty* _new, bool activated = true);
-
-		/// adds child from definition placed in file
-		template<typename Ty>
-		Ty* addEffect(const char* path);
-		template<typename Ty>
-		Ty* addEffect(std::istream& file, Res::DataScriptLoader& loader);
-
-		
-
-		/// returns first found efect of type T
-		/// if there is no such the one returns nullptr
-		/// @Warring make sure T derrives from Base otherwise something might go wrong
-		template<typename T> shared_ptr<T> getEffect();
-
-	private:
-		vector<unique_ptr<Base>> childs;
 	
 	public:
 		Game::Actor*		getActor()		{ assert(actor); return actor; }
 		const Game::Actor*	getActor() const{ assert(actor); return actor; }
-		void setActor(Game::Actor* s)
+		virtual void setActor(Game::Actor* s)
 		{ 
 			actor = s;  
-			for (auto it = childs.begin(); it != childs.end(); ++it)
-				it->get()->setActor(s);
 		}
 	
 		Base*		getParent()			{ return parent; }
@@ -120,6 +121,9 @@ namespace Effect
 		bool isActivated() const			{ return bActivated; }
 
 		void markAsReadyToRemove() { bIsReadyToRemove = true; }
+
+		/// @return is the effect valid to be updated?
+		bool canBeUpdated() { return !bIsReadyToRemove && bActivated; }
 
 	private:
 		/// owner is the actor which holds effect and is affected by it
@@ -138,14 +142,139 @@ namespace Effect
 		/// serialisation functions - to allow effects to be sierialised from/into .res files
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+
+		friend class Composite;
 	};
 	
+	
+
+	//////////////////////////////
+	/// Composite
+
+
+	class Composite : public Base
+	{
+	public:
+		SERIALISATION_NAME(Composite)
+		
+
+	public: /// events
+
+		//////////// creation
+
+
+		/// called once when owner is added to world list
+		virtual void onSpawn();
+
+		/// called when setActivated changes activation state of the effect
+		virtual void onSetActivated();
+
+
+		/// called once when the actor returns to live
+		/// here should go all code backing settings to initial state
+		virtual void onRespawn();
+
+		/// deconstruction
+
+
+		/// called once when the actor was killed
+		virtual void onDeath();
+
+		/// events allowing to do a clean up code on joints and fixtures
+		virtual void onDeconstructionJoint(b2Joint* joint);
+		virtual void onDeconstructionFixture(b2Fixture* fixture);
+
+		//////////////////// Frame
+
+		/// called every frame while actor is alive
+		/// @param:dt			- delta of time elapsed between frames
+		virtual void onUpdate(sf::Time dt);
+
+		/// called every frame while game is paused
+		/// @param:dt			- delta of time elapsed between frames
+		virtual void onPause(sf::Time dt);
+
+		/// @summary: event called every frame while actor is assigned as dead
+		/// @param:dt			- delta of time elapsed between frames
+		/// @return:			- whether owner can be safetly removed from memory
+		virtual bool onAgony(sf::Time dt);
+
+
+		/////////////////////// Physicss
+
+		/// @summary: event called when collision just started
+		/// @param:otherActor	- actor owner is colliding with
+		/// @param:contact		- box2d provided data about collision
+		virtual void onCollisionEnter(Game::Actor& otherActor, b2Contact& contact);
+
+		/// @summary: event called every frame 
+		/// @param:dt			- delta of time elapsed between frames of collision update
+		/// @param:otherActor	- actor owner is colliding with
+		/// @param:contact		- box2d provided data about collision
+		/// TODO virtual void onCollisionUpdate(sf::Time dt, Game::Actor& otherActor, b2Contact& contact)
+
+		/// @summary: event called when collision just ended
+		/// @param:otherActor	- actor owner is colliding with
+		/// @param:contact		- box2d provided data about collision
+		virtual void onCollisionExit(Game::Actor& otherActor, b2Contact& contact);
+
+		/// allows to filter collision detection
+		/// @param:myFixture/otherFixture 
+		///						- fixtures(box2d colliders) to check
+		/// @return is collision allowed to happen? 
+		virtual bool shouldCollide(b2Fixture* myFixture, b2Fixture* otherFixture);
+
+		/// @summary: event called after collision were resolved
+		///		for more informations go to b2WorldCallbacks.h file
+		/// @param:contact		- box2d provided data about collision
+		/// @param:impulse		- data about applied impulse
+		virtual void onPostSolve(Game::Actor& otherActor, b2Contact& contact, const b2ContactImpulse& impulse);
+
+
+	public:
+		/// adds child effect and performs all initialisation
+		template<typename Ty>
+		Ty* addEffect(Ty* _new, bool activated = true);
+
+		/// adds child from definition placed in file
+		template<typename Ty>
+		Ty* addEffect(const char* path);
+		template<typename Ty>
+		Ty* addEffect(std::istream& file, Res::DataScriptLoader& loader);
+
+
+
+		/// returns first found efect of type T
+		/// if there is no such the one returns nullptr
+		/// @Warring make sure T derrives from Base otherwise something might go wrong
+		template<typename T> T* getEffect();
+
+	protected:
+		vector<unique_ptr<Base>> childs;
+
+	public:
+		virtual void setActor(Game::Actor* s)
+		{
+			Base::setActor(s);
+			for (auto it = childs.begin(); it != childs.end(); ++it)
+				it->get()->setActor(s);
+		}
+		
+	protected:
+		/// serialisation functions - to allow effects to be sierialised from/into .res files
+		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+	};
+
+
+
 	template<typename Ty>
-	Ty* Base::addEffect(Ty * _new, bool activated)
+	Ty* Composite::addEffect(Ty * _new, bool activated)
 	{
 		assert(_new);
+		assert(_new->canBeParent(this));
 		childs.push_back(unique_ptr<Base>(_new));
-		
+
 		_new->setActor(getActor());
 		_new->setParent(this);
 
@@ -156,7 +285,7 @@ namespace Effect
 	}
 
 	template<typename Ty>
-	Ty * Base::addEffect(const char * path)
+	Ty * Composite::addEffect(const char * path)
 	{
 		std::ifstream file;
 		file.open(path);
@@ -176,7 +305,7 @@ namespace Effect
 		return nullptr;
 	}
 	template<typename Ty>
-	Ty * Base::addEffect(std::istream& file, Res::DataScriptLoader& loader)
+	Ty * Composite::addEffect(std::istream& file, Res::DataScriptLoader& loader)
 	{
 		Base* _new = new Ty();
 		addEffect(_new)->deserialise(file, loader);
@@ -184,11 +313,11 @@ namespace Effect
 	}
 
 	template<typename T>
-	shared_ptr<T> Base::getEffect()
+	T* Composite::getEffect()
 	{
 		T* ptr;
-		for (auto it = childs.begin(); it != childs.end() ++it)
-			if ((ptr = dynamic_cast<T>(**it)))
+		for (auto it = childs.begin(); it != childs.end(); ++it)
+			if ((ptr = dynamic_cast<T*>(it->get())))
 				return ptr;
 		return nullptr;
 	}

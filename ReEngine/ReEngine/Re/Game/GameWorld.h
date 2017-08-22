@@ -17,10 +17,12 @@ namespace Game
 	class World : 
 		public Res::ISerialisable,
 		private b2ContactFilter, 
-		private b2ContactListener
+		private b2ContactListener,
+		private b2DestructionListener
 	{
 	public:
 		World();
+		~World();
 		
 		/// @summary updates physics and all actors
 		/// should be called every frame
@@ -58,6 +60,8 @@ namespace Game
 	
 		virtual bool ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) override;
 
+		virtual void SayGoodbye(b2Joint* joint);
+		virtual void SayGoodbye(b2Fixture* fixture);
 		
 
 		

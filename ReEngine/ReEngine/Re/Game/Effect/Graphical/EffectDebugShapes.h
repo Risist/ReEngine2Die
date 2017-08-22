@@ -10,11 +10,13 @@ namespace Effect
 {
 namespace Debug
 { 
-	class GraphicsCircle : public Transformable
+	class GraphicsCircle final: public Transformable
 	{
+		SERIALISATION_NAME(DebugCircle)
 	public:
 		GraphicsCircle( sf::Color fillColor = sf::Color::White, float32 radius = 100.f);
 
+		virtual bool canBeParent(Base* potentialParent) const override;
 		virtual void onInit() override;
 		virtual void onUpdate(sf::Time dt) override;
 

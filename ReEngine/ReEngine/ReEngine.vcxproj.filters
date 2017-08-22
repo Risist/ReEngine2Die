@@ -237,30 +237,6 @@
     <ClInclude Include="Re\Game\Effect\effects.h">
       <Filter>Game\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsAi.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsAudio.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsBullets.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsGraphics.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsHealth.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsMovement.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsPhysics.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\effectsSound.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Re\Game\Effect\EffectTransformable.h">
       <Filter>Game\Effect</Filter>
     </ClInclude>
@@ -269,6 +245,36 @@
     </ClInclude>
     <ClInclude Include="Re\Game\Effect\Graphical\EffectDebugShapes.h">
       <Filter>Game\Effect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Physics\EffectRigidbody.h">
+      <Filter>Game\Effect\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Physics\EffectFixture.h">
+      <Filter>Game\Effect\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Audio\EffectAudioSource.h">
+      <Filter>Game\Effect\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Health\EffectHealth.h">
+      <Filter>Game\Effect\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Health\EffectSpawnOnDeath.h">
+      <Filter>Game\Effect\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Health\EffectDamageOnCollision.h">
+      <Filter>Game\Effect\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Health\EffectDeathControll.h">
+      <Filter>Game\Effect\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Movement\EffectMotor.h">
+      <Filter>Game\Effect\Movelement</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\PlayerController.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectFollowCamera.h">
+      <Filter>Game\Effect\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +349,18 @@
     </Filter>
     <Filter Include="Game\Effect\Graphics">
       <UniqueIdentifier>{e5c9340d-02f3-4fb2-a6c3-094df7fbd82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Physics">
+      <UniqueIdentifier>{c76dc9a7-7667-48ee-986c-9d0caf547225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Audio">
+      <UniqueIdentifier>{f9395f23-c1d6-47a1-954f-8ab444cbd0a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Health">
+      <UniqueIdentifier>{87c1c964-c657-4517-88ab-89195fda5f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Movelement">
+      <UniqueIdentifier>{56aff67a-a20c-4eea-bf1e-25cf81d3e321}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -506,14 +524,41 @@
     <ClCompile Include="Re\Game\Effect\EffectTransformable.cpp">
       <Filter>Game\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Re\Game\Effect\effect.cpp">
-      <Filter>Game\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Re\Common\Control\ControlKey.cpp">
       <Filter>Common\Control</Filter>
     </ClCompile>
     <ClCompile Include="Re\Game\Effect\Graphical\EffectDebugShapes.cpp">
       <Filter>Game\Effect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Physics\EffectRigidbody.cpp">
+      <Filter>Game\Effect\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\effects.cpp">
+      <Filter>Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Physics\EffectFixture.cpp">
+      <Filter>Game\Effect\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Audio\EffectAudioSource.cpp">
+      <Filter>Game\Effect\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Health\EffectHealth.cpp">
+      <Filter>Game\Effect\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Health\EffectSpawnOnDeath.cpp">
+      <Filter>Game\Effect\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Health\EffectDamageOnCollision.cpp">
+      <Filter>Game\Effect\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Health\EffectDeathControll.cpp">
+      <Filter>Game\Effect\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Movement\EffectMotor.cpp">
+      <Filter>Game\Effect\Movelement</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Graphical\EffectFollowCamera.cpp">
+      <Filter>Game\Effect\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

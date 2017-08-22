@@ -5,7 +5,7 @@ namespace Effect
 {
 
 
-
+	/**
 	Lambda::Lambda(
 		const onInit_t & __onInit,
 		const onSpawn_t & __onSpawn,
@@ -42,9 +42,9 @@ namespace Effect
 		_onUpdate(dt);
 	}
 
-	bool Lambda::onDeath(sf::Time dt)
+	bool Lambda::onAgony(sf::Time dt)
 	{
-		bool b = Base::onDeath(dt);
+		bool b = Base::onAgony(dt);
 		return _onDeath(dt) && b;
 	}
 
@@ -97,5 +97,5 @@ namespace Effect
 	bool Lambda::defaultShouldCollide(b2Fixture * myFixture, b2Fixture * otherFixture)
 	{
 		return true;
-	}
+	}*/
 }

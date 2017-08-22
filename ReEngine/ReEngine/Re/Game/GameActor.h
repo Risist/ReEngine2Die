@@ -2,6 +2,13 @@
 #include <Re\Game\Effect\EffectBase.h>
 #include <Re\Game\Effect\EffectTransformable.h>
 
+
+namespace Effect
+{
+	class Rigidbody;
+}
+
+
 namespace Game
 {
 
@@ -23,44 +30,56 @@ namespace Game
 
 
 		Actor();
-		virtual ~Actor();
+		virtual ~Actor() = default;
 
 		/// name of the actor, a way to identify it in runtime
 		std::string name;
 
 		bool isAlive() const { return bAlive; }
-		void setAlive(bool s = true) { bAlive = s; }
+		
+		/// kills the actor
+		void markAsDead()
+		{
+			if(bAlive)
+			{
+				bAlive = false;
+				onDeath();
+			}
+		}
+		/// brings the actor again to live (if dead)
+		void respawn()
+		{
+			if (!bAlive)
+			{
+				bAlive = true;
+				onRespawn();
+			}
+		}
+
 
 		/// function should be called every frame
 		/// chooses right form of updating object state
 		///	@param:dt		delta of time elapsed between frames
 		bool onFrame(sf::Time dt);
 
-		/// an override to turn off/on rigidbody
-		void onSetActivated() override;
-
-
 		/// an actor mentally responsible on this one, 
 		Actor* instigator{ nullptr };
+
+	public:
+		b2Body* getRigidbody() const { assert(rigidbody);  return rigidbody; };
+
+	private: // phisics
+			 /// main rigidbody, hich actor is sync to
+			 /// there is only possibility for one rigidbody at the time to sync transform to rigidbody
+		b2Body* rigidbody{ nullptr };
+		friend class Effect::Rigidbody;
 
 	private:
 		
 		/// whether or not to update normally.
 		/// if equal to true onUpdate event is called every frame
-		/// otherwise onDeath, which gives possiblility of destroing actor
+		/// otherwise onAgony, which gives possiblility of destroing actor
 		bool bAlive : 1;
-
-	public:
-
-		b2Body& getRigidbody() const { assert(body);  return *body; };
-		bool isRigidbodyCreated() const { return body; }
-		/// creates rigidbody of the actor ( for more info look into box2d documentation)
-		void createRigidbody(const b2BodyDef& def);
-		void destroyRigidbody();
-
-	private: // phisics
-		/// physics rigidbody controlled by the actor
-		b2Body* body{nullptr};
 
 	protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
@@ -91,7 +110,7 @@ namespace Game
 
 		/// check whether or not the Actor is still alive
 		/// used mostly by Game::World to decide which one 
-		/// from onDeath and onUpdate should be called
+		/// from onAgony and onUpdate should be called
 		bool isAlive() const
 		{
 			return !readyToRemove;
@@ -103,7 +122,7 @@ namespace Game
 		/// update-like event called after death of an object
 		/// di is the time elapsed from last update
 		/// returns whether the object can be destroyed
-		virtual bool onDeath(sf::Time dt) override;
+		virtual bool onAgony(sf::Time dt) override;
 
 
 		/// When the object collides with other those events are send

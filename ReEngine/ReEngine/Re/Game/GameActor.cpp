@@ -19,12 +19,6 @@ namespace Game
 		setActor(this);
 	}
 
-	Actor::~Actor()
-	{
-		if (isRigidbodyCreated())
-			destroyRigidbody();
-	}
-
 	bool Actor::onFrame(sf::Time dt)
 	{
 		/// dummy code, there is no pause code yet
@@ -35,30 +29,9 @@ namespace Game
 		else if (isAlive())
 			onUpdate(dt);
 		else
-			return onDeath(dt);
+			return onAgony(dt);
 
 		return false;
-	}
-
-	void Actor::onSetActivated()
-	{
-		if (isRigidbodyCreated())
-			body->SetActive(isActivated());
-		Transformable::onSetActivated();
-	}
-
-	void Actor::createRigidbody(const b2BodyDef & def)
-	{
-		/// TODO
-		body = world.physicsWorld.CreateBody(&def);
-		body->SetUserData(this);
-	}
-
-	void Actor::destroyRigidbody()
-	{
-		body->GetWorld()->DestroyBody(body);
-		body->SetUserData(nullptr);
-		body = nullptr;
 	}
 
 	void Actor::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
@@ -66,6 +39,7 @@ namespace Game
 		saver.save<string>	("name", name, "");
 		saver.save<bool>	("alive", bAlive, true);
 
+		saver.nextLine(file);
 		Super::serialiseF(file, saver);
 	}
 
