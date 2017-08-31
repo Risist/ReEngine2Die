@@ -46,6 +46,12 @@ inline Ty lerp(Ty x1, Ty x2, AlphaTy t)
 	return x1 + (x2 - x1)*t;
 }
 
+template<typename Ty = Angle, typename AlphaTy >
+inline Angle lerp(Angle x1, Angle x2, AlphaTy t)
+{
+	return x1 + x2.minimalDiffirence(x1)*t;
+}
+
 
 template<typename Ty>
 inline Ty smoothstepHermite( Ty x, Ty edge0 = 0, Ty edge1 = 1)

@@ -16,6 +16,9 @@ namespace Game
 		physicsWorld.SetContactListener(this);
 		physicsWorld.SetContactFilter(this);
 		physicsWorld.SetDestructionListener(this);
+
+		/// default display layer
+		addNewDisplayLayer();
 	}
 	World::~World()
 	{
@@ -25,6 +28,11 @@ namespace Game
 	void World::clear()
 	{
 		actors.clear();
+		actorsToAdd.clear();
+		displayLayers.clear();
+
+		/// default display layer
+		addNewDisplayLayer();
 	}
 
 	
@@ -50,13 +58,17 @@ namespace Game
 			Actor* actorIt = it->get();
 			
 			if(actorIt->onFrame(dt))
-			{
 				actors.erase(it++);
-			}
 			else
-			{
 				++it;
-			}
+		}
+
+		/// Display effects in right order
+		for (auto it = displayLayers.begin(); it != displayLayers.end(); ++it)
+		{
+			Layer * curr = it->get();
+			for (auto it = curr->stored.begin(); it != curr->stored.end(); ++it)
+				(*it)->onDisplay();
 		}
 
 		/// to show physics colliders
@@ -280,7 +292,7 @@ namespace Game
 		efFixture->onDeconstructionFixture(fixture);
 	}
 
-	void World::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void World::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 
 		saver.nextLine(file);
@@ -307,7 +319,7 @@ namespace Game
 				ac->deserialise(file, loader);
 			}
 		}
-	}
+	}*/
 
 
 }

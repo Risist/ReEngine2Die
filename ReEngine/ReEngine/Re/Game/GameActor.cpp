@@ -34,7 +34,7 @@ namespace Game
 		return false;
 	}
 
-	void Actor::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void Actor::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.save<string>	("name", name, "");
 		saver.save<bool>	("alive", bAlive, true);
@@ -49,6 +49,6 @@ namespace Game
 		bAlive	= loader.load<bool>		("alive", true);
 
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 
 }

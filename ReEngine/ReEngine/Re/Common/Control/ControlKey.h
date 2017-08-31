@@ -48,7 +48,7 @@ namespace Control
 		bool isReady() const;
 
 
-		EPressState desiredState{EPressState::pressedOnce};
+		EPressState desiredState{EPressState::hold};
 
 		/////////////
 

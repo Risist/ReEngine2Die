@@ -17,7 +17,7 @@ namespace Effect
 		if (actor == nullptr)
 			return;
 
-		Game::world.addActor(actor );
+		Game::world.insertActor(actor );
 
 		Transformable* parent = (Transformable*)getParent();
 
@@ -30,7 +30,7 @@ namespace Effect
 
 		return;
 	}
-	void SpawnOnDeath::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void SpawnOnDeath::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.save<float>("posX", position.x, 0.f);
 		saver.save<float>("posY", position.y, 0.f);
@@ -45,5 +45,5 @@ namespace Effect
 		};
 		rotation = Degree(loader.load<float>("rot", 0.f));
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 }

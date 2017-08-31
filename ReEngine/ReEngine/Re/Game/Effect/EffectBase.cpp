@@ -9,7 +9,7 @@ namespace Effect
 	{
 	}
 
-	void Base::serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const
+	/*void Base::serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const
 	{
 		saver.save("effectType", getName() );
 		saver.save<bool>("activated", bActivated, true);
@@ -17,7 +17,7 @@ namespace Effect
 	void Base::deserialiseF(std::istream& file, Res::DataScriptLoader& loader)
 	{
 		setActivated(loader.load<bool>("activated", true));
-	}
+	}*/
 
 	////////////
 
@@ -66,6 +66,12 @@ namespace Effect
 		for (auto it = childs.begin(); it != childs.end(); ++it)
 			if (it->get()->bActivated)
 				it->get()->onUpdate(dt);
+	}
+
+	void Composite::onDisplay()
+	{
+		for (auto it = childs.begin(); it != childs.end(); ++it)
+			it->get()->onDisplay();
 	}
 
 	void Composite::onPause(sf::Time dt)
@@ -175,7 +181,7 @@ namespace Effect
 				it->get()->onPostSolve(otherActor, contact, impulse);
 	}
 
-	void Composite::serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const
+	/*void Composite::serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const
 	{
 		Super::serialiseF(file, saver);
 		saver.nextLine(file);
@@ -199,5 +205,5 @@ namespace Effect
 			else
 				cerr << "AddEffect failed due to invalid effect type: " << type << endl;
 		}
-	}
+	}*/
 }

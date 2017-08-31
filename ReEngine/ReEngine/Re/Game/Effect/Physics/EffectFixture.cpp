@@ -10,46 +10,9 @@ namespace Effect
 	{
 	}
 
-	Fixture::Fixture(ResId fixtureDefId, ResId shapeId, b2Shape::Type type)
-	{
-		createFixture(fixtureDefId, shapeId, type);
-	}
-
-	Fixture::Fixture(const b2FixtureDef * def)
-	{
-		createFixture(def);
-	}
-
 	Fixture::~Fixture()
 	{
 		destroyFixture();
-	}
-
-	Fixture * Fixture::createFixture(ResId fixtureDefId, ResId shapeId, b2Shape::Type type)
-	{
-		Rigidbody* parent = (Rigidbody*)getParent();
-		b2FixtureDef def = fixtureInst[fixtureDefId];
-		Fixture::fixtureDefId = fixtureDefId;
-		Fixture::shapeId = shapeId;
-
-		switch (type)
-		{
-		case b2Shape::e_circle:
-			def.shape = &circleShapeInst[shapeId];
-			break;
-		case b2Shape::e_polygon:
-			def.shape = &circleShapeInst[shapeId];
-			break;
-		case b2Shape::e_chain:
-			def.shape = &circleShapeInst[shapeId];
-			break;
-		default:
-			cerr << "wrong type of shape at fixture creation = " << type << endl;
-			break;
-		}
-		fixture = parent->getRigidbody()->CreateFixture(&def);
-		fixture->SetUserData(this);
-		return this;
 	}
 
 	Fixture * Fixture::createFixture(const b2FixtureDef * def)
@@ -78,7 +41,7 @@ namespace Effect
 		Super::onDeconstructionFixture(_fixture);
 	}
 
-	void Fixture::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void Fixture::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.save<ResId>("fixtureDefId", fixtureDefId, 0);
 		saver.save<ResId>("shapeId", shapeId, 0);
@@ -115,6 +78,6 @@ namespace Effect
 		createFixture(fixtureDefId, shapeId, type);
 
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 
 }

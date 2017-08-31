@@ -19,9 +19,9 @@ namespace Effect
 
 		float32 movementSpeed;
 		Angle angleOffset;
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;*/
 	};
 
 }

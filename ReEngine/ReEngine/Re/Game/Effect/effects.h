@@ -8,7 +8,6 @@
 
 
 /***		Graphics		***/
-#include <Re\Game\Effect\Graphical\EffectDebugShapes.h>
 #include <Re\Game\Effect\Graphical\EffectModel.h>
 #include <Re\Game\Effect\Graphical\EffectFollowCamera.h>
 #include <Re\Game\Effect\Graphical\EffectAnimationManager.h>
@@ -30,4 +29,8 @@
 
 /***		Movement			***/
 #include <Re\Game\Effect\Movement\EffectMotor.h> 
+#include <Re\Game\Effect\Movement\EffectMovementAim.h> 
+#include <Re\Game\Effect\Movement\Player\EffectMouseMovement.h> 
+#include <Re\Game\Effect\Movement\Player\EffectStaticMovement.h> 
+#include <Re\Game\Effect\Movement\Player\EffectRadiusMovement.h> 
 

@@ -1,6 +1,7 @@
 #pragma once
 //#include <Re\Common\utility.h>
 #include <Re\Game\GameActor.h>
+#include <Re\Game\GameLayer.h>
 
 namespace Game
 {
@@ -15,7 +16,7 @@ namespace Game
 	};
 
 	class World : 
-		public Res::ISerialisable,
+		//public Res::ISerialisable,
 		private b2ContactFilter, 
 		private b2ContactListener,
 		private b2DestructionListener
@@ -29,11 +30,12 @@ namespace Game
 		/// @param:dt		time elapsed between frames
 		void onFrame(sf::Time dt);
 
-		/// acquire a new actor into actors list
-		/// layer specify order of running functions. if equal nullptr adds to actorList
-		//template<class Act >
-		//Act* addActor(Act *_new);
-		Actor* addActor(Actor* _new);
+		/// creates new actor and then adds to world actor list
+		template<class Act = Game::Actor>
+		Act* createActor();
+
+		template<class Act = Game::Actor>
+		Act* insertActor( Act* _new);
 
 	public:
 		void debugDisplayPhysics(Color clNotColliding, Color clColliding);
@@ -45,12 +47,28 @@ namespace Game
 		void queryAABB(const Vector2D& loverBound, const Vector2D& upperBound, function<bool(b2Fixture*)> callback);
 		void raycast(const Vector2D& p1, const Vector2D& p2, function<float32(const RaycastResult&)> callback);
 		
-
+		/// creates new display layer
+		/// returns ptr to newly created layer
+		Layer* addNewDisplayLayer()
+		{
+			displayLayers.push_back(make_unique<Layer>());
+			return displayLayers.back().get();
+		}
+		Layer* getDisplayLayerById(size_t id) const
+		{
+			assert(displayLayers.size() > id);
+			return displayLayers[id].get();
+		}
+		
 		vector<unique_ptr<Actor>> actors;
 		b2World physicsWorld;
 	private:
 		vector<unique_ptr<Actor>> actorsToAdd;
-	
+
+		/// in order to call "onDipsplay"/ "onUpdate"/ "onAgony" events effect have to be assigned to a layer
+		/// layer with id 0 is created by default
+		std::vector<unique_ptr<Game::Layer>> displayLayers;
+		
 	private: // box2d callbacks
 		/// @Note serialisation works only with actors 
 		///			physics is not saved (even only by settings of efects)
@@ -63,23 +81,28 @@ namespace Game
 		virtual void SayGoodbye(b2Joint* joint);
 		virtual void SayGoodbye(b2Fixture* fixture);
 		
-
-		
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;*/
 	};
 	extern World world;
 
-	//template<class Act>
-	//Act * World::addActor(Act * _new)
-	inline Actor* World::addActor(Actor* _new)
+
+	template<class Act >
+	Act* World::createActor()
+	{
+		Act* _new = new Act();
+		return insertActor<Act>(_new);
+	}
+	template<class Act>
+	inline Act * World::insertActor(Act * _new)
 	{
 		assert(_new);
 
-		actorsToAdd.push_back(unique_ptr<Actor>(_new) );
+		actorsToAdd.push_back(unique_ptr<Actor>(_new));
+		_new->world = this;
 		_new->onInit();
 
-		return (Actor*)_new;
+		return _new;
 	}
 }

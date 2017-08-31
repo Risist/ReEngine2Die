@@ -60,9 +60,6 @@
       <Filter>Graphics\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Re\Lambdas.h" />
-    <ClInclude Include="Re\Common\Control\ControlMouseDrag.h">
-      <Filter>Common\Control</Filter>
-    </ClInclude>
     <ClInclude Include="Re\Common\Scripts\ResDataScriptSaver.h">
       <Filter>Common\Script</Filter>
     </ClInclude>
@@ -98,12 +95,6 @@
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiSetBar.h">
       <Filter>Graphics\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Common\Control\ControlTimer.h">
-      <Filter>Common\Control</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Common\Control\Control.h">
-      <Filter>Common\Control</Filter>
     </ClInclude>
     <ClInclude Include="Re\Graphics\Gui\GuiColorBar.h">
       <Filter>Graphics\Gui</Filter>
@@ -167,9 +158,6 @@
     </ClInclude>
     <ClInclude Include="Re\Ai\Sense\sense.h">
       <Filter>Ai\sensor</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Actor\GameLayer.h">
-      <Filter>Game\Standard Actors</Filter>
     </ClInclude>
     <ClInclude Include="Re\Ai\Sense\Queries\SenseBestQuery.h">
       <Filter>Ai\sensor\Queries</Filter>
@@ -240,12 +228,6 @@
     <ClInclude Include="Re\Game\Effect\EffectTransformable.h">
       <Filter>Game\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Re\Common\Control\ControlKey.h">
-      <Filter>Common\Control</Filter>
-    </ClInclude>
-    <ClInclude Include="Re\Game\Effect\Graphical\EffectDebugShapes.h">
-      <Filter>Game\Effect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Re\Game\Effect\Physics\EffectRigidbody.h">
       <Filter>Game\Effect\Physics</Filter>
     </ClInclude>
@@ -270,11 +252,59 @@
     <ClInclude Include="Re\Game\Effect\Movement\EffectMotor.h">
       <Filter>Game\Effect\Movelement</Filter>
     </ClInclude>
-    <ClInclude Include="Re\Game\PlayerController.h">
+    <ClInclude Include="Re\Game\Effect\Movement\EffectMovementAim.h">
+      <Filter>Game\Effect\Movelement</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectAnimationManager.h">
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectModel.h">
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Movement\Player\EffectMouseMovement.h">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Movement\Player\EffectStaticMovement.h">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\InputController.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Movement\Player\EffectRotatedMovement.h">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Movement\Player\EffectRadiusMovement.h">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\GameLayer.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectDisplayable.h">
+      <Filter>Game\Effect</Filter>
+    </ClInclude>
     <ClInclude Include="Re\Game\Effect\Graphical\EffectFollowCamera.h">
-      <Filter>Game\Effect\Audio</Filter>
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Physics\PhysicsDefs.h">
+      <Filter>Game\Effect\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\Control.h">
+      <Filter>Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlKey.h">
+      <Filter>Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlTimer.h">
+      <Filter>Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlAxis.h">
+      <Filter>Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlMouseDrag.h">
+      <Filter>Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlMultiKey.h">
+      <Filter>Common\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +326,6 @@
     <Filter Include="Game\State">
       <UniqueIdentifier>{0080c816-5528-41e0-8e12-41a945638999}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Control">
-      <UniqueIdentifier>{f76b823e-fe16-49c7-ae4a-a6f8451df860}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Ai">
       <UniqueIdentifier>{74bd775b-03e7-43c2-a4c8-e04d2c57ceaf}</UniqueIdentifier>
     </Filter>
@@ -319,9 +346,6 @@
     </Filter>
     <Filter Include="Ai\sensor\Filters">
       <UniqueIdentifier>{86b4ffa4-6ce8-4b5d-a80b-418e8ee865dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Standard Actors">
-      <UniqueIdentifier>{2e8fa570-b1b6-40e1-924c-77546f6b63f6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Ai\sensor\Queries">
       <UniqueIdentifier>{379dd7c6-a49e-46c6-985f-c70455ee4e29}</UniqueIdentifier>
@@ -361,6 +385,12 @@
     </Filter>
     <Filter Include="Game\Effect\Movelement">
       <UniqueIdentifier>{56aff67a-a20c-4eea-bf1e-25cf81d3e321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Movelement\Player">
+      <UniqueIdentifier>{4243ce1d-0d0a-418c-b5a8-f4fa4e8b68a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Control">
+      <UniqueIdentifier>{f76b823e-fe16-49c7-ae4a-a6f8451df860}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -409,9 +439,6 @@
     <ClCompile Include="Re\Graphics\Gui\GuiButton.cpp">
       <Filter>Graphics\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="Re\Common\Control\ControlMouseDrag.cpp">
-      <Filter>Common\Control</Filter>
-    </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiMenu.cpp">
       <Filter>Graphics\Gui</Filter>
     </ClCompile>
@@ -455,17 +482,11 @@
     <ClCompile Include="Re\Ai\Sense\Filters\SenseFilterCone.cpp">
       <Filter>Ai\sensor\Filters</Filter>
     </ClCompile>
-    <ClCompile Include="Re\Game\Actor\GameLayer.cpp">
-      <Filter>Game\Standard Actors</Filter>
-    </ClCompile>
     <ClCompile Include="Re\Ai\Sense\Queries\SenseBestQuery.cpp">
       <Filter>Ai\sensor\Queries</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Gui\GuiNamedButton.cpp">
       <Filter>Graphics\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="Re\Common\Control\ControlTimer.cpp">
-      <Filter>Common\Control</Filter>
     </ClCompile>
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationController.cpp">
       <Filter>Graphics\Model</Filter>
@@ -524,12 +545,6 @@
     <ClCompile Include="Re\Game\Effect\EffectTransformable.cpp">
       <Filter>Game\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Re\Common\Control\ControlKey.cpp">
-      <Filter>Common\Control</Filter>
-    </ClCompile>
-    <ClCompile Include="Re\Game\Effect\Graphical\EffectDebugShapes.cpp">
-      <Filter>Game\Effect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Re\Game\Effect\Physics\EffectRigidbody.cpp">
       <Filter>Game\Effect\Physics</Filter>
     </ClCompile>
@@ -557,8 +572,53 @@
     <ClCompile Include="Re\Game\Effect\Movement\EffectMotor.cpp">
       <Filter>Game\Effect\Movelement</Filter>
     </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Movement\EffectMovementAim.cpp">
+      <Filter>Game\Effect\Movelement</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Graphical\EffectModel.cpp">
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Graphical\EffectAnimationManager.cpp">
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Movement\Player\EffectMouseMovement.cpp">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Movement\Player\EffectStaticMovement.cpp">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Movement\Player\EffectRotatedMovement.cpp">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Movement\Player\EffectRadiusMovement.cpp">
+      <Filter>Game\Effect\Movelement\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\InputController.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Graphical\EffectDisplayable.cpp">
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Re\Game\Effect\Graphical\EffectFollowCamera.cpp">
-      <Filter>Game\Effect\Audio</Filter>
+      <Filter>Game\Effect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\Effect\Physics\PhysicsDefs.cpp">
+      <Filter>Game\Effect\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlKey.cpp">
+      <Filter>Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlTimer.cpp">
+      <Filter>Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlMouseDrag.cpp">
+      <Filter>Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlMultiKey.cpp">
+      <Filter>Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlAxis.cpp">
+      <Filter>Common\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

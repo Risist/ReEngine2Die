@@ -1,10 +1,10 @@
 #pragma once
-#include <Re\Game\Actor\GameLayer.h>
+#include <Re\Game\GameLayer.h>
 
 namespace Game 
 {
 	/// layers used to specify order of update, rendering ect
-	/*namespace Layers
+	namespace Layers
 	{
 		/// adds layers to world
 		/// call before using layers
@@ -15,5 +15,5 @@ namespace Game
 		extern Layer* bullet;
 		extern Layer* obstacle;
 		extern Layer* character;
-	}*/
+	}
 }

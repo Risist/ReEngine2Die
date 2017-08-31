@@ -5,7 +5,10 @@ namespace Effect
 {
 	Model::Model(const char* path)
 	{
-		deserialise(path);
+		model.deserialise(path);
+
+		model.rewriteToVectorRendering(modelsRendering);
+		model.rewriteToVectorUpdate(modelsUpdate);
 	}
 
 	Model::Model(ResId scriptId)
@@ -26,13 +29,18 @@ namespace Effect
 		Super::onUpdate(dt);
 		//model.drawRecursive(cam);
 		for (auto&it : modelsUpdate)
-			it->updateAsPArent();
+			it->updateAsParent();
+	}
+
+	void Model::onDisplay()
+	{
+		//Super::onDisplay();
 		for (auto&it : modelsRendering)
 			it->drawOnly(cam);
 	}
 
 
-	void Model::serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const
+	/*void Model::serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const
 	{
 		if (resId)
 		{
@@ -59,7 +67,7 @@ namespace Effect
 
 		model.rewriteToVectorRendering(modelsRendering);
 		model.rewriteToVectorUpdate(modelsUpdate);
-
+		
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 }

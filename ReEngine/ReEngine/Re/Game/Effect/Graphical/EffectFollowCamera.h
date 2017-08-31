@@ -56,9 +56,9 @@ namespace Effect
 		/// target to which update camera
 		/// default one is Transformable parent
 		sf::Transformable *updateTarget{nullptr};
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream&file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream&file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream&file, Res::DataScriptLoader& loader)override;*/
 	};
 
 }

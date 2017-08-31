@@ -16,7 +16,6 @@ namespace Effect
 		else MULTI_SERIALISATION_INTERFACE_CHECK(AudioListener);
 
 		/// graphics
-		if (name == "DebugCircle") return new Debug::GraphicsCircle;
 		MULTI_SERIALISATION_INTERFACE_CHECK(FollowCamera);
 		MULTI_SERIALISATION_INTERFACE_CHECK(Model);
 		MULTI_SERIALISATION_INTERFACE_CHECK(AnimationManager);
@@ -31,6 +30,10 @@ namespace Effect
 
 		/// movement
 		MULTI_SERIALISATION_INTERFACE_CHECK(Motor);
+		MULTI_SERIALISATION_INTERFACE_CHECK(MovementAim);
+		/// /// Player
+		MULTI_SERIALISATION_INTERFACE_CHECK(MouseMovement);
+
 
 		return nullptr;
 	}

@@ -1,10 +1,10 @@
-#include <Re\Game\Efect\Movement\Player\EfectRotatedMovement.h>
+#include <Re\Game\Effect\Movement\Player\EffectRotatedMovement.h>
 #include <Re\Graphics\Graphics.h>
 
-namespace Efect
+namespace Effect
 {
 
-
+	/**
 	RotatedMovement::RotatedMovement(float32 _linearSpeed, float32 _angularSpeed)
 		: linearSpeed(_linearSpeed), angularSpeed(_angularSpeed), angularForceMax(99999999999999999.f)
 	{
@@ -70,5 +70,5 @@ namespace Efect
 		}
 		
 		drag.loopMouse(lockRadius);
-	}
+	}*/
 }

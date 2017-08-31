@@ -31,7 +31,7 @@ namespace Effect
 			);
 		}
 	}
-	void Motor::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void Motor::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Super::serialiseF(file, saver);
 		saver.save<float32>("angleOffset", angleOffset.asDegree() ,0.f);
@@ -42,5 +42,5 @@ namespace Effect
 		Super::deserialiseF(file, loader);
 		angleOffset = Degree(loader.load<float32>("angleOffset", 0.f));
 		movementSpeed = loader.load<float32>("speed", 0.f);
-	}
+	}*/
 }

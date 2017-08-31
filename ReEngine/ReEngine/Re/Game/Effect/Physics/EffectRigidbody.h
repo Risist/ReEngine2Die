@@ -2,6 +2,7 @@
 
 #include <Re\Game\Effect\EffectTransformable.h>
 #include <Re\Graphics\ResourceManager.h>
+#include <Re\Game\Effect\Physics\PhysicsDefs.h>
 
 namespace Game
 {
@@ -26,10 +27,10 @@ namespace Effect
 
 	public:
 
-		/// creates body from definition holded in ResourceManager - in bodyInst
-		Rigidbody* createBody(ResId bodyDefId);
+		/// creates body from definition passed as an argument
+		Rigidbody* createRigidbody(const RigidbodyDef& def) { return createRigidbody(&def.def); }
 		/// creates body from manually provided b2 definition
-		Rigidbody* createBody(const b2BodyDef* def);
+		Rigidbody* createRigidbody(const b2BodyDef* def);
 
 		/// removes rigidbody if created
 		void destroyBody();
@@ -119,9 +120,10 @@ namespace Effect
 		uint8 bSyncTransformAtPause : 1;
 		uint8 bSyncTransformAtDeath : 1;
 
+		/*
 	protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;*/
 	};
 
 

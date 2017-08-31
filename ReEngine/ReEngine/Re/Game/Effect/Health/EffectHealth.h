@@ -101,9 +101,10 @@ namespace Effect
 		float32 max{100.f};
 		float32 inverseDefence{ 1.f };
 
+		/*
 	protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;*/
 	};
 
 }

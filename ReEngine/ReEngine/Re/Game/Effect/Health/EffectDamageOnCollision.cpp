@@ -46,7 +46,7 @@ namespace Effect
 		}
 	}
 
-	void DamageOnCollision::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void DamageOnCollision::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.save<float32>("damage", damage, 1.f);
 		saver.save<float32>("bleed", bleed, 1.f);
@@ -74,6 +74,6 @@ namespace Effect
 			cerr << "DamageOnCollision: damage mode = \"" << sMode << "\" is invaid" << std::endl;
 
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 
 }

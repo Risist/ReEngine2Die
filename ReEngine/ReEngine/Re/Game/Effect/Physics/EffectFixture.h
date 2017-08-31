@@ -4,9 +4,12 @@
 
 namespace Effect
 {
+
+
 	/// fixture effects holds ptr to box2D fixture
 	/// receives from it event about collisions
 	/// and propagates to his childrens
+	///	@parent Rigidbody	
 	///
 	/// @note only Rigidbody can be parent for Fixture
 	/// @note collision events are called only for childs of rigidbody and fixtures
@@ -17,22 +20,14 @@ namespace Effect
 
 		/// default constructor -> does not create fixture
 		Fixture();
-
-		/// creates fixture of type @type with propertites from resource manager
-		/// @param:fixtureDefId		id of fixture def in fixtureDefInst
-		/// @param:shapeId			id of shape from circleShapeInst/polygonShapeInst/chainShapeInst
-		/// @param:type				type of shape to detect from which container get shape
-		///						only available polygon,circle and chain, do not use others
-		Fixture(ResId fixtureDefId, ResId shapeId, b2Shape::Type type);
-
-		/// creates fixture from manually provided definition
-		Fixture(const b2FixtureDef* def);
-
 		virtual ~Fixture();
 
 	public:
 
-		Fixture* createFixture(ResId fixtureDefId, ResId shapeId, b2Shape::Type type);
+		Fixture* createFixture(const CircleColliderDef& def) { return createFixture(&def.fixDef); }
+		Fixture* createFixture(const PolygonColliderDef& def) { return createFixture(&def.fixDef); }
+		Fixture* createFixture(const ChainColliderDef& def) { return createFixture(&def.fixDef); }
+		/// creates fixture from manually provided definition
 		Fixture* createFixture(const b2FixtureDef* def);
 
 		void destroyFixture();
@@ -45,13 +40,35 @@ namespace Effect
 
 		virtual void onDeconstructionFixture(b2Fixture* fixture) override;
 
+		/// WIP
+
+	/*public: /// shadows
+		/// is this fixture alowed to cast shadows?
+		Fixture* setCastShadows(bool b)
+		{
+			castShadows = b;
+			return this;
+		}
+
+		/// is this fixture alowed to cast shadows?
+		/// to cast shadows fixture has to be creted
+		///		and cant be a sensor
+		bool castsShadows() const
+		{
+			return fixture && !fixture->IsSensor() && castsShadows;
+		}
+
+		sf::ConvexShape createShadow(Vector2D lightPosition, Color lightColor) const
+		{
+
+		}*/
+
 	private:
 		b2Fixture* fixture;
 
-		ResId fixtureDefId{0};
-		ResId shapeId{0};
+		//bool castShadows	: 1;
 	protected:
-		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		//virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
+		//virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
 	};
 }

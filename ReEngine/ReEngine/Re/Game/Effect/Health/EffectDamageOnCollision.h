@@ -56,9 +56,9 @@ namespace Effect
 		function<bool(Game::Actor& other, b2Contact& contact)> allowedToDeal{ [](Game::Actor&, b2Contact&) {return true;} };
 		float32 damage;
 		float32 bleed{1.f};
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;*/
 	};
 
 }

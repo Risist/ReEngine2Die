@@ -1,5 +1,6 @@
 #pragma once
 #include <Re\Game\Effect\EffectBase.h>
+#include <Re\Game\Effect\Graphical\EffectModel.h>
 #include <Re\Graphics\Model\GraphicsAnimationController.h>
 #include <Re\Graphics\ResourceManager.h>
 
@@ -9,11 +10,13 @@ namespace Effect
 	/// since animation need to be updated separately from models
 	/// this component is able does the job
 	///
-	/// class as well allows to turn on/off choosen animation
 	class AnimationManager : public Base
 	{
 		SERIALISATION_NAME(AnimationManager)
 	public:
+		/// creates animation manager attached to specific model
+		AnimationManager(vector<Graphics::Model*>* modelsUpdate = nullptr);
+		AnimationManager(Effect::Model& model);
 
 		////// events
 		virtual bool canBeParent(Base* potentialParent) const override;
@@ -24,19 +27,25 @@ namespace Effect
 
 
 		////// setters
-		AnimationManager* addAnimation(ResId scriptId)
+		Graphics::AnimationController* insertAnimation(ResId animationScriptId)
 		{
 			controllers.push_back(make_unique<Graphics::AnimationController>());
-			controllers.back()->deserialiseFromString(scriptInst[scriptId]);
+			controllers.back()->deserialiseFromString(scriptInst[animationScriptId]);
 			controllers.back()->attachToModel(*modelsUpdate);
-			return this;
+			return controllers.back().get();
 		}
-		AnimationManager* addAnimation(const char* path)
+		Graphics::AnimationController* insertAnimation(const char* path)
 		{
 			controllers.push_back(make_unique<Graphics::AnimationController>(path));
 			controllers.back()->attachToModel(*modelsUpdate);	
-			return this;
+			return controllers.back().get();
 		}
+		/*Graphics::AnimationController* insertAnimation(unique_ptr<Graphics::AnimationController> ptr)
+		{
+			controllers.push_back(ptr);
+			controllers.back()->attachToModel(*modelsUpdate);
+			return controllers.back().get();
+		}*/
 		AnimationManager* removeAnimation(size_t id)
 		{
 			assert(controllers.size() > id);
@@ -55,7 +64,14 @@ namespace Effect
 			return this;
 		}
 
-		
+
+		AnimationManager* attachToModel(vector<Graphics::Model*>* _modelsUpdate);
+		AnimationManager* attachToModel(Effect::Model& model)
+		{
+			attachToModel(&model.modelsUpdate);
+			return this;
+		}
+
 		Graphics::AnimationController& getAnimation(size_t id)
 		{
 			assert(controllers.size() > id);
@@ -72,9 +88,9 @@ namespace Effect
 		vector<unique_ptr<Graphics::AnimationController>> controllers;
 		vector<Graphics::Model*>* modelsUpdate{nullptr};
 
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;*/
 	};
 
 

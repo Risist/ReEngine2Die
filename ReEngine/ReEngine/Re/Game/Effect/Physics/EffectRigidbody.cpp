@@ -15,19 +15,7 @@ namespace Effect
 		destroyBody();
 	}
 
-
-	Rigidbody * Effect::Rigidbody::createBody(ResId bodyDefId)
-	{
-		b2BodyDef def = bodyDefInst[bodyDefId];
-		def.position = (getActor()->getPosition() + getPosition().getRotated(getActor()->getRotation()) ) * toB2Position;
-		def.angle = (getActor()->getRotation() + getRotation()).asRadian();
-		rigidbody = Game::world.physicsWorld.CreateBody(&def);
-		rigidbody->SetUserData(this);
-		Rigidbody::bodyDefId = bodyDefId;
-		return this;
-	}
-
-	Rigidbody * Effect::Rigidbody::createBody(const b2BodyDef * _def)
+	Rigidbody * Effect::Rigidbody::createRigidbody(const b2BodyDef * _def)
 	{
 		b2BodyDef def = *_def;
 		def.position = (getActor()->getPosition() + getPosition().getRotated(getActor()->getRotation())) * toB2Position;
@@ -181,7 +169,7 @@ namespace Effect
 
 	}
 
-	void Rigidbody::serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const
+	/*void Rigidbody::serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const
 	{
 		saver.save<bool>("syncAtDeath", bSyncTransformAtDeath, false);
 		saver.save<bool>("syncAtPause", bSyncTransformAtPause, false);
@@ -224,6 +212,6 @@ namespace Effect
 		
 		/// load fixtures/ joints
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 
 }

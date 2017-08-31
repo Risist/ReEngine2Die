@@ -34,9 +34,10 @@ namespace Effect
 		Vector2D position;
 		Angle rotation;
 
+		/*
 	protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;*/
 	};
 
 

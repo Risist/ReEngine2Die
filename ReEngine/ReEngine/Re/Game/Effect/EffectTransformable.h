@@ -163,8 +163,8 @@ namespace Effect
 
 	protected:
 		/// serialisation functions - to allow effects to be sierialised from/into .res files
-		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		//virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
+		//virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
 }

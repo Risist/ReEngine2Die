@@ -28,21 +28,23 @@ namespace Effect
 		cam.setCenter(
 			lerp(
 				cam.getCenter(), 
-				updateTarget->getTransform().transformPoint(offset), 
+				(Vector2D)updateTarget->getTransform().transformPoint(offset), 
 				smoothness.x
 			)
 		);
+
+		Angle desredRot = Degree(updateTarget->getRotation()) + addictionalRotation;
 		cam.setRotation( 
-			lerp(
-				cam.getRotation().asDegree(),
-				updateTarget->getRotation() + addictionalRotation.asDegree(),
-				smoothness.y
-			) 
+				lerp(
+					cam.getRotation(),
+					desredRot,
+					smoothness.y
+				)
 		);
 
 	}
 
-	void FollowCamera::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void FollowCamera::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Super::serialiseF(file, saver);
 		
@@ -69,6 +71,6 @@ namespace Effect
 			loader.load<float32>("offsetY", 0.f)
 		};
 		addictionalRotation = Degree(loader.load<float32>("rotation", 0.f));
-	}
+	}*/
 
 }

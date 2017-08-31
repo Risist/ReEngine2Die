@@ -282,7 +282,7 @@ void ResourceManager::deserialiseF(std::istream& file, Res::DataScriptLoader& lo
 				loader.load<float32>("shPosX", 0.f),
 				loader.load<float32>("shPosY", 0.f),
 			};
-			shape.m_radius = loader.load<float32>("radius", 50.f * toB2Position);
+			shape.m_radius = loader.load<float32>("radius", 50.f ) * toB2Position;
 
 			circleShapes[id] = shape;
 		}

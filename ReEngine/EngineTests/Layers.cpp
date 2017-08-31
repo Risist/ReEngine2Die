@@ -3,15 +3,15 @@
 
 namespace Game
 {
-	/*namespace Layers
+	namespace Layers
 	{
 		void init()
 		{
-			background = world.addActor( new Layer() );
-			blood = world.addActor(new Layer());
-			bullet = world.addActor(new Layer());
-			obstacle = world.addActor(new Layer());
-			character = world.addActor(new Layer());
+			background = world.addNewDisplayLayer();
+			blood = world.addNewDisplayLayer();
+			bullet = world.addNewDisplayLayer();
+			obstacle = world.addNewDisplayLayer();
+			character = world.addNewDisplayLayer();
 		}
 
 		Layer* background = nullptr;
@@ -19,5 +19,5 @@ namespace Game
 		Layer* bullet = nullptr;
 		Layer* obstacle = nullptr;
 		Layer* character = nullptr;
-	}*/
+	}
 }

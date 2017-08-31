@@ -59,9 +59,9 @@ namespace Effect
 
 		vector<sf::Sound*> sounds;
 		vector<sf::Music*> musics;
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;*/
 	};
 
 	/* 
@@ -88,9 +88,9 @@ namespace Effect
 			return this;
 		}
 
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader)override;*/
 	};
 
 }

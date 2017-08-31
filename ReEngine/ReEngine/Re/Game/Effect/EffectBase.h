@@ -9,7 +9,7 @@ namespace Game
 namespace Effect
 {
 	/// component-like class for Actors
-	class Base : public Res::ISerialisable
+	class Base ///: public Res::ISerialisable
 	{
 	public:
 		Base();
@@ -53,6 +53,10 @@ namespace Effect
 		/// called every frame while actor is alive
 		/// @param:dt			- delta of time elapsed between frames
 		virtual void onUpdate(sf::Time dt) {}
+
+		/// To render component first add object to rendering module
+		/// then the function is called every screan display
+		virtual void onDisplay() {};
 
 		/// called every frame while game is paused
 		/// @param:dt			- delta of time elapsed between frames
@@ -139,9 +143,10 @@ namespace Effect
 		bool bIsReadyToRemove :1;
 
 	protected:
+		/// /// /// Serialisation is currently disabled
 		/// serialisation functions - to allow effects to be sierialised from/into .res files
-		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		//virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
+		//virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 
 		friend class Composite;
 	};
@@ -190,6 +195,10 @@ namespace Effect
 		/// @param:dt			- delta of time elapsed between frames
 		virtual void onUpdate(sf::Time dt);
 
+		/// To render component first add object to rendering module
+		/// then the function is called every screan display
+		virtual void onDisplay();
+
 		/// called every frame while game is paused
 		/// @param:dt			- delta of time elapsed between frames
 		virtual void onPause(sf::Time dt);
@@ -237,10 +246,10 @@ namespace Effect
 		Ty* addEffect(Ty* _new, bool activated = true);
 
 		/// adds child from definition placed in file
-		template<typename Ty>
+		/*template<typename Ty>
 		Ty* addEffect(const char* path);
 		template<typename Ty>
-		Ty* addEffect(std::istream& file, Res::DataScriptLoader& loader);
+		Ty* addEffect(std::istream& file, Res::DataScriptLoader& loader);*/
 
 
 
@@ -262,8 +271,8 @@ namespace Effect
 		
 	protected:
 		/// serialisation functions - to allow effects to be sierialised from/into .res files
-		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		/// virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver)  const override;
+		/// virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
 
@@ -284,7 +293,7 @@ namespace Effect
 		return _new;
 	}
 
-	template<typename Ty>
+	/*template<typename Ty>
 	Ty * Composite::addEffect(const char * path)
 	{
 		std::ifstream file;
@@ -310,7 +319,7 @@ namespace Effect
 		Base* _new = new Ty();
 		addEffect(_new)->deserialise(file, loader);
 		return _new;
-	}
+	}*/
 
 	template<typename T>
 	T* Composite::getEffect()
@@ -320,5 +329,32 @@ namespace Effect
 			if ((ptr = dynamic_cast<T*>(it->get())))
 				return ptr;
 		return nullptr;
+	}
+
+
+	/// setters -> functions witch sets up initial state of a effect
+	/// they return pointner to calling class that you can do chain calls (like with std::cout or std::cin)
+	/// if you derrive from base class then setters from base class still returns ptr to base type
+	/// so you have to redefine ptr to reduce casts
+
+#define REDEFINE_SETTER_1(NewClass, functionName, ParamType)\
+	NewClass* functionName(ParamType s)	\
+	{										\
+		Super:: functionName (s);			\
+		return this;						\
+	}
+
+#define REDEFINE_SETTER_2(NewClass, functionName, ParamType, ParamType2)\
+	NewClass* functionName(ParamType s, ParamTyp2 s2)	\
+	{													\
+		Super:: functionName (s, s2);					\
+		return this;									\
+	}
+
+#define REDEFINE_SETTER_3(NewClass, functionName, ParamType, ParamType2, ParamType3)\
+	NewClass* functionName(ParamType s, ParamType2 s2, ParamType3 s3)	\
+	{																	\
+		Super:: functionName (s, s2, s3);								\
+		return this;													\
 	}
 }

@@ -25,7 +25,7 @@ namespace Effect
 			it->setPosition(getActor()->getPosition().x, getActor()->getPosition().y, 0);
 	}
 
-	void AudioSource::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void AudioSource::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Super::serialiseF(file, saver);
 
@@ -91,7 +91,7 @@ namespace Effect
 					addMusic(musicPath, volume, attenuation, minDistance, loop, pitch);
 			}
 		}
-	}
+	}*/
 
 	///////////////////// Listener
 
@@ -104,7 +104,7 @@ namespace Effect
 	{
 		sf::Listener::setPosition(getActor()->getPosition().x, getActor()->getPosition().y, 0);
 	}
-	void AudioListener::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void AudioListener::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Super::serialiseF(file, saver);
 		saver.save<float32>("globalVolume", sf::Listener::getGlobalVolume());
@@ -119,5 +119,5 @@ namespace Effect
 			loader.load<float32>("directionX", 0.f),
 			loader.load<float32>("directionY", 0.f)
 		});
-	}
+	}*/
 }

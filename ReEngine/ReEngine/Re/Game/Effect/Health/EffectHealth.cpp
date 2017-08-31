@@ -54,7 +54,7 @@ namespace Effect
 
 	
 
-	void Health::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void Health::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Super::serialiseF(file, saver);
 
@@ -78,7 +78,7 @@ namespace Effect
 		regenerationDamping = loader.load<float32>("regenerationDamping", 0.5f);
 
 		//TODO serialisation of maxMode
-	}
+	}*/
 
 	
 

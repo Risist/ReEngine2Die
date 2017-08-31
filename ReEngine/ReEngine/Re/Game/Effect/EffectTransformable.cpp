@@ -4,7 +4,7 @@
 
 namespace Effect
 {
-	void Transformable::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void Transformable::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.save<float>("posX", getPosition().x, 0.f);
 		saver.save<float>("posY", getPosition().y, 0.f);
@@ -20,7 +20,7 @@ namespace Effect
 		});
 		setRotation( Degree(loader.load<float>("rot", 0.f)) );
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 	bool Transformable::canBeParent(Base * potentialParent) const
 	{
 		return dynamic_cast<Game::Actor*>(potentialParent);

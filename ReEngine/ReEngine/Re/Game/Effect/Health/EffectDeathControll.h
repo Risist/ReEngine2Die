@@ -28,9 +28,9 @@ namespace Effect
 		function<bool()> canLive;
 		/// time period to wait
 		Control::Timer timer;
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override*/;
 	};
 
 	/*
@@ -59,9 +59,9 @@ namespace Effect
 		function<bool()> canDie;
 		/// time period to wait
 		Control::Timer timer;
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;*/
 	};
 
 	/*
@@ -91,9 +91,9 @@ namespace Effect
 
 		/// callback which allows you to specify addictional requirements to death
 		function<bool(Game::Actor& other, b2Contact& collision)> canDie;
-	protected:
+	/*protected:
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
+		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;*/
 	};
 
 

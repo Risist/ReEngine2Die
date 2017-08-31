@@ -34,7 +34,7 @@ namespace Effect
 		return false;
 	}
 
-	void RespawnAfterAWhile::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void RespawnAfterAWhile::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		timer.serialise(file, saver);
 		Super::serialiseF(file, saver);
@@ -44,7 +44,7 @@ namespace Effect
 	{
 		timer.deserialise(file, loader);
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 
 
 	////////////////////////// die after a while
@@ -72,7 +72,7 @@ namespace Effect
 			getActor()->markAsDead();
 	}
 
-	void DieAfterAWhile::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void DieAfterAWhile::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		timer.serialise(file, saver);
 		Super::serialiseF(file, saver);
@@ -82,7 +82,7 @@ namespace Effect
 	{
 		timer.deserialise(file, loader);
 		Super::deserialiseF(file, loader);
-	}
+	}*/
 
 	////////////////////////// die on collision
 
@@ -114,7 +114,7 @@ namespace Effect
 				getActor()->markAsDead();
 	}
 
-	void DieOnCollision::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	/*void DieOnCollision::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Super::serialiseF(file, saver);
 		//if (phase == EPhase::enter)
@@ -134,7 +134,7 @@ namespace Effect
 			phase = EPhase::enter;
 		else 
 			cerr << "Effect::DieOnCollision: phase = \"" << sPhase << "\" is invalid" << endl;
-	}
+	}*/
 
 	/////////////////////////////// 
 }
