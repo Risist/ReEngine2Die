@@ -68,10 +68,6 @@ namespace Graphics
 				childDown->addSibling(s);
 		}
 
-		/// Animations
-		//void addAnimationPart(AnimationPart* s);
-		//void removeAnimationPart(AnimationPart* s);
-
 		/// getters ///
 
 		Model* getChildUp()

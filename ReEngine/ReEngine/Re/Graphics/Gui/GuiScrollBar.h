@@ -7,7 +7,7 @@ namespace Gui
 
 	class ScrollBar : public Menu
 	{
-		virtual std::string getClassName() const override { return "ScrollBar"; }
+		SERIALISATION_NAME(ScrollBar)
 	public:
 		ScrollBar(sf::Vector2f& position, sf::Vector2f& halfWh = Vector2f(), float32 scrollLenght = 10.f,
 			State stateBackground = State(),

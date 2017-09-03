@@ -9,6 +9,7 @@ namespace Gui
 	/// has a scrollbar, with which you can slide over parametrs that are not visible 
 	class Inspector : public Menu
 	{
+		SERIALISATION_NAME(Inspector)
 	public:
 		Inspector();
 

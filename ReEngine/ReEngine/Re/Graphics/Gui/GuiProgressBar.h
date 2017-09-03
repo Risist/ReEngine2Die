@@ -5,7 +5,7 @@ namespace Gui
 {
 	class ProgressBar : public Base
 	{
-		virtual std::string getClassName() const override { return "ProgressBar"; }
+		SERIALISATION_NAME(ProgressBar)
 	public:
 		/// direction in which the bar wil aims
 		enum Direction

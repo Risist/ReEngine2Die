@@ -9,61 +9,82 @@ namespace Gui
 	class Base : public Res::ISerialisable
 	{
 	public:
-		/// to give yourself a chance to assign events within gui elements
-		/// set up the loaded map to your container
-		/// and set in file name you will use as the key
-		/// eg. <name =wtf?> warring: "___THRASH" name is reserved
-		static map<string, shared_ptr<Base> >*loaded;
+		MULTI_SERIALISATION_INTERFACE(Base);
 	public:
 		Base(const Vector2f& pos = Vector2f());
-		virtual ~Base() {}
+		virtual ~Base() = default;
+
+	public:
+		////// events
 
 		// display and update gui element
-		virtual void update(RenderTarget& wnd, RenderStates states) = 0;
+		virtual void onUpdate(RenderTarget& wnd, RenderStates states) = 0;
+		/// event called on atempt to change activation state
+		virtual void onSetActivated(bool s) {}
 		
-		/// needed to file saving
-		virtual std::string getClassName() const { return "UNDEFINED"; }
+
+		
+		////// setters
 
 		// set pos relative to pos of element connected to
-		void updatePosActual(const Vector2f pos = Vector2f())
+		void updateActualPosition(const Vector2f parentActualPosition = Vector2f())
 		{
-			posActual = Base::pos + pos;
-		}
-		const Vector2f& getPosActual() const
-		{
-			return posActual;
+			actualPosition = Base::position + parentActualPosition;
 		}
 
-		Base* setPos(const sf::Vector2f& _new)
+
+		Base* setPosition(const sf::Vector2f& _new)
 		{
-			pos = _new;
+			position = _new;
 			return this;
 		}		
-		Base* setHidden(bool s)
+		Base* setActivated(bool s)
 		{
-			hidden = s;
-			updateHidden(s);
+			activated = s;
+			onSetActivated(s);
 			return this;
 		}
-		bool isHidden() const
+		Base* setWh( const Vector2f& wh)
 		{
-			return hidden;
+			halfWh = { wh.x*0.5f, wh.y * 0.5f };
+			return this;
 		}
+
+
+		////// getters
+
+		bool isActivated() const
+		{
+			return activated;
+		}
+		const Vector2f& getActualPosition() const
+		{
+			return actualPosition;
+		}
+		const Vector2f& getPosition() const
+		{
+			return position;
+		}
+		const Vector2f& getWh()
+		{
+			return { halfWh.x*2.f, halfWh.y*2.f };
+		}
+
+
+	protected:
 
 		/// which area the object holds
 		Vector2f halfWh;
-		/// offset of pos relative to parent transform
-		Vector2f pos;
 
-	protected:
-		/// catch event of changing visibility of gui object
-		virtual void updateHidden(bool s) {}
-		/// hidden gui object is not updated nor drawn onto the screan
-		bool hidden;
+		/// offset of pos relative to parent transform
+		Vector2f position;
 
 		// actual pos of gui element
-		Vector2f posActual;
-		
+		Vector2f actualPosition;
+
+		/// hidden gui object is not updated nor drawn onto the screan
+		bool activated;
+
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

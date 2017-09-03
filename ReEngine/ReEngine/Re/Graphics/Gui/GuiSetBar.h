@@ -17,7 +17,7 @@ namespace Gui
 {
 	class SetBar : public Menu
 	{
-		virtual std::string getClassName() const override { return "SetBar"; }
+		SERIALISATION_NAME(SetBar)
 	public:
 		SetBar();
 		SetBar(const char* path);

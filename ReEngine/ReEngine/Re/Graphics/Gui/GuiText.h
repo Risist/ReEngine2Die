@@ -6,12 +6,12 @@ namespace Gui
 {
 	class Text : public Base
 	{
-		virtual std::string getClassName() const override { return "Text"; }
+		SERIALISATION_NAME(Text)
 	public:
 		Text();
 		Text(const char* path);
 
-		virtual void update(RenderTarget& target, RenderStates states) override;
+		virtual void onUpdate(RenderTarget& target, RenderStates states) override;
 
 		///setters
 		template<class T>
@@ -20,9 +20,9 @@ namespace Gui
 			(*this) << s;
 			return this;
 		}
-		Text* setPos(const Vector2f& pos)
+		Text* setPosition(const Vector2f& pos)
 		{
-			Base::setPos(pos);
+			Base::setPosition(pos);
 			return this;
 		}
 		Text* setColor(Color color)

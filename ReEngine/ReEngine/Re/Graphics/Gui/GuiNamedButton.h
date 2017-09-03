@@ -6,7 +6,7 @@ namespace Gui
 {
 	class NamedButton : public Button
 	{
-		virtual std::string getClassName() const override { return "NamedButton"; }
+		SERIALISATION_NAME(NamedButton)
 	public:
 		NamedButton(const Vector2f& pos = Vector2f(), const Vector2f& halfWh = Vector2f(),
 			function<void()> eventOnPress = []() {},

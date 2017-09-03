@@ -17,78 +17,98 @@ namespace Gui
 		sf::Color cl;
 		ResId tsId;
 		ResourceManager::TextureInstance ts;
+
+		void deserialise_Index(const std::string& preName, std::istream& file, Res::DataScriptLoader& loader);
 	};
 	class Button : public Base
 	{
-		virtual std::string getClassName() const override { return "Button"; }
+		SERIALISATION_NAME(Button)
 	public:
-		Button(const Vector2f& pos = Vector2f(), const Vector2f& halfWh = Vector2f(),
-			function<void()> eventOnPress = []() {},
-			State stateMouseOn = State(),
-			State statePressed = State(),
-			State stateMouseOut = State()
-		);
-		Button(State constantState, const Vector2f& pos, const Vector2f& halfWh,
-			function<void()> eventOnPress = []() {}
-		);
-		Button(const string& path) { deserialise(path); }
-		
-		virtual void update(sf::RenderTarget& target, sf::RenderStates states) override;
+		Button();
 
-		Button* setState(const State& s)
+
+	public: ////// events
+		virtual void onUpdate(sf::RenderTarget& target, sf::RenderStates states) override;
+
+
+	public: ////// setters
+		Button* setGlobalState(const sf::Color& _cl = Color::White, ResId tsId = 0)
 		{
-			stateMouseOn = stateMouseOut = statePressed = s;
+			stateMouseOn = stateMouseOut = statePressed = State(_cl, tsId);
 			return this;
 		}
-		Button* setStateMouse(const State& s)
+		Button* setStateMouse(const sf::Color& _cl = Color::White, ResId tsId = 0)
 		{
-			stateMouseOn = stateMouseOut = s;
+			stateMouseOn = stateMouseOut = State(_cl,tsId);
 			return this;
 		}
-		Button* setStateMouseOn(const State& s)
+		Button* setStateMouseOn(const sf::Color& _cl = Color::White, ResId tsId = 0)
 		{
-			stateMouseOn = s;
+			stateMouseOn = State(_cl, tsId);
 			return this;
 		}
-		Button* setStateMouseOut(const State& s)
+		Button* setStateMouseOut(const sf::Color& _cl = Color::White, ResId tsId = 0)
 		{
-			stateMouseOut = s;
+			stateMouseOut = State(_cl, tsId);
 			return this;
 		}
-		Button* setStatePressed(const State& s)
+		Button* setStatePressed(const sf::Color& _cl = Color::White, ResId tsId = 0)
 		{
-			statePressed = s;
+			statePressed = State(_cl, tsId);
 			return this;
 		}
-		Button* setEvent(function<void()> ev)
+		Button* setPressEvent(function<void()> ev)
 		{
 			eventOnPress = ev;
 			return this;
 		}
-		Button* setPos(const sf::Vector2f& _new)
+		Button* setWh(const Vector2f& wh)
 		{
-			return (Button*)Base::setPos(_new);
+			Super::setWh(wh);
+			sh.setSize(wh);
+			sh.setOrigin(halfWh);
 		}
-		Button* setHalfWh(const sf::Vector2f& s)
+		REDEFINE_SETTER_1(Button, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(Button, setActivated, bool);
+
+		Button* setMouseKey(sf::Mouse::Button key)
 		{
-			halfWh = s;
+			mouseKey.setKeyCode(key);
+			mouseKey.desiredState = Control::Key::EPressState::pressedOnce;
+			return this;
+		}
+		Button* addShortKey(sf::Mouse::Button key)
+		{
+			shortKey.addKey(Control::Key(key, Control::Key::EPressState::pressedOnce));
+			return this;
+		}
+		Button* addShortKey(sf::Keyboard::Key key)
+		{
+			shortKey.addKey(Control::Key(key, Control::Key::EPressState::pressedOnce));
 			return this;
 		}
 
+		
+		
+	protected:
+		/// mouse key activates the button only if mouse is at button
+		bool isMouseOnWindow() const;
+		Control::Key mouseKey;
+
+		/// short key, activates button anytime
+		Control::MultiKey shortKey;
+	
 		/// Color & texture for each state:
 		State stateMouseOn; ///<	mouse is on the button
 		State statePressed; ///<	button is pressed
 		State stateMouseOut;///<	mouse is not on the button
 
 		/// what happeneds when button is pressed?
-		function<void()> eventOnPress;
+		function<void()> eventOnPress{ []() {} };
 
-	protected:
-		bool isMouseOnWindow() const;
-
-	private:
-		bool canBeActivatedAgain;
-		Clock clock; 
+		/// rendering shape
+		sf::RectangleShape sh;
+	
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

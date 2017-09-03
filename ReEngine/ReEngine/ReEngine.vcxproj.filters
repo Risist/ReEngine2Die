@@ -279,9 +279,6 @@
     <ClInclude Include="Re\Game\GameLayer.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Re\Game\Effect\Graphical\EffectDisplayable.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Re\Game\Effect\Graphical\EffectFollowCamera.h">
       <Filter>Game\Effect\Graphics</Filter>
     </ClInclude>
@@ -305,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="Re\Common\Control\ControlMultiKey.h">
       <Filter>Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\Effect\Graphical\EffectDisplayable.h">
+      <Filter>Game\Effect\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

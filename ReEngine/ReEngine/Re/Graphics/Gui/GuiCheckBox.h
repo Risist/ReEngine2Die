@@ -12,7 +12,7 @@ namespace Gui
 	/// lambda function is called when the object is pressed
 	class CheckBox : public Button
 	{
-		virtual std::string getClassName() const override { return "CheckBox"; }
+		SERIALISATION_NAME(CheckBox)
 	public:
 		CheckBox(const Vector2f& pos = Vector2f(), const Vector2f& halfWh = Vector2f(),
 			function<void()> eventOnPress = []() {},

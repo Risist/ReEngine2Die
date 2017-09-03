@@ -7,59 +7,56 @@ namespace Gui
 	/// Gui class used to connect and treat many gui elements as one
 	class Menu : public Base
 	{
-		virtual std::string getClassName() const override { return "Menu"; }
+		SERIALISATION_NAME(Menu)
 	public:
-		Menu(const Vector2f& pos = Vector2f(), const initializer_list<shared_ptr<Base>>& initial = {});
+		Menu(const Vector2f& pos = Vector2f());
 
-
-		Menu* setPos(const Vector2f& s)
-		{
-			pos = s;
-			return this;
-		}
-
-		/// add many gui elements at once
-		void create(const initializer_list<shared_ptr<Base>>& toAdd );
-
-		void update(RenderTarget& wnd, RenderStates states) override;
-		void updateHidden(bool s) override;
-
+		////// creation
 		template<class T>
-		T* add(T* s, bool hidden = false)
-		{
-			add(shared_ptr<Base>(s), hidden);
-			return s;
-		}
-		void add(shared_ptr<Base> s, bool hidden = false);
-		
-		shared_ptr<Base> operator[](size_t id)
-		{
-			return el[id];
-		}
+		T* add(bool active = true);
 
 		void remove(size_t id);
 		void remove(Gui::Base *ptr);
-		void remove(shared_ptr<Gui::Base> ptr);
 
 		/// remove all menu elements
 		void clear();
+
+
+	public: ////// events
+		virtual void onUpdate(RenderTarget& wnd, RenderStates states) override;
+		virtual void onSetActivated(bool s) override;
+
+
+	public:		
+		////// setters
+
+		REDEFINE_SETTER_1(Menu, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(Menu, setWh, const Vector2f&);
+		REDEFINE_SETTER_1(Menu, setActivated, bool);
+
+		////// getters
+
 		/// how many gui elements are contained?
 		size_t getSize() { return el.size(); }
+		Base* operator[](size_t id) {	return el[id].get(); }
 
 	protected:
 		/// vector of contained elements
-		vector<shared_ptr<Base>> el;
-
+		vector<unique_ptr<Base>> el;
 
 	protected:
-		/// creates a new Gui element
-		/// returns shared ptr with nullptr if className type does not exist
-		shared_ptr<Base> createElement(const string& className);
-
-		/// Graphical propertites saved in files 
-		shared_ptr<Base> desetializeInclude(Res::DataScriptLoader& loader);
+		/// deserialise one element from another file
+		Base* desetializeInclude(Res::DataScriptLoader& loader);
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
+
+	template<class T>
+	T* Menu::add(bool active = true)
+	{
+		el.push_back(unique_ptr<Base>(new T));
+		el.back()->setActivated(active);
+		return s;
+	}
 }

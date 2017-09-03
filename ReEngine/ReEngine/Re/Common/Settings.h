@@ -54,3 +54,30 @@ extern int32 positionIterations;
 /// multiplay an vector/pos scalar by appropriate conversion value
 extern const float toB2Position;
 extern const float toSfPosition;
+
+
+/// setters -> functions witch sets up initial state of a effect
+/// they return pointner to calling class that you can do chain calls (like with std::cout or std::cin)
+/// if you derrive from base class then setters from base class still returns ptr to base type
+/// so you have to redefine ptr to reduce casts
+
+#define REDEFINE_SETTER_1(NewClass, functionName, ParamType)\
+	NewClass* functionName(ParamType s)	\
+	{										\
+		Super:: functionName (s);			\
+		return this;						\
+	}
+
+#define REDEFINE_SETTER_2(NewClass, functionName, ParamType, ParamType2)\
+	NewClass* functionName(ParamType s, ParamTyp2 s2)	\
+	{													\
+		Super:: functionName (s, s2);					\
+		return this;									\
+	}
+
+#define REDEFINE_SETTER_3(NewClass, functionName, ParamType, ParamType2, ParamType3)\
+	NewClass* functionName(ParamType s, ParamType2 s2, ParamType3 s3)	\
+	{																	\
+		Super:: functionName (s, s2, s3);								\
+		return this;													\
+	}
