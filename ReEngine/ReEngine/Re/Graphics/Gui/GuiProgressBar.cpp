@@ -3,23 +3,17 @@
 
 namespace Gui
 {
-	ProgressBar::ProgressBar(
-		const Vector2f & _pos, const Vector2f & _halfWh,
-		State _background, State _foreground,
-		float _initialState)
-		:Base(_pos), background(_background), foreground(_foreground),
-		progress(_initialState), direction(Direction::left)
+	ProgressBar::ProgressBar()
 	{
-		halfWh = _halfWh;
 	}
 
 
-	void ProgressBar::update(RenderTarget & wnd, RenderStates states)
+	void ProgressBar::onUpdate(RenderTarget & wnd, RenderStates states)
 	{
 		/// background
 		{
 			sf::RectangleShape sh;
-			sh.setPosition(getPosActual());
+			sh.setPosition(getActualPosition());
 
 			sh.setSize(Vector2f(halfWh.x * 2, halfWh.y * 2));
 			sh.setOrigin(halfWh);
@@ -28,17 +22,30 @@ namespace Gui
 			background.ts.setRectShape(sh);
 			wnd.draw(sh, states);
 		}
-		
-		/// foreground
+
 		{
 			sf::ConvexShape sh(4);
-			sh.setPosition(getPosActual());
+			sh.setPosition(getActualPosition());
+
+			sh.setFillColor(foreground.cl);
+			foreground.ts.setConvexShape(sh);
+			
+			directionMode(sh, this);
+
+			wnd.draw(sh, states);
+		}
+
+		
+		/// foreground
+		/*{
+			sf::ConvexShape sh(4);
+			sh.setPosition(getActualPosition());
 			sh.setFillColor(foreground.cl);
 			foreground.ts.setConvexShape(sh);
 			/*	--		+-
 					 A
 				-+		++	*/
-			if (direction == Direction::right)
+			/*if (direction == Direction::right)
 			{
 				sh.setPoint(0, Vector2D(-halfWh.x, -halfWh.y));
 				sh.setPoint(1, Vector2D(-halfWh.x + halfWh.x*2*progress, -halfWh.y));
@@ -67,7 +74,7 @@ namespace Gui
 				sh.setPoint(3, Vector2D(-halfWh.x, -halfWh.y + halfWh.y * 2 * progress));
 			}
 			wnd.draw(sh, states);
-		}
+		}*/
 	}
 
 	void ProgressBar::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
@@ -94,7 +101,7 @@ namespace Gui
 		foreground.cl.b = (sf::Uint8)loader.load("foreClB", 255u);
 		foreground.cl.a = (sf::Uint8)loader.load("foreClA", 255u);
 	
-		string dir = loader.load<string>("direction", "left");
+		/*string dir = loader.load<string>("direction", "left");
 		if (dir == "left")
 			direction = Direction::left;
 		else if (dir == "right")
@@ -103,6 +110,49 @@ namespace Gui
 			direction = Direction::up;
 		else if (dir == "down")
 			direction = Direction::down;
-
+		*/
+	}
+	void ProgressBar::directionXLeft(sf::ConvexShape & sh, Gui::ProgressBar * pb)
+	{
+		sh.setPoint(0, Vector2D(pb->halfWh.x - pb->halfWh.x * 2 * pb->progress, -pb->halfWh.y));
+		sh.setPoint(1, Vector2D(pb->halfWh.x, -pb->halfWh.y));
+		sh.setPoint(2, Vector2D(pb->halfWh.x, pb->halfWh.y));
+		sh.setPoint(3, Vector2D(pb->halfWh.x - pb->halfWh.x * 2 * pb->progress, pb->halfWh.y));
+	}
+	void ProgressBar::directionXMiddle(sf::ConvexShape & sh, Gui::ProgressBar * pb)
+	{
+		
+		sh.setPoint(0, Vector2D(-pb->halfWh.x * pb->progress, -pb->halfWh.y));
+		sh.setPoint(1, Vector2D(pb->halfWh.x * pb->progress, -pb->halfWh.y));
+		sh.setPoint(2, Vector2D(pb->halfWh.x * pb->progress, pb->halfWh.y));
+		sh.setPoint(3, Vector2D(-pb->halfWh.x * pb->progress, pb->halfWh.y));
+	}
+	void ProgressBar::directionXRight(sf::ConvexShape & sh, Gui::ProgressBar * pb)
+	{
+		sh.setPoint(0, Vector2D(-pb->halfWh.x, -pb->halfWh.y));
+		sh.setPoint(1, Vector2D(-pb->halfWh.x + pb->halfWh.x * 2 * pb->progress, -pb->halfWh.y));
+		sh.setPoint(2, Vector2D(-pb->halfWh.x + pb->halfWh.x * 2 * pb->progress, pb->halfWh.y));
+		sh.setPoint(3, Vector2D(-pb->halfWh.x, pb->halfWh.y));
+	}
+	void ProgressBar::directionYUp(sf::ConvexShape & sh, Gui::ProgressBar * pb)
+	{
+		sh.setPoint(0, Vector2D(-pb->halfWh.x, -pb->halfWh.y + pb->halfWh.y * 2 * (1 - pb->progress)));
+		sh.setPoint(1, Vector2D(pb->halfWh.x, -pb->halfWh.y + pb->halfWh.y * 2 * (1 - pb->progress)));
+		sh.setPoint(2, Vector2D(pb->halfWh.x, pb->halfWh.y));//
+		sh.setPoint(3, Vector2D(-pb->halfWh.x, pb->halfWh.y));//
+	}
+	void ProgressBar::directionYMiddle(sf::ConvexShape & sh, Gui::ProgressBar * pb)
+	{
+		sh.setPoint(0, Vector2D(-pb->halfWh.x, -pb->halfWh.y* pb->progress));
+		sh.setPoint(1, Vector2D(pb->halfWh.x, -pb->halfWh.y* pb->progress));
+		sh.setPoint(2, Vector2D(pb->halfWh.x, pb->halfWh.y* pb->progress));
+		sh.setPoint(3, Vector2D(-pb->halfWh.x, pb->halfWh.y* pb->progress));
+	}
+	void ProgressBar::directionYDown(sf::ConvexShape & sh, Gui::ProgressBar * pb)
+	{
+		sh.setPoint(0, Vector2D(-pb->halfWh.x, -pb->halfWh.y)); //
+		sh.setPoint(1, Vector2D(pb->halfWh.x, -pb->halfWh.y)); //
+		sh.setPoint(2, Vector2D(pb->halfWh.x, -pb->halfWh.y + pb->halfWh.y * 2 * pb->progress));
+		sh.setPoint(3, Vector2D(-pb->halfWh.x, -pb->halfWh.y + pb->halfWh.y * 2 * pb->progress));
 	}
 }

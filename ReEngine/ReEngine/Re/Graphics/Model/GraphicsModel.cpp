@@ -72,7 +72,7 @@ namespace Graphics
 			childUp->rewriteToVectorRendering(v);
 	}
 
-	void Model::updateAsPArent()
+	void Model::updateAsParent()
 	{
 		//ModelDef def = *this;
 

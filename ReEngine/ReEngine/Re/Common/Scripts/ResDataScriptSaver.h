@@ -66,6 +66,12 @@ namespace Res
 			stream >> _l;
 			_line += _l;
 		}
+		template<typename TY>
+		void save(const std::string& trait, const TY& valueToSave, const TY& _default)
+		{
+			if (valueToSave != _default)
+				save(trait, valueToSave);
+		}
 
 		void clear()
 		{

@@ -12,69 +12,67 @@ namespace Gui
 	/// lambda function is called when the object is pressed
 	class CheckBox : public Button
 	{
-		virtual std::string getClassName() const override { return "CheckBox"; }
+		SERIALISATION_NAME(CheckBox)
 	public:
-		CheckBox(const Vector2f& pos = Vector2f(), const Vector2f& halfWh = Vector2f(),
-			function<void()> eventOnPress = []() {},
-			State stateMouseOn = State(),
-			State statePressed = State(),
-			State stateMouseOut = State(),
-			bool initialState = false
-		);
-		CheckBox(State constantState, const Vector2f& pos, const Vector2f& halfWh,
-			function<void()> eventOnPress = []() {},
-			bool initialState = false
-		);
-		CheckBox(const string& path) { deserialise(path); }
+		CheckBox();
+		
+		////// events
 
-		virtual void update(RenderTarget& wnd, RenderStates states) override;
+		virtual void onUpdate(RenderTarget& wnd, RenderStates states) override;
 
-		/// setters
-		CheckBox* setState(const State& s)
+		////// setters
+		
+		
+		CheckBox* setStateOn(const sf::Color& _cl, ResId id = 0)
 		{
-			stateMouseOn = stateMouseOut = statePressed = s;
+			setStateMouseOn(_cl, id);
 			return this;
 		}
-		CheckBox* setStateMouse(const State& s)
+		CheckBox* setStateOff(const sf::Color& _cl, ResId id = 0)
 		{
-			stateMouseOn = stateMouseOut = s;
+			setStateMouseOut(_cl, id);
 			return this;
 		}
-		CheckBox* setStateMouseOn(const State& s)
+		
+		REDEFINE_SETTER_1(CheckBox, setPressEvent, function<void()>);
+		REDEFINE_SETTER_1(CheckBox, setWh, const Vector2D& );
+		REDEFINE_SETTER_1(CheckBox, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(CheckBox, setActivated, bool);
+
+		REDEFINE_SETTER_1(CheckBox, setMouseKey, sf::Mouse::Button);
+		REDEFINE_SETTER_1(CheckBox, setShortKey, sf::Mouse::Button);
+		REDEFINE_SETTER_1(CheckBox, setShortKey, sf::Keyboard::Key);
+		REDEFINE_SETTER_1(CheckBox, setPressMode, Control::Key::EPressState);
+		CheckBox* setValue(bool s)
 		{
-			stateMouseOn = s;
-			return this;
-		}
-		CheckBox* setStateMouseOut(const State& s)
-		{
-			stateMouseOut = s;
-			return this;
-		}
-		CheckBox* setStatePressed(const State& s)
-		{
-			statePressed = s;
-			return this;
-		}
-		CheckBox* setEvent(function<void()> ev)
-		{
-			eventOnPress = ev;
-			return this;
-		}
-		CheckBox* setPos(const sf::Vector2f& _new)
-		{
-			return (CheckBox*)Base::setPos(_new);
-		}
-		CheckBox* setInitial(bool s)
-		{
-			b = s;
+			value = s;
 			return this;
 		}
 
+		/// getters
 
-		/// value of field
-		bool b;
+		/// returns actual state of checkbox
+		bool getValue() const
+		{
+			return value;
+		}
+		State getStateOn() const { return Button::getStateMouseOn();  }
+		State getStateOff() const { return Button::getStateMouseOut(); }
+
 	private:
-		bool canBeActivatedAgain;
+		/// value of field
+		bool value;
+	
+		/// not used in the case
+		REDEFINE_SETTER_2(CheckBox, setGlobalState, const sf::Color&, ResId);
+		REDEFINE_SETTER_2(CheckBox, setStateMouse, const sf::Color&, ResId);
+		REDEFINE_SETTER_2(CheckBox, setStateMouseOn, const sf::Color&, ResId);
+		REDEFINE_SETTER_2(CheckBox, setStateMouseOut, const sf::Color&, ResId);
+		REDEFINE_SETTER_2(CheckBox, setStatePressed, const sf::Color&, ResId);
+
+		using Button::getStateMouseOn;
+		using Button::getStateMouseOut;
+		using Button::getStatePressed;
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

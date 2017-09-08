@@ -1,6 +1,6 @@
 #include <Re\Graphics\Gui\GuiInspector.h>
 #include <Re\Graphics\ResourceManager.h>
-
+/**
 namespace Gui
 {
 
@@ -134,4 +134,4 @@ namespace Gui
 		Menu::deserialiseF(file, loader);
 	}
 
-}
+}*/

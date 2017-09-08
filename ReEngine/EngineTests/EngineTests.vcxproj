@@ -147,6 +147,16 @@
     <ClCompile Include="mainTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="anim_reaperGreatSlash.txt" />
+    <Text Include="anim_reaperHelper.txt" />
+    <Text Include="anim_reaperPose.txt" />
+    <Text Include="anim_reaperPull.txt" />
+    <Text Include="anim_reaperPush.txt" />
+    <Text Include="anim_reaperSlash.txt" />
+    <Text Include="anim_reaperWalk.txt" />
+    <Text Include="frag_shader.txt" />
+    <Text Include="vertex_shader.txt" />
+    <Text Include="world_test.txt" />
     <Text Include="animation.txt" />
     <Text Include="GuiTest.txt" />
     <Text Include="model.txt" />

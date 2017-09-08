@@ -1,28 +1,34 @@
 #pragma once
-
 #include <Re\Graphics\Gui\GuiBase.h>
+#include <Re\Graphics\ResourceManager.h>
 
 namespace Gui
 {
 	class Text : public Base
 	{
-		virtual std::string getClassName() const override { return "Text"; }
+		SERIALISATION_NAME(Text)
 	public:
 		Text();
-		Text(const char* path);
+		
+		////// events
 
-		virtual void update(RenderTarget& target, RenderStates states) override;
+		virtual void onUpdate(RenderTarget& target, RenderStates states) override;
 
-		///setters
+		////// setters
 		template<class T>
 		Text* setStr(T s)
 		{
 			(*this) << s;
 			return this;
 		}
-		Text* setPos(const Vector2f& pos)
+		Text* setPosition(const Vector2f& pos)
 		{
-			Base::setPos(pos);
+			Base::setPosition(pos);
+			return this;
+		}
+		Text* setActivated(bool s)
+		{
+			Base::setActivated(s);
 			return this;
 		}
 		Text* setColor(Color color)
@@ -48,6 +54,16 @@ namespace Gui
 		Text* setStyle(sf::Uint32 style)
 		{
 			txt.setStyle(style);
+			return this;
+		}
+		Text* setFont(ResId fontId)
+		{
+			txt.setFont(fontInst[fontId]);
+			return this;
+		}
+		Text* setRotation(Angle s)
+		{
+			txt.setRotation(s.asDegree());
 			return this;
 		}
 
@@ -81,12 +97,27 @@ namespace Gui
 			return *this;
 		}
 
+		/// returns sfml text class
+		const sf::Text& getText() const
+		{
+			return txt;
+		}
+		/// returns actually contined text
+		const string& getString() const
+		{
+			return str;
+		}
+
+	private:
+
 		// graphical representation of text
 		sf::Text txt;
 		// what is to write
 		string str;
 
 	protected:
+		using Base::setWh;
+		
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;

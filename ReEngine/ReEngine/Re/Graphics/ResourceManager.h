@@ -57,6 +57,17 @@ public:
 	/// for resources which can not be preloaded save paths to use in game
 	std::unordered_map< ResId, string> paths;
 
+	//////// physics
+	/// cashed body definitions to allow easier creation of rigidbodies
+	std::unordered_map< ResId, b2BodyDef> bodyDefs;
+	/// cashed fixture definitions to allow easier creation of fixtures
+	std::unordered_map< ResId, b2FixtureDef> fixtureDefs;
+
+	/// cashed shapes definitions to allow easier creation of shapes
+	std::unordered_map< ResId, b2CircleShape> circleShapes;
+	std::unordered_map< ResId, b2PolygonShape> polygonShapes;
+	std::unordered_map< ResId, b2ChainShape> chainShapes;
+
 	void createTexture(Texture& ts, const std::string& path);
 	string createTranscription(const std::string& path);
 
@@ -90,5 +101,11 @@ extern ResourceManager res;
 #define soundInst res.sounds
 #define scriptInst res.cashedScript
 #define pathInst res.paths
+
+#define bodyDefInst res.bodyDefs
+#define fixtureInst res.fixtureDefs
+#define circleShapeInst res.circleShapes
+#define polygonShapeInst res.polygonShapes
+#define chainShapeInst res.chainShapes
 
 

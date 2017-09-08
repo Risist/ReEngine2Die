@@ -5,35 +5,26 @@ namespace Gui
 {
 	class ProgressBar : public Base
 	{
-		virtual std::string getClassName() const override { return "ProgressBar"; }
+		SERIALISATION_NAME(ProgressBar)
 	public:
-		/// direction in which the bar wil aims
-		enum Direction
-		{
-			left,
-			right,
-			up,
-			down
-		} direction;
-		ProgressBar(const Vector2f& pos = Vector2f(), const Vector2f& halfWh = Vector2f(),
-			State background = State(),
-			State foreground = State(),
-			float initialState = 1.f
-		);
-		ProgressBar(const string& path) { deserialise(path); }
+		ProgressBar();
 
 
-		virtual void update(RenderTarget& wnd, RenderStates states) override;
+		////// events
+
+		virtual void onUpdate(RenderTarget& wnd, RenderStates states) override;
 		
-		/// setters
-		ProgressBar* setBackground(const State& s)
+		////// setters
+		ProgressBar* setStateBackground(Color color = Color::White, ResId tsId = 0)
 		{
-			background = s;
+			background.cl = color;
+			background.setTexture(tsId);
 			return this;
 		}
-		ProgressBar* setForeground(const State& s)
+		ProgressBar* setStateForeground(Color color = Color::White, ResId tsId = 0)
 		{
-			foreground = s;
+			foreground.cl = color;
+			foreground.setTexture(tsId);
 			return this;
 		}
 		ProgressBar* setProgress(float32 s)
@@ -41,25 +32,41 @@ namespace Gui
 			progress = clamp(s, 0.f, 1.f);
 			return this;
 		}
-		ProgressBar* setPos(const Vector2f& s)
+		ProgressBar* setDirectionMode(function<void(sf::ConvexShape&, Gui::ProgressBar*)> s)
 		{
-			pos = s;
+			directionMode = s;
 			return this;
 		}
 
+		REDEFINE_SETTER_1(ProgressBar, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(ProgressBar, setActivated, bool);
+		REDEFINE_SETTER_1(ProgressBar, setWh, const Vector2D&);
+
+		
+		////// getters
+		float32 getProgres() const { return progress; }
+		State getForeground() const { return foreground; }
+		State getBackground() const { return background; }
+
+
+		////// directionModes
+		static void directionXLeft(sf::ConvexShape& sh, Gui::ProgressBar* pb);
+		static void directionXMiddle(sf::ConvexShape& sh, Gui::ProgressBar* pb);
+		static void directionXRight(sf::ConvexShape& sh, Gui::ProgressBar* pb);
+
+		static void directionYUp(sf::ConvexShape& sh, Gui::ProgressBar* pb);
+		static void directionYMiddle(sf::ConvexShape& sh, Gui::ProgressBar* pb);
+		static void directionYDown(sf::ConvexShape& sh, Gui::ProgressBar* pb);
+	private:
+		
 		/// Color & texture of 
 		State background; ///< back rectangle
 		State foreground; ///< forward rectangle (showing progress)
-		
 
-
-		
-		float32 getProgres() const { return progress; }
-
-	private:
 		/// actual progress of the bar. In range of[0,1] inclusive
-		float progress;
-
+		float32 progress;
+	
+		function<void(sf::ConvexShape&, Gui::ProgressBar*)> directionMode{directionXRight};
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

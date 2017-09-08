@@ -29,7 +29,7 @@ namespace Graphics
 		/// Functions to use in vector wise version
 		/// updateAsParent should be called on every model put in vector created by rewriteToVectorUpdate
 		/// then call drawOnly on every object put into vector created by rewriteToVectorRendering
-		void updateAsPArent();
+		void updateAsParent();
 		void drawOnly(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default);
 
 		/// put pointners to model parts to vector in animation/update order
@@ -67,10 +67,6 @@ namespace Graphics
 			else
 				childDown->addSibling(s);
 		}
-
-		/// Animations
-		//void addAnimationPart(AnimationPart* s);
-		//void removeAnimationPart(AnimationPart* s);
 
 		/// getters ///
 

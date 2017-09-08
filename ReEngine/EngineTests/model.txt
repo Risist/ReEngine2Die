@@ -1,85 +1,22 @@
 
 
-	<layersN = 2; clR = 5; clG = 2; clB = 2; clA = 200; changeRadius = 10; cdChange = 0.075;scaleX = 0.75; posNoRotY= -75>
-		<posX = -50; posY = 75>
-		<posX = 0; posY = 0>
-		<posX = 50; posY = 75>
-		<posX = 0; posY = 110>
-	<\>
-		<layersN = 3; clR = 5; clG = 2; clB = 2; clA = 100; changeRadius = 10; cdChange = 0.08>
-			<posX = -30; posY = 150>
-			<posX = -50; posY = 75>
-			<posX = 0; posY = 0>
-		<\><\>
-		<layersN = 3; clR = 5; clG = 2; clB = 2; clA = 100; changeRadius = 10; cdChange = 0.08; scaleX = -1>
-			<posX = -30; posY = 150>
-			<posX = -50; posY = 75>
-			<posX = 0; posY = 0>
-		<\><\>
+< posX = 0 ; posY = 0 ; ts = 0, rot = 0 ; scaleX = 0.65 ; scaleY = 0.65; >
+
+	<ts = 205; rot = -90; posY = -70; posX = -90; originX = 0; clG = 150;clB = 200; scaleY = 1.1>
+		<ts = 206; posY = -205; posX = 50; clG = 150; ud =up; rotSprite = -30; scaleY = 1.2; scaleX = 0.75 ><\>
 	<\>
 
 
-
-
-<layersN = 5; clR = 50; clG = 2; clB = 2; clA = 50; changeRadius = 10; cdChange = 0.1>
-	<posX = -50; posY = -50>
-	<posX = 50; posY = -50>
-	<posX = 50; posY = 50>
-	<posX = -50; posY = 50>
-<\>
-	<layersN = 5; clR = 2; clG = 2; clB = 50; clA = 50; changeRadius = 10; cdChange = 0.1; posX = 100; rot = 45; >
-		<posX = -50; posY = -50>
-		<posX = 50; posY = -50>
-		<posX = 50; posY = 50>
-		<posX = -50; posY = 50>
+	< ts = 202; rot = 0; scaleX = 1; scaleY = 1; clR = 150; clG=100; clB=150; >
+		<ts = 200; rot = 40; posX = -50; posY = 5; clG = 150; > left arm
+			<ts = 201; rot = 120; ud = 1; posX = -45; clG = 200>
+			<\>
+		<\>
+		<ts = 200; rot = -40; posX = 50; posY = 5; clG = 150; >
+			<ts = 201; rot = -120; ud = 1; posX = 45; clG = 200>
+			<\>
+		<\>
 	<\>
-	<\>
-
-
-	<layersN = 5; clR = 2; clG = 50; clB = 10; clA = 50; changeRadius = 10; cdChange = 0.1; posX = -100; rotAround = 45; >
-		<posX = -50; posY = -50>
-		<posX = 50; posY = -50>
-		<posX = 50; posY = 50>
-		<posX = -50; posY = 50>
-	<\>
-	<\>
-
-<\>
-
-
-
-<pointN = 6; layerN = 10; clR = 10; clB = 0; clG = 0; clA = 35; changeRadius = 25; cdChange = 0.1;
-posX0 = -30; posY0 = 150;
-posX1 = -50; posY1 = 75;
-posX2 = 0; posY2 = 0;
-posX3 = 50; posY3 = 75;
-posX4 = 30; posY4 = 150;
-posX5 = 0; posY5 = 100;
->
-	<>
-	<\>
-<\>
-
-posX0 = 0; posY0 = -50;
-posX1 = -50; posY1 = 150;
-posX2 = -30; posY2 = 100;
-posX3 = 0; posY3 = 35;
-posX4 = 30; posY4 = 100;
-posX5 = 50; posY5 = 150;
->
-<\>
-
-
-
-< rot = 0; ts = 0; scaleX = 0.45; scaleY = 0.45>
-	<ts =2; posY = 50; scaleY = 0.8; clR = 250; clG = 150; clB = 200><\>
-	<ts =1; clR = 250; clG = 150; clB = 200><\>
 	
-	<ts =3; posX = 50;  scaleY = -0.8; scaleX = -1; clR = 120; clG = 75; clB = 100><\>
-	<ts =3; posX = -50; scaleY = -0.8; clR = 120; clG = 75; clB = 100><\>
+	< ts = 203; rot = 180; scaleX = 0.85; scaleY = 0.8; posY = -35; clG = 200 ><\> head
 <\>
-
-<ts =2; posY = 50; scaleY = 0.8; clR = 250; clG = 150; clB = 200>
-	<ts = 1><\>
-<\>
-

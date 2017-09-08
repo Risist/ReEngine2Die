@@ -3,12 +3,14 @@
 #include <Re\Graphics\Gui\GuiScrollBar.h>
 #include <Re\Graphics\Gui\GuiButton.h>
 
+/**
 namespace Gui
 {
 	/// class for editor, can contain many setbars or similar
 	/// has a scrollbar, with which you can slide over parametrs that are not visible 
 	class Inspector : public Menu
 	{
+		SERIALISATION_NAME(Inspector)
 	public:
 		Inspector();
 
@@ -26,4 +28,4 @@ namespace Gui
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
-}
+}*/

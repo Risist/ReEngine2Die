@@ -11,4 +11,4 @@
 
 #include <Re\Lambdas.h>
 #include <Re\Graphics\Gui\Gui.h>
-#include <Re\Game\Efect\efects.h>
+#include <Re\Game\Effect\effects.h>

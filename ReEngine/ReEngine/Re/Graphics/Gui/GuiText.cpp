@@ -6,25 +6,26 @@ namespace Gui
 	Text::Text()
 	{
 		txt.setFont(res.fonts[1]);
-	}
-	Text::Text(const char * path)
-	{
-		deserialise(path);
+		txt.setFillColor(Color::White);
+		txt.setCharacterSize(25u);
 	}
 
-	void Text::update(RenderTarget & target, RenderStates states)
+	void Text::onUpdate(RenderTarget & target, RenderStates states)
 	{
 		txt.setString(str);
-		txt.setPosition(getPosActual());
+		txt.setPosition(getActualPosition());
 		
 		/// multiplaying in X axes by 0.25 seems to work
 		/// Probably because of twice multiplaying by 0.5 ( from size and character size)
 		/// Take care over that
-		txt.setOrigin(static_cast<float>(str.size()* txt.getCharacterSize()) *0.25f,
+		txt.setOrigin(
+			static_cast<float>(str.size()* txt.getCharacterSize()) *0.25f,
 			static_cast<float>(txt.getCharacterSize())*0.5f);
 
 		target.draw(txt, states);
 	}
+
+
 
 	void Text::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
@@ -43,9 +44,16 @@ namespace Gui
 		cl.b = loader.load("clB", 255);
 		cl.a = loader.load("clA", 255);
 		txt.setFillColor(cl);
+
+		cl.r = loader.load("outClR", 255);
+		cl.g = loader.load("outClG", 255);
+		cl.b = loader.load("outClB", 255);
+		cl.a = loader.load("outClA", 255);
+		txt.setOutlineColor(cl);
+
+		txt.setOutlineThickness(loader.load("outThickness", 0));
+
 		txt.setCharacterSize(loader.load("size", 25));
-
-
 		txt.setFont(fontInst[loader.load("font", (ResId)1)]);
 	}
 

@@ -1,11 +1,12 @@
 #pragma once
 #include <Re\Graphics\Gui\GuiScrollBar.h>
-
+/**
 namespace Gui
 {
 
 	class ColorBar : public Menu
 	{
+		SERIALISATION_NAME(ColorBar)
 	public:
 		ColorBar(const char* path);
 		ColorBar(const Vector2f& halfWh = Vector2f(), float32 buttonSize = 10.f, float32 barOffset = 10.f);
@@ -50,4 +51,4 @@ namespace Gui
 	};
 
 
-}
+}*/

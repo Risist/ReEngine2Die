@@ -4,162 +4,102 @@
 namespace Gui
 {
 	SetBar::SetBar()
-		: bBackground( new Button() ),
-		bPlus(new Button()),
-		bMinus(new Button()),
-		tText(new Text()),
-		minimalValue( -std::numeric_limits<float32>::max()),
-		maximalValue(std::numeric_limits<float32>::max())
 	{
-		add(bBackground);
-		add(bPlus);
-		add(bMinus);
-		add(tText);
+		setRepetitionRate(sf::seconds(0.15f));
 
-		bPlus->eventOnPress = [&]() { 
-				if (timerPress.isReadyRestart() == false) return; 
-				progress += increaseValue(); eventUpdateProgress(progress); 
-		};
-		bMinus->eventOnPress = [&]() { 
-			if (timerPress.isReadyRestart() == false) return;
-			progress -= increaseValue(); eventUpdateProgress(progress); 
-		};
-		bBackground->eventOnPress = [&]() { 
-			if (timerPress.isReadyRestart() == false) return;
+		bPlus.setPressMode(Control::Key::EPressState::hold);
+		bMinus.setPressMode(Control::Key::EPressState::hold);
+		bBar.setPressMode(Control::Key::EPressState::hold);
+
+		bPlus.setPressEvent( [this]() { 
+				if (repetitionTimer.isReadyRestart() == false) return; 
+				progress += increaseValue();
+				eventUpdateProgress(progress); 
+				updateProgress();
+		});
+		bMinus.setPressEvent( [this]() { 
+			if (repetitionTimer.isReadyRestart() == false) return;
+			progress -= increaseValue(); eventUpdateProgress(progress);
+			updateProgress();
+		});
+		bBar.setPressEvent( [this]() { 
+			if (repetitionTimer.isReadyRestart() == false) return;
 			progress = initialValue; eventUpdateProgress(progress); 
-		};
+			updateProgress();
+		});
+
+		updateProgress();
 	}
 
-	SetBar::SetBar(const char * path)
-		:bBackground(new Button()),
-		bPlus(new Button()),
-		bMinus(new Button()),
-		tText(new Text()),
-		minimalValue(-std::numeric_limits<float32>::max()),
-		maximalValue(std::numeric_limits<float32>::max())
+	void SetBar::onUpdate(RenderTarget & wnd, RenderStates states)
 	{
-		add(bBackground);
-		add(bPlus);
-		add(bMinus);
-		add(tText);
+		bBar.updateActualPosition(getActualPosition());
+		bBar.onUpdate(wnd, states);
+				
+		bPlus.updateActualPosition(getActualPosition());
+		bPlus.onUpdate(wnd, states);
+		
+		bMinus.updateActualPosition(getActualPosition());
+		bMinus.onUpdate(wnd, states);
 
-		bPlus->eventOnPress = [&]() {
-			if (timerPress.isReadyRestart() == false) return; 
-			progress = clamp(progress + increaseValue(), minimalValue, maximalValue);
-			eventUpdateProgress(progress);
-		};
-		bMinus->eventOnPress = [&]() {
-			if (timerPress.isReadyRestart() == false) return; 
-			progress = clamp(progress - increaseValue(), minimalValue, maximalValue);
-			eventUpdateProgress(progress);
-		};
-		bBackground->eventOnPress = [&]() {
-			if (timerPress.isReadyRestart() == false) return;
-			progress = clamp(initialValue, minimalValue, maximalValue);
-			eventUpdateProgress(progress);
-		};
-
-		deserialise(path);
+		txt.updateActualPosition(getActualPosition());
+		txt.onUpdate(wnd, states);
 	}
 
-	void SetBar::update(RenderTarget & wnd, RenderStates states)
+	void SetBar::updateProgress()
 	{
 		progress = clamp(progress, minimalValue, maximalValue);
-
-		if (needToBeUpdated)
-		{
-			eventUpdateProgress(progress);
-			needToBeUpdated = false;
-		}
-
-		if (addictionalPressPlus() && timerPress.isReadyRestart())
-		{
-			progress = clamp(progress + increaseValue(), minimalValue, maximalValue);
-			eventUpdateProgress(progress);
-		}
-		else if (addictionalPressMinus() && timerPress.isReadyRestart())
-		{
-			progress = clamp(progress - increaseValue(), minimalValue, maximalValue);
-			eventUpdateProgress(progress);
-		}
-
-		(*tText).clear() << name << progress;
-		Menu::update(wnd,states);
+		txt.clear() << name << progress;
 	}
 
 	void SetBar::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
+		Base::serialiseF(file, saver);
+
+		/// TODO
 	}
 
 	void SetBar::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
 	{
 		Base::deserialiseF(file, loader);
 
-		float32 buttonSize = loader.load("buttonSize", 10.f );
-		name = loader.loadRaw("barName", "");
+		State stateBarOn; stateBarOn.deserialise_Index("barOn", file, loader); 
+		State stateBarOut; stateBarOut.deserialise_Index("barOut", file, loader);
+		State stateBarPress; stateBarPress.deserialise_Index("barPress", file, loader);
+	
+		bBar.setStateMouseOn(stateBarOn.cl, stateBarOn.tsId);
+		bBar.setStateMouseOut(stateBarOut.cl, stateBarOut.tsId);
+		bBar.setStatePressed(stateBarPress.cl, stateBarPress.tsId);
+		
 
-		bBackground->halfWh = halfWh - sf::Vector2f(buttonSize*2,0);
-		bPlus->halfWh = Vector2f(buttonSize, halfWh.y);
-		bMinus->halfWh = Vector2f(buttonSize, halfWh.y);
-		bPlus->pos.x = +halfWh.x - buttonSize;
-		bMinus->pos.x = -halfWh.x + buttonSize;
+		State stateButtonOn; stateButtonOn.deserialise_Index("buttonOn", file, loader);
+		State stateButtonOut; stateButtonOut.deserialise_Index("buttonOut", file, loader);
+		State stateButtonPress; stateButtonPress.deserialise_Index("buttonPress", file, loader);
 
-		initialValue = progress = loader.load("progress", 0.f);
-		increaseValue = loader.load("increase", 1.f);
+		setStateButtonMouseOn(stateButtonOn.cl, stateButtonOn.tsId);
+		setStateButtonMouseOut(stateButtonOut.cl, stateButtonOut.tsId);
+		setStateButtonPressed(stateButtonPress.cl, stateButtonPress.tsId);
 
-		tText->txt.setFillColor(
+
+
+		setAxis( loader.load<string>("axis", "horizontal") == "horizontal" ? horizontal : vertical);
+		setWh(getWh(), loader.load("buttonLenght", 40.f));
+		
+		setProgress(loader.load("progress", 0.f));
+		setInitialValue(loader.load("initialValue", getProgres()));
+		setRepetitionRate(sf::seconds(loader.load("repetitionRate", 0.15f)));
+		setIncreaseValue(loader.load("increaseValue", 1.f));
+		setBarName(loader.load<string>("barName",""));
+		setFont(loader.load("fontId", 1));
+		setTextColor(
 			Color(
-				loader.load("textClR", 255),
-				loader.load("textClG", 255),
-				loader.load("textClB", 255),
-				loader.load("textClA", 255)
-				)
+				loader.load("textClR", 255.f),
+				loader.load("textClG", 255.f),
+				loader.load("textClB", 255.f),
+				loader.load("textClA", 255.f)
+			)
 		);
-		tText->txt.setCharacterSize(loader.load("txtSize", 25u ));
-
-		timerPress.cd = sf::seconds(loader.load("timerCd", 0.f));
-		minimalValue = loader.load("minimalProgress", -std::numeric_limits<float32>::max());
-		maximalValue = loader.load("maximalProgress", std::numeric_limits<float32>::max());
-
-#define loadState(stateName1, stateName2, stateCode)		{							\
-		int ts = loader.load(stateCode + "Ts", (size_t)-1);								\
-		if (ts != -1) stateName2 .ts = stateName1 .ts = tsInst[ts];					\
-		stateName1.cl.r = stateName2.cl.r = loader.load(stateCode + "ClR", 255);		\
-		stateName1.cl.g = stateName2.cl.g = loader.load(stateCode + "ClG", 255);		\
-		stateName1.cl.b = stateName2.cl.b = loader.load(stateCode + "ClB", 255);		\
-		stateName1.cl.a = stateName2.cl.a = loader.load( stateCode + "ClA", 255); }
-
-#define loadStateAll(stateName, stateCode)										\
-		{																		\
-			int ts = loader.load(stateCode + "Ts", (size_t)-1);					\
-			if (ts != -1) 														\
-			{																	\
-				stateName->stateMouseOn.ts =									\
-				stateName->stateMouseOut.ts =									\
-				stateName->statePressed.ts = tsInst[ts];						\
-			}																	\
-			stateName->stateMouseOn.cl.r =										\
-			stateName->stateMouseOut.cl.r =										\
-			stateName->statePressed.cl.r = loader.load(stateCode + "ClR", 255);	\
-			stateName->stateMouseOn.cl.g =										\
-			stateName->stateMouseOut.cl.g =										\
-			stateName->statePressed.cl.g = loader.load(stateCode + "ClG", 255);	\
-			stateName->stateMouseOn.cl.b =										\
-			stateName->stateMouseOut.cl.b =										\
-			stateName->statePressed.cl.b = loader.load(stateCode + "ClB", 255);	\
-			stateName->stateMouseOn.cl.a =										\
-			stateName->stateMouseOut.cl.a =										\
-			stateName->statePressed.cl.a = loader.load(stateCode + "ClA", 255);	\
-		}																		\
-
-		loadState(bPlus->stateMouseOn, bMinus->stateMouseOn, string("on"));
-		loadState(bPlus->stateMouseOut, bMinus->stateMouseOut, string("out"));
-		loadState(bPlus->statePressed, bMinus->statePressed, string("press"));
-
-		loadStateAll(bBackground, string("back"));
-
-#undef loadState
-#undef loadStateAll
+		setTextSize(loader.load("textSize", 25u));
 
 	}
 

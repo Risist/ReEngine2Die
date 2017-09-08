@@ -1,5 +1,5 @@
 #pragma once
-#include <Re\Game\Actor\GameLayer.h>
+#include <Re\Game\GameLayer.h>
 
 namespace Game 
 {

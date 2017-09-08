@@ -27,12 +27,12 @@ namespace Game
 	void StateLambda::defaultOnExit()
 	{
 		Gui::gui.clear();
-		world.clear();
+		//world.clear();
 	}
 
 	State * StateLambda::defaultOnUpdate(sf::Time dt)
 	{
-		world.onUpdate(dt);
+		//world.onUpdate(dt);
 		cam.display(wnd);
 		return nullptr;
 	}

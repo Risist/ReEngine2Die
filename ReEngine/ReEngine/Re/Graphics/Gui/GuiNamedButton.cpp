@@ -2,26 +2,22 @@
 
 namespace Gui
 {
-	NamedButton::NamedButton(const Vector2f & pos, const Vector2f & halfWh, function<void()> eventOnPress, State stateMouseOn, State statePressed, State stateMouseOut)
-		: Button(pos, halfWh, eventOnPress, stateMouseOn, statePressed, stateMouseOut)
+	NamedButton::NamedButton()
 	{
-	}
 
-	NamedButton::NamedButton(State constantState, const Vector2f & pos, const Vector2f & halfWh, function<void()> eventOnPress)
-		:Button(constantState, pos, halfWh, eventOnPress)
-	{
 	}
-
-	void NamedButton::update(sf::RenderTarget & target, sf::RenderStates states)
+	
+	void NamedButton::onUpdate(sf::RenderTarget & target, sf::RenderStates states)
 	{
-		Button::update(target, states);
-		text.updatePosActual(getPosActual());
-		text.update(target, states);
+		Button::onUpdate(target, states);
+		text.updateActualPosition(getActualPosition());
+		text.onUpdate(target, states);
 	}
 
 	void NamedButton::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		Button::serialiseF(file, saver);
+		////// TODO
 	}
 
 	void NamedButton::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)

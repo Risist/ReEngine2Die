@@ -1,6 +1,6 @@
 #pragma once
 #include <Re\Common\utility.h>
-
+ 
 class Camera : public sf::View, public sf::RenderTexture
 {
 public:
@@ -10,21 +10,8 @@ public:
 	void draw(const sf::Drawable& s, const RenderStates& states = sf::RenderStates::Default );
 
 	/// display camera onto window
-	/// @param pos - offset in pos of camera's view
-	void display(sf::RenderWindow& wnd, const sf::Vector2f& pos = sf::Vector2f()
-		, const RenderStates& states = RenderStates());
+	void display(sf::RenderWindow& wnd, const RenderStates& states = RenderStates());
 	
-	// change pos of camera
-	void addCenter(const sf::Vector2f& s)
-	{
-		setCenter(getCenter() + s);
-	}
-	// change pos of camera
-	void addCenter(float32 x, float32 y)
-	{
-		addCenter(sf::Vector2f(x, y));
-	}
-
 	/// set how much the view is scaled (sfml has no such a feature)
 	void setScale(float32 s)
 	{
@@ -89,49 +76,16 @@ public:
 		return background;
 	}
 
-	/// Makes camera follow the transform
-	/// should be called every graphical update (or rarer if object does not move)
-	/// @param addictionalRotation addictional rotation applied to camera
-	/// @param d distance from sprite (note also rotated in sprites direction)
-	void follow(const sf::Transformable& sp, Angle addIctionalRotation = Angle(), float32 d = 0);
-	void followPositionOnly(const sf::Transformable& sp, float32 d = 0);
-	void followRotationOnly(const sf::Transformable& sp, Angle addIctionalRotation = Angle());
-
-
-	/// Changes view
-	/// should be called every graphical update (or rarer if object does not move)
-	/// @param addictionalRotation addictional rotation applied to camera
-	/// @param d distance from sprite (note also rotated in sprites direction)
-	/// @param pos new pos
-	/// @param rotation rotation using which the distance will be rotated
-	void follow(const Vector2D& position, Angle rotation = Angle(), Angle addIctionalRotation = Angle(), float32 d = 0);
-	void followPositionOnly(const Vector2D& position, Angle rotation = Angle(), float32 d = 0);
-	void followRotationOnly(Angle rotation = Angle(), Angle addIctionalRotation = Angle());
-
-	/// Makes camera follow the transform
-	/// version with damping
-	void followSmooth(const sf::Transformable& sp, Vector2D alpha = Vector2D(1,1), Angle addIctionalRotation = Angle(), float32 d = 0);
-	void followPositionOnlySmooth(const sf::Transformable& sp, float32 alphaPos = 1, float32 d = 0);
-	void followRotationOnlySmooth(const sf::Transformable& sp, float32 alphaRot = 1, Angle addIctionalRotation = Angle());
-
-	/// Changes view
-	/// should be called every graphical update (or rarer if object does not move)
-	/// @param addictionalRotation addictional rotation applied to camera
-	/// @param d distance from sprite (note also rotated in sprites direction)
-	/// @param pos new pos
-	/// @param rotation rotation using which the distance will be rotated
-	void followSmooth(const Vector2D& position, Angle rotation = Angle(), Vector2D alpha = Vector2D(1,1), Angle addIctionalRotation = Angle(), float32 d = 0);
-	void followPositionOnlySmooth(const Vector2D& position, Angle rotation = Angle(), float32 alphaPos = 1, float32 d = 0);
-	void followRotationOnlySmooth(const Vector2D& position, Angle rotation = Angle(), float32 alphaRot = 1, Angle addIctionalRotation = Angle());
-
-
 public:
 	/// overrided operators
-	__forceinline Angle getRotation() const { return Degree(View::getRotation()); }
-	
+	Angle getRotation() const { return Degree(View::getRotation()); }
+	Vector2D getCenter() const { return sf::View::getCenter(); }
+
+	void setRotation(Angle angle) { sf::View::setRotation(angle.asDegree()); }
+	void setCenter(const Vector2D& s) { return sf::View::setCenter(s); }
+
 
 private:
-
 	float32 darkness, ///< brightness of camera [0,1]
 		alpha,		///< how much render is depended on previous frames [0,1]
 		lastScale;	///< how much the view is scaled (sfml has no such a feature)
