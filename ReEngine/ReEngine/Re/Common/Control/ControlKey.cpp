@@ -59,6 +59,23 @@ namespace Control
 		}
 	}
 
+	bool Key::isReadySimple() const
+	{
+		switch (device)
+		{
+		case EDevice::keyboard:
+			return sf::Keyboard::isKeyPressed(getAsKeyboardKey());		
+		case EDevice::mouse:
+			return sf::Mouse::isButtonPressed(getAsMouseButton());		
+			
+
+		default:
+			cerr << "Control::Key: invalid device type" << endl;	
+			assert(false);
+			return false;
+		}
+	}
+
 	////////////////////////////////////
 	void Key::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{

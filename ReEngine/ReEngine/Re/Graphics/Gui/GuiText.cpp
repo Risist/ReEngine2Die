@@ -6,10 +6,8 @@ namespace Gui
 	Text::Text()
 	{
 		txt.setFont(res.fonts[1]);
-	}
-	Text::Text(const char * path)
-	{
-		deserialise(path);
+		txt.setFillColor(Color::White);
+		txt.setCharacterSize(25u);
 	}
 
 	void Text::onUpdate(RenderTarget & target, RenderStates states)
@@ -26,6 +24,8 @@ namespace Gui
 
 		target.draw(txt, states);
 	}
+
+
 
 	void Text::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{

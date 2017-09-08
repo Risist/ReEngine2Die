@@ -10,6 +10,14 @@ namespace Control
 		return false;
 	}
 
+	bool MultiKey::isReadySimple() const
+	{
+		for (auto&it : keys)
+			if (it.isReadySimple())
+				return true;
+		return false;
+	}
+
 	void MultiKey::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		saver.nextLine(file);

@@ -1,123 +1,135 @@
 #pragma once
-#include <Re\Graphics\Gui\GuiMenu.h>
 #include <Re\Graphics\Gui\GuiButton.h>
 
 namespace Gui
 {
 
-	class ScrollBar : public Menu
+	class ScrollBar : public Base
 	{
 		SERIALISATION_NAME(ScrollBar)
 	public:
-		ScrollBar(sf::Vector2f& position, sf::Vector2f& halfWh = Vector2f(), float32 scrollLenght = 10.f,
-			State stateBackground = State(),
-			State stateScrollOn = State(), State stateScrollPressed = State(),
-			State stateScrollOut = State());
-		ScrollBar(
-			State stateBackground = State(),
-			State stateScroll = State(),
-			sf::Vector2f& position = sf::Vector2f(), sf::Vector2f& halfWh = sf::Vector2f(), float32 scrollLenght = 10.f);
+		ScrollBar();
 
-		virtual void update(sf::RenderTarget& target, sf::RenderStates states) override;
+		////// events
 
-		/// in which direction the scroll can be moved
-		enum Direction
-		{
-			left,
-			up
-		}direction;
+		virtual void onUpdate(sf::RenderTarget& target, sf::RenderStates states) override;
 
 
-		/// setters
-		ScrollBar* setStateBackground(const State& s)
+		/// in which axis the scroll can be moved
+		enum EAxis : int8
 		{
-			bBackground->setState(s);
-			return this;
-		}
-		ScrollBar* setStateScroll(const State& s)
-		{
-			bScroll->setState(s);
-			return this;
-		}
-		ScrollBar* setStateScrollMouseOn(const State& s)
-		{
-			bScroll->setStateMouseOn(s);
-			return this;
-		}
-		ScrollBar* setStateScrollMouseOut(const State& s)
-		{
-			bScroll->setStateMouseOut(s);
-			return this;
-		}
-		ScrollBar* setStateScrollMouse(const State& s)
-		{
-			bScroll->setStateMouse(s);
-			return this;
-		}
-		ScrollBar* setStateScrollPressed(const State& s)
-		{
-			bScroll->setStateMouseOn(s);
-			return this;
-		}
+			horizontal,
+			vertical
+		};
 
-		ScrollBar* setDirection(Direction s)
-		{
-			direction = s;
-			return this;
-		}
+
+		////// setters
+		
 		ScrollBar* setProgress(float32 s)
 		{
-			progress = clamp(s, 0.f, 1.f);
-			needToBeUpdated = true;
+			progress = s;
+			updateButton();
 			return this;
 		}
-		ScrollBar* setEvent(function<void(float32&)> ev)
+		ScrollBar* setEventUpdateProgress(function<void(float32&)> s)
 		{
-			eventUpdateProgress = ev;
+			eventUpdateProgress = s;
 			return this;
 		}
-		ScrollBar* set(const Vector2f& halfWh, float32 scrollLenght)
-		{
-			bBackground->halfWh = halfWh;
 
-			if (direction == Direction::left)
+		ScrollBar* setStateBackground(sf::Color cl = Color::White, ResId tsId = 0)
+		{
+			stateBackground = State(cl, tsId);
+			return this;
+		}
+		ScrollBar* setStateButtonPressed(sf::Color cl = Color::White, ResId tsId = 0)
+		{
+			bScroll.setStatePressed( cl, tsId );
+			return this;
+		}
+		ScrollBar* setStateButtonMouseOn(sf::Color cl = Color::White, ResId tsId = 0)
+		{
+			bScroll.setStateMouseOn(cl, tsId);
+			return this;
+		}
+		ScrollBar* setStateButtonMouseOut(sf::Color cl = Color::White, ResId tsId = 0)
+		{
+			bScroll.setStateMouseOut(cl, tsId);
+			return this;
+		}
+		ScrollBar* setStateButtonMouse(sf::Color cl = Color::White, ResId tsId = 0)
+		{
+			bScroll.setStateMouse(cl, tsId);
+			return this;
+		}
+		ScrollBar* setStateButton(sf::Color cl = Color::White, ResId tsId = 0)
+		{
+			bScroll.setGlobalState(cl, tsId);
+			return this;
+		}
+
+		ScrollBar* setWh( const Vector2f& v, float32 buttonLenght)
+		{
+			Super::setWh(v);
+			if (axis == horizontal)
+				bScroll.setWh({ buttonLenght, v.y });
+			else
+				bScroll.setWh({ v.x, buttonLenght});
+			return this;
+		}
+		ScrollBar* setAxis(EAxis s)
+		{
+			if (axis != s)
 			{
-				bScroll->halfWh.y = halfWh.y;
-				bScroll->halfWh.x = scrollLenght;
+				axis = s;
+			
+				if (axis == horizontal)
+					bScroll.setWh({ bScroll.getWh().y, getWh().y });
+				else
+					bScroll.setWh({ getWh().x, bScroll.getWh().x });
 			}
-			else if (direction == Direction::up)
-			{
-				bScroll->halfWh.x = halfWh.x;
-				bScroll->halfWh.y = scrollLenght;
-			}
-
 			return this;
 		}
-		ScrollBar* setPos(const sf::Vector2f& _new)
-		{
-			return (ScrollBar*)Base::setPos(_new);
-		}
-		
 
-
-		/// costant part of the scrollbar
-		shared_ptr<Button> bBackground;
-		/// movable part of the scrollbar
-		shared_ptr<Button> bScroll;
+		REDEFINE_SETTER_1(ScrollBar, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(ScrollBar, setActivated, bool);
 
 		
+		////// getters
 		float32 getProgres() const { return progress; }
+		const Button& getButton() const { return bScroll; }
+		State getStateBackground() const { return stateBackground; }
+		State getStateButtonPressed() const { return bScroll.getStatePressed(); }
+		State getStateButtonMouseOn() const { return bScroll.getStateMouseOn(); }
+		State getStateButtonMouseOut() const { return bScroll.getStateMouseOut(); }
+		EAxis getAxis() const { return axis; }
+		float32 getButtonLenght() const
+		{
+			if (axis == horizontal)
+				return bScroll.getWh().y;
+			else
+				return bScroll.getWh().x;
+		}
+
+	protected:
 
 		/// event called when the progress is changed (by buttons)
 		function<void(float32&)> eventUpdateProgress{ [](float32&) {} };
-	private:
+
+		State stateBackground;
+
+		/// movable part of the scrollbar
+		Button bScroll;
+
 		/// progress of the bar
 		/// in range of [0,1] inclusive
 		float32 progress;
-		/// to avoid loop calls of eventUpdateProgress
-		bool needToBeUpdated{true};
-	private:
-		bool scrollPressed;
+
+		EAxis axis{horizontal};
+		int8 bPressed : 1;
+
+		void updateProgress();
+		void updateButton();
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

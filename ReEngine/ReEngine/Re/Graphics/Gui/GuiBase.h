@@ -57,15 +57,15 @@ namespace Gui
 		{
 			return activated;
 		}
-		const Vector2f& getActualPosition() const
+		Vector2f getActualPosition() const
 		{
 			return actualPosition;
 		}
-		const Vector2f& getPosition() const
+		Vector2f getPosition() const
 		{
 			return position;
 		}
-		const Vector2f& getWh()
+		Vector2f getWh() const
 		{
 			return { halfWh.x*2.f, halfWh.y*2.f };
 		}

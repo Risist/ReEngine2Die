@@ -5,31 +5,49 @@ extern RenderWindow wnd;
 
 namespace Gui
 {
-	ScrollBar::ScrollBar(sf::Vector2f & position, sf::Vector2f & halfWh, float32 scrollLenght,
-		State stateBackground,
-		State stateScrollOn, State stateScrollPressed, State stateScrollOut )
-		:Menu(position), bBackground(new Button(stateBackground, Vector2f(), halfWh)),
-		bScroll(new Button(Vector2f(), Vector2f(scrollLenght, halfWh.y) ,[](){}, stateScrollOn, stateScrollPressed, stateScrollOut))
+	ScrollBar::ScrollBar()
+		:bPressed(false)
 	{
-		add(bBackground,false);
-		add(bScroll, false);
-	}
-	ScrollBar::ScrollBar(
-		State stateBackground,
-		State stateScroll,
-		sf::Vector2f & position, sf::Vector2f & halfWh, float32 scrollLenght)
-		:Menu(position), bBackground(new Button(stateBackground, Vector2f(), halfWh)),
-		bScroll(new Button(Vector2f(), Vector2f(scrollLenght, halfWh.y), [&]() {scrollPressed = true; },
-			stateScroll, stateScroll, stateScroll))
-	{
-		add(bBackground, false);
-		add(bScroll, false);
+		setProgress(0);
+		bScroll.setPressMode(Control::Key::EPressState::hold);
+		
+		/// change position of scroll button
+		bScroll.setPressEvent([this]() 
+		{
+			bPressed = true;
+		});
 	}
 
-
-	void ScrollBar::update(sf::RenderTarget & target, sf::RenderStates states)
+	void ScrollBar::onUpdate(sf::RenderTarget & target, sf::RenderStates states)
 	{
-		if (needToBeUpdated)
+		{
+			RectangleShape background;
+			background.setPosition(getActualPosition());
+			
+			background.setFillColor(stateBackground.cl);
+			stateBackground.ts.setRectShape(background);
+			
+			background.setSize(getWh());
+			background.setOrigin(halfWh);
+
+			target.draw(background);
+		}
+
+		if (bPressed)
+		{
+			updateProgress();
+			updateButton();
+
+			if (sf::Mouse::isButtonPressed(bScroll.getMouseKey()) == false)
+				bPressed = false;
+		}
+
+		bScroll.updateActualPosition(getActualPosition());
+		bScroll.onUpdate(target, states);
+
+
+
+		/*if (needToBeUpdated)
 		{
 			eventUpdateProgress(progress);
 			needToBeUpdated = false;
@@ -74,75 +92,82 @@ namespace Gui
 		else
 		{
 			cerr << "wrong direction of scrollbar: " << direction << "\n";
+		}*/
+	}
+	void ScrollBar::updateProgress()
+	{
+		eventUpdateProgress(progress);
+		Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(wnd);
+		
+		if (axis == horizontal)
+		{
+			float32 minimalPosition = getActualPosition().x - halfWh.x;
+			progress = (mousePosition.x - minimalPosition) / (2 * halfWh.x);
+		}
+		else
+		{
+			float32 minimalPosition = getActualPosition().y - halfWh.y;
+			progress = (mousePosition.y - minimalPosition) / (2 * halfWh.y);
+		}
+
+		progress = clamp(progress, 0.f, 1.f);
+	}
+	void ScrollBar::updateButton()
+	{
+		if (axis == horizontal)
+		{
+			bScroll.setPosition({ -halfWh.x + bScroll.getWh().x *0.5F
+				+ (getWh().x - bScroll.getWh().x) * progress
+				, 0
+			});
+		}
+		else
+		{
+
+			bScroll.setPosition({ 0,
+				-halfWh.y + bScroll.getWh().y *0.5F
+				+ (getWh().y - bScroll.getWh().y) * progress
+			});
 		}
 	}
 	void ScrollBar::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
-
+		/*
+		TODO
+		*/
 	}
 	void ScrollBar::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
 	{
-		string dir = loader.load<string>("direction", "left");
-		if (dir == "left" || dir == "right")
-			direction = Direction::left;
-		else if (dir == "up" || dir == "down")
-			direction = Direction::up;
+		string dir = loader.load<string>("axis", "horizontal");
+		if (dir == "horizontal" || dir == "x")
+			axis = EAxis::horizontal;
+		else if (dir == "vertical" || dir == "y")
+			axis = EAxis::vertical;
 		else
-			cerr << "wrong direction of ScrollBar: \"" << dir <<"\"\n";
+			cerr << "wrong axis of ScrollBar: \"" << dir <<"\"\n";
 		Base::deserialiseF(file, loader);
 		
 		progress = loader.load("progress", 1.f);
-		State stateBack;
-		stateBack.cl = Color(
-			loader.load("backClR", 255u),
-			loader.load("backClG", 255u),
-			loader.load("backClB", 255u),
-			loader.load("backClA", 255u)
-		);
-		int ts = loader.load("backTs", (size_t)-1);
-		if (ts != -1) stateBack.ts = tsInst[ts];
-
+		
+		stateBackground.deserialise_Index("background", file, loader);
 
 		///On
 		State stateOn;
-		stateOn.cl = Color(
-			loader.load("onClR", 255u),
-			loader.load("onClG", 255u),
-			loader.load("onClB", 255u),
-			loader.load("onClA", 255u)
-		);
-		ts = loader.load("onTs", (size_t)-1);
-		if (ts != -1) stateOn.ts = tsInst[ts];
-
-
+		stateOn.deserialise_Index("buttonOn", file, loader);
+		
 		///Out
 		State stateOut;
-		stateOut.cl = Color(
-			loader.load("outClR", 255u),
-			loader.load("outClG", 255u),
-			loader.load("outClB", 255u),
-			loader.load("outClA", 255u)
-		);
-		ts = loader.load("outTs", (size_t)-1);
-		if (ts != -1) stateOut.ts = tsInst[ts];
+		stateOut.deserialise_Index("buttonOut", file, loader);
 
 		///On
 		State statePress;
-		statePress.cl = Color(
-			loader.load("pressClR", 255u),
-			loader.load("pressClG", 255u),
-			loader.load("pressClB", 255u),
-			loader.load("pressClA", 255u)
-		);
-		ts = loader.load("pressTs", (size_t)-1);
-		if (ts != -1) statePress.ts = tsInst[ts];
+		statePress.deserialise_Index("buttonPress", file, loader);
 
-		
-		//create(direction, halfWh, loader.load("scrollLenght", 10.f), stateBack, stateOn, stateOut, statePress);
-		set(halfWh, loader.load("scrollLenght", 10.f));
-		bBackground->stateMouseOn = bBackground->stateMouseOut = bBackground->statePressed = stateBack;
-		bScroll->stateMouseOn = stateOn;
-		bScroll->stateMouseOut = stateOut;
-		bScroll->statePressed = statePress;
+		setWh(getWh(), loader.load("buttonLEnght", 20.f));
+		bScroll.setStateMouseOn(stateOn.cl, stateOn.tsId);
+		bScroll.setStateMouseOut(stateOut.cl, stateOut.tsId);
+		bScroll.setStatePressed(statePress.cl, statePress.tsId);
+
+		updateButton();
 	}
 }

@@ -3,6 +3,7 @@
 #include <Re\Graphics\Gui\GuiScrollBar.h>
 #include <Re\Graphics\Gui\GuiButton.h>
 
+/**
 namespace Gui
 {
 	/// class for editor, can contain many setbars or similar
@@ -27,4 +28,4 @@ namespace Gui
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
 	};
 
-}
+}*/

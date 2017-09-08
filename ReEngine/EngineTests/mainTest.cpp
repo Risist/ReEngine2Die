@@ -1,26 +1,6 @@
 #include <Re\ReEngine.h>
 
 
-class ef : public Effect::Base
-{
-public:
-
-	Control::Timer timer = Control::Timer(sf::seconds(1));
-
-	bool canBeParent(Effect::Base* p) const { return true; }
-
-	void onUpdate(sf::Time dt) override
-	{
-		if (timer.isReadyRestart() )
-		{
-			cout << "Interia = " << getActor()->getRigidbody()->GetInertia() << endl;
-			cout << "Mass = " << getActor()->getRigidbody()->GetMass() << endl;
-			cout << endl;
-		}
-
-		//getActor()->getRigidbody()->ApplyTorque(1, true);
-	}
-};
 
 class State : public Game::State
 {
@@ -109,6 +89,7 @@ public:
 	
 };
 
+Gui::ProgressBar *pb;
 
 void init()
 {
@@ -123,20 +104,90 @@ void init()
 
 	//res.deserialise("Resources.txt");
 	Game::stateManager.setState(new State);
+
+	/**
+	Gui::gui.add<Gui::NamedButton>()
+		->setPosition({ 450.f, 150.f })
+		->setStateMouseOut(Color(155, 155, 155))
+		->setStateMouseOn(Color(170, 170, 170))
+		->setStatePressed(Color(190, 155, 155))
+		->setWh({ 150,40 })
+		->setShortKey(sf::Keyboard::Q)
+		->setName("hello")
+		;
+
+
+
+	pb = Gui::gui.add<Gui::ProgressBar>()
+		->setPosition({ 450.f, 375.f })
+		->setWh({ 30,300 })
+		->setStateBackground(Color(55, 55, 55))
+		->setStateForeground(Color(200, 55, 55, 100))
+		->setProgress(0.3f)
+		->setDirectionMode(Gui::ProgressBar::directionYMiddle)
+		;
+
+
+
+	Gui::gui.add<Gui::CheckBox>()
+		->setPosition({ 250.f, 150.f })
+		->setStateOn(Color(155, 200, 155))
+		->setStateOff(Color(200, 155, 155))
+		->setWh({ 150,40 })
+		;
+
+	Gui::gui.add<Gui::ScrollBar>()
+		->setPosition({ 250.f, 375.f })
+		->setWh({ 30,300 }, 40)
+		->setStateBackground(Color(55, 55, 55))
+		->setAxis(Gui::ScrollBar::vertical)
+		->setStateButtonMouseOut(Color(155, 155, 155))
+		->setStateButtonMouseOn(Color(170, 170, 170))
+		->setStateButtonPressed(Color(190, 155, 155))
+		;
+	*/
+
+	Gui::gui.add<Gui::SetBar>()
+		->setStateBarMouseOut(Color(100, 100, 100))
+		->setStateBarMouseOn(Color(150, 150, 150))
+		->setStateBarPressed(Color(150, 100, 100))
+
+		->setStateButtonMouseOut(Color(150, 125, 125))
+		->setStateButtonMouseOn(Color(175, 150, 150))
+		->setStateButtonPressed(Color(175, 125, 125))
+
+		->setAxis(Gui::SetBar::vertical)
+		->setWh({ 30,300 }, 70)
+		->setBarName("bar: ")
+
+		->setPosition({300,300})
+		->setRepetitionRate(sf::seconds(0.15f))
+		;
+
 }
 
 
 void update()
 {	
 	static Clock performanceClock;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		pb->setProgress(pb->getProgres() - 0.01f);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		pb->setProgress(pb->getProgres() + 0.01f);
+
 	performanceClock.restart();
 	Game::stateManager.onUpdate();
+	
 
+
+	Gui::gui.onUpdate(wnd, RenderStates::Default);
 	
 	sf::Text txt;
 	{
 		static int32 average = performanceClock.getElapsedTime().asMilliseconds();
-		average = (average * 49 + performanceClock.getElapsedTime().asMilliseconds()) /50;
+		average = (average * 35 + performanceClock.getElapsedTime().asMilliseconds()) /36;
 
 		txt.setPosition(0, 0);
 		txt.setFont(res.fonts[1]);
@@ -145,6 +196,18 @@ void update()
 		txt.setStyle(sf::Text::Bold);
 		std::stringstream ss;
 		ss << "ms: " << average;
+		txt.setString(ss.str());
+	}
+
+	wnd.draw(txt);
+
+	{
+		static int32 average = performanceClock.getElapsedTime().asMicroseconds();
+		average = (average * 35 + performanceClock.getElapsedTime().asMicroseconds()) / 36;
+
+		txt.setPosition(0, 50);
+		std::stringstream ss;
+		ss << "mics: " << average;
 		txt.setString(ss.str());
 	}
 

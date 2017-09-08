@@ -29,6 +29,7 @@ namespace Control
 		}
 
 		bool isReady() const;
+		bool isReadySimple() const;
 
 		/// adds new key activating this multikey
 		void addKey( const Control::Key& s)

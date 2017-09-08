@@ -1,6 +1,7 @@
 #include <Re\Graphics\Gui\GuiColorBar.h>
 #include <Re\Graphics\ResourceManager.h>
 
+/**
 namespace Gui
 {
 	ColorBar::ColorBar(const char * path)
@@ -244,4 +245,4 @@ namespace Gui
 
 		return this;
 	}
-}
+}*/

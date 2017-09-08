@@ -8,58 +8,46 @@ namespace Gui
 	{
 		SERIALISATION_NAME(NamedButton)
 	public:
-		NamedButton(const Vector2f& pos = Vector2f(), const Vector2f& halfWh = Vector2f(),
-			function<void()> eventOnPress = []() {},
-			State stateMouseOn = State(),
-			State statePressed = State(),
-			State stateMouseOut = State()
-		);
-		NamedButton( State constantState, const Vector2f& pos, const Vector2f& halfWh,
-			function<void()> eventOnPress = []() {}
-		);
-		NamedButton(const string& path) { deserialise(path); }
+		NamedButton();
+		
+		////// events
 
-		virtual void update(sf::RenderTarget& target, sf::RenderStates states) override;
+		virtual void onUpdate(sf::RenderTarget& target, sf::RenderStates states) override;
 
-		NamedButton* setState(const State& s)
+
+		////// getters
+
+		REDEFINE_SETTER_2(NamedButton, setGlobalState, const sf::Color&, ResId);
+		REDEFINE_SETTER_2(NamedButton, setStateMouse, const sf::Color&, ResId);
+		
+		//REDEFINE_SETTER_2(NamedButton, setStateMouseOn, const sf::Color&, ResId);
+		//REDEFINE_SETTER_2(NamedButton, setStateMouseOut, const sf::Color&, ResId);
+		//REDEFINE_SETTER_2(NamedButton, setStatePressed, const sf::Color&, ResId);
+		NamedButton* setStateMouseOn(const sf::Color& cl = sf::Color::White, ResId tsId = 0)
 		{
-			stateMouseOn = stateMouseOut = statePressed = s;
+			Super::setStateMouseOn(cl, tsId);
 			return this;
 		}
-		NamedButton* setStateMouse(const State& s)
+		NamedButton* setStateMouseOut(const sf::Color& cl = sf::Color::White, ResId tsId = 0)
 		{
-			stateMouseOn = stateMouseOut = s;
+			Super::setStateMouseOut(cl, tsId);
 			return this;
 		}
-		NamedButton* setStateMouseOn(const State& s)
+		NamedButton* setStatePressed(const sf::Color& cl = sf::Color::White, ResId tsId = 0)
 		{
-			stateMouseOn = s;
+			Super::setStatePressed(cl, tsId);
 			return this;
 		}
-		NamedButton* setStateMouseOut(const State& s)
-		{
-			stateMouseOut = s;
-			return this;
-		}
-		NamedButton* setStatePressed(const State& s)
-		{
-			statePressed = s;
-			return this;
-		}
-		NamedButton* setEvent(function<void()> ev)
-		{
-			eventOnPress = ev;
-			return this;
-		}
-		NamedButton* setPos(const sf::Vector2f& _new)
-		{
-			return (NamedButton*)Base::setPos(_new);
-		}
-		NamedButton* setHalfWh(const sf::Vector2f& s)
-		{
-			halfWh = s;
-			return this;
-		}
+
+		REDEFINE_SETTER_1(NamedButton, setPressEvent, function<void()>);
+		REDEFINE_SETTER_1(NamedButton, setWh, const Vector2D&);
+		REDEFINE_SETTER_1(NamedButton, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(NamedButton, setActivated, bool);
+
+		REDEFINE_SETTER_1(NamedButton, setMouseKey, sf::Mouse::Button);
+		REDEFINE_SETTER_1(NamedButton, setShortKey, sf::Mouse::Button);
+		REDEFINE_SETTER_1(NamedButton, setShortKey, sf::Keyboard::Key);
+		REDEFINE_SETTER_1(NamedButton, setPressMode, Control::Key::EPressState);
 		NamedButton* setName(const char* s)
 		{
 			text.setStr(s);
@@ -92,11 +80,16 @@ namespace Gui
 		}
 		NamedButton* setTextOffset(const Vector2f& s)
 		{
-			text.setPos(s);
+			text.setPosition(s);
 			return this;
 		}
 
 
+		////// getters
+
+		Text& getText() { return text; }
+
+	private:
 		Text text;
 	protected:
 		/// Graphical propertites saved in files 

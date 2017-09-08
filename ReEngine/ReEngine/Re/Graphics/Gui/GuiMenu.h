@@ -15,6 +15,11 @@ namespace Gui
 		template<class T>
 		T* add(bool active = true);
 
+		/// creates gui element from file
+		template<class T>
+		T* add(const char * path, bool active = true);
+
+
 		void remove(size_t id);
 		void remove(Gui::Base *ptr);
 
@@ -53,10 +58,19 @@ namespace Gui
 
 
 	template<class T>
-	T* Menu::add(bool active = true)
+	T* Menu::add(bool active)
 	{
 		el.push_back(unique_ptr<Base>(new T));
 		el.back()->setActivated(active);
-		return s;
+		return (T*)el.back().get();
+	}
+
+	template<class T>
+	T* Menu::add(const char* path, bool active)
+	{
+		el.push_back(unique_ptr<Base>(new T));
+		el.back()->deserialise(path);
+		el.back()->setActivated(active)
+		return (T*)el.back().get();
 	}
 }

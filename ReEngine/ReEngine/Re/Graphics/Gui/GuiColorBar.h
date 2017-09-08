@@ -1,6 +1,6 @@
 #pragma once
 #include <Re\Graphics\Gui\GuiScrollBar.h>
-
+/**
 namespace Gui
 {
 
@@ -51,4 +51,4 @@ namespace Gui
 	};
 
 
-}
+}*/

@@ -18,6 +18,7 @@ namespace Gui
 		ResId tsId;
 		ResourceManager::TextureInstance ts;
 
+		void serialise_Index(const std::string& preName, std::ostream& file, Res::DataScriptSaver& saver) const;
 		void deserialise_Index(const std::string& preName, std::istream& file, Res::DataScriptLoader& loader);
 	};
 	class Button : public Base
@@ -67,6 +68,7 @@ namespace Gui
 			Super::setWh(wh);
 			sh.setSize(wh);
 			sh.setOrigin(halfWh);
+			return this;
 		}
 		REDEFINE_SETTER_1(Button, setPosition, const Vector2f&);
 		REDEFINE_SETTER_1(Button, setActivated, bool);
@@ -77,26 +79,49 @@ namespace Gui
 			mouseKey.desiredState = Control::Key::EPressState::pressedOnce;
 			return this;
 		}
-		Button* addShortKey(sf::Mouse::Button key)
+		Button* setShortKey(sf::Mouse::Button key)
 		{
-			shortKey.addKey(Control::Key(key, Control::Key::EPressState::pressedOnce));
+			shortKey.setKeyCode(key);
+			shortKey.desiredState = Control::Key::EPressState::pressedOnce;
 			return this;
 		}
-		Button* addShortKey(sf::Keyboard::Key key)
+		Button* setShortKey(sf::Keyboard::Key key)
 		{
-			shortKey.addKey(Control::Key(key, Control::Key::EPressState::pressedOnce));
+			shortKey.setKeyCode(key);
+			shortKey.desiredState = Control::Key::EPressState::pressedOnce;
+			return this;
+		}
+		Button* setPressMode(Control::Key::EPressState s)
+		{
+			mouseKey.desiredState = s;
+			shortKey.desiredState = s;
 			return this;
 		}
 
-		
-		
+		////// getter
+		State getStatePressed() const
+		{
+			return statePressed;
+		}
+		State getStateMouseOn() const
+		{
+			return statePressed;
+		}
+		State getStateMouseOut() const
+		{
+			return statePressed;
+		}
+
+		sf::Mouse::Button getMouseKey() const { return mouseKey.getAsMouseButton(); }
+		sf::Mouse::Button getMouseShortKey() const { return shortKey.getAsMouseButton(); }
+		sf::Keyboard::Key getKeyboardShortKey() const { return shortKey.getAsKeyboardKey(); }
 	protected:
 		/// mouse key activates the button only if mouse is at button
 		bool isMouseOnWindow() const;
-		Control::Key mouseKey;
+		Control::Key mouseKey{Control::Key(sf::Mouse::Left, Control::Key::EPressState::pressedOnce)};
 
 		/// short key, activates button anytime
-		Control::MultiKey shortKey;
+		Control::Key shortKey;
 	
 		/// Color & texture for each state:
 		State stateMouseOn; ///<	mouse is on the button

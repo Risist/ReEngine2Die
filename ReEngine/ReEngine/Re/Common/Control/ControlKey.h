@@ -46,7 +46,8 @@ namespace Control
 
 		/// 
 		bool isReady() const;
-
+		/// tells whether key was pressed - without lookong on desired state
+		bool isReadySimple() const;
 
 		EPressState desiredState{EPressState::hold};
 

@@ -69,7 +69,7 @@ extern const float toSfPosition;
 	}
 
 #define REDEFINE_SETTER_2(NewClass, functionName, ParamType, ParamType2)\
-	NewClass* functionName(ParamType s, ParamTyp2 s2)	\
+	NewClass* functionName(ParamType s, ParamType2 s2)	\
 	{													\
 		Super:: functionName (s, s2);					\
 		return this;									\
